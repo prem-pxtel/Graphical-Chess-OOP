@@ -36,10 +36,14 @@ Board::Board() {
   board[7][7]->piece = 'R';
 }
 
+char Board::getPiece(int row, int col) const {
+  return board[row][col]->piece;
+}
+
 std::ostream & operator<<(std::ostream &out, const Board *b) {
   for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; ++j) {
-          std::cout << b->board[i][j]->piece << " ";
+          std::cout << b->getPiece(i, j) << " ";
       }
       std::cout << std::endl;
   }
