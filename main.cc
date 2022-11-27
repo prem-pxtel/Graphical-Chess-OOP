@@ -4,5 +4,11 @@
 
 int main() {
   Board *b = new Board;
-  std::cout << b << std::endl;
+  std::string command;
+
+  while (std::cin >> command) {
+    if(command == "game"){
+      std::cout << b << std::endl;
+    }
+  }
 }
