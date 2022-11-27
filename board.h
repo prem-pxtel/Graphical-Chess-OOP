@@ -2,14 +2,14 @@
 #define BOARD_H
 #include <iostream>
 #include <vector>
+#include "cell.h"
 
-class Cell {
-  int row;
-  int col;
-}
-
-class Board : public Subject {
-  
+class Board {
+ public:
+  std::vector<std::vector<Cell*>> board;
+  Board();
 };
+
+std::ostream & operator<<(std::ostream &out, const Board *b);
 
 #endif
