@@ -3,8 +3,6 @@
 #include "board.h"
 #include <sstream>
 #include "textob.h"
-#include "decorator.h"
-#include "pawn.h"
 using std::cout;
 using std::endl;
 
