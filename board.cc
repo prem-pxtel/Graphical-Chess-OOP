@@ -126,7 +126,30 @@ bool Board::isInPath(char oldPiece, char oldCol, int oldRow,
   }
     return true;
   } else if (oldPiece == 'R') {
-
+    if (oldCol == newCol){ // up and down
+    if(oldRow <= newRow){
+    for(int i = oldRow + 1; i <= newRow; i++){
+      if(isOccupied(i, oldCol)) return false;
+    }
+    }
+    else{
+      for(int i = oldRow - 1; i >= newRow; i--){
+      if(isOccupied(i, oldCol)) return false;
+    }
+    }
+  }
+    else{ // left and right
+    if(oldCol <= newCol){
+      for(int i = oldCol + 1; i <= newCol; i++){
+        if(isOccupied(oldRow, i)) return false;
+      }
+    }
+    else{
+      for(int i = oldCol - 1; i >= newCol; i--){
+        if(isOccupied(oldRow, i)) return false;
+      }
+    }
+  }
     return true;
   } else if (oldPiece == 'n') {
 
