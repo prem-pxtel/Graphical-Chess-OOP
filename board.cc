@@ -40,6 +40,8 @@ char Board::getPiece(int row, int col) const {
   return board[row][col]->piece;
 }
 
+void Board::updateBoards() { notifyObservers(); }
+
 std::ostream & operator<<(std::ostream &out, const Board *b) {
   for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; ++j) {

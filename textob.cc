@@ -10,7 +10,7 @@ TextOb::TextOb(Board *b)
 }
 
 void TextOb::notify() {
-  cout << b << endl;
+  cout << subject << endl;
 }
 
 TextOb::~TextOb() {
