@@ -9,9 +9,9 @@ class Board : public Subject {
   std::vector<std::vector<Cell*>> board;
  public:
   Board();
-  char getPiece(int row, int col) const override;
-  void setPiece(int row, int col, char p) override;
-  void removePiece(int row, int col);
+  char getPiece(int row, char col) const override;
+  void setPiece(int row, char col, char p) override;
+  void removePiece(int row, char col);
   std::vector<std::vector<Cell*>> getBoard() { return board; }
   friend std::ostream & operator<<(std::ostream &out, const Board *b);
   void updateBoards();

@@ -11,8 +11,8 @@ class Subject {
   void attach(Observer *o);
   void detach(Observer *o);
   void notifyObservers();
-  virtual char getPiece(int row, int col) const = 0;
-  virtual void setPiece(int row, int col, char p) = 0;
+  virtual char getPiece(int row, char col) const = 0;
+  virtual void setPiece(int row, char col, char p) = 0;
   virtual ~Subject() = default;
 };
 

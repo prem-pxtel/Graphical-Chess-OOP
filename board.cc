@@ -21,24 +21,28 @@ Board::Board() {
   }
 }
 
-char Board::getPiece(int row, int col) const {
-  return board[row][col]->piece;
+char Board::getPiece(int row, char col) const {
+  int rowNum = row - 1;
+  int colNum = col - 97;
+  return board[rowNum][colNum]->piece;
 }
 
-void Board::setPiece(int row, int col, char p) {
-  board[row][col]->piece = p;
+void Board::setPiece(int row, char col, char p) {
+  int rowNum = row - 1;
+  int colNum = col - 97;
+  board[rowNum][colNum]->piece = p;
 }
 
 void Board::updateBoards() { notifyObservers(); }
 
 void Board::boardInit() {
-  for (int j = 0; j < 8; ++j) {  
-    setPiece(1, j, 'p');
-    setPiece(6, j, 'P');
+  for (char j = 'a'; j <= 'h'; ++j) {  
+    setPiece(2, j, 'p');
+    setPiece(7, j, 'P');
   }
 }
 
-void Board::removePiece(int row, int col) {
+void Board::removePiece(int row, char col) {
   if (isWhite(row, col)) {
     setPiece(row, col, ' ');
   } else {
@@ -52,28 +56,22 @@ bool Board::isCell(int row, char col) {
 }
 
 bool Board::isOccupied(int row, char col) {
-  int rowNum = row - 1;
-  int colNum = col - 97;
-  if (getPiece(rowNum, colNum) != ' ' && getPiece(rowNum, colNum) != '_') return true;
+  if (getPiece(row, col) != ' ' && getPiece(row, col) != '_') return true;
   return false;
 }
 
-void Board::move(char colOld, int rowOld, char colNew, int rowNew) {
-  int oldRowNum = rowOld - 1;
-  int oldColNum = colOld - 97;
-  int newRowNum = rowNew - 1;
-  int newColNum = colNew - 97;
-  if (isCell(rowOld, colOld) && isCell(rowNew, colNew) 
-      && isOccupied(rowOld, colOld)) {
-    char oldPiece = getPiece(oldRowNum, oldColNum);
-    removePiece(oldRowNum, oldColNum);
-    setPiece(newRowNum, newColNum, oldPiece);
+void Board::move(char oldCol, int oldRow, char newCol, int newRow) {
+  char oldPiece = getPiece(oldRow, oldCol);
+  if (isCell(oldRow, oldCol) && isCell(newRow, newCol) 
+      && isOccupied(oldRow, oldCol)) {
+    removePiece(oldRow, oldCol);
+    setPiece(newRow, newCol, oldPiece);
   }
 }
 
 std::ostream & operator<<(std::ostream &out, const Board *b) {
-  for (int i = 0; i <= 7; i++) {
-      for (int j = 0; j <= 7; ++j) {
+  for (int i = 1; i <= 8; i++) {
+      for (int j = 'a'; j <= 'h'; ++j) {
           std::cout << b->getPiece(i, j) << " ";
       }
       std::cout << std::endl;
