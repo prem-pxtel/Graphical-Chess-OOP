@@ -40,6 +40,22 @@ void Board::boardInit() {
     setPiece(2, j, 'p');
     setPiece(7, j, 'P');
   }
+  setPiece(1, 'a', 'r');
+  setPiece(1, 'b', 'n');
+  setPiece(1, 'c', 'b');
+  setPiece(1, 'd', 'q');
+  setPiece(1, 'e', 'k');
+  setPiece(1, 'f', 'b');
+  setPiece(1, 'g', 'n');
+  setPiece(1, 'h', 'r');
+  setPiece(8, 'a', 'R');
+  setPiece(8, 'b', 'N');
+  setPiece(8, 'c', 'B');
+  setPiece(8, 'd', 'Q');
+  setPiece(8, 'e', 'K');
+  setPiece(8, 'f', 'B');
+  setPiece(8, 'g', 'N');
+  setPiece(8, 'h', 'R');
 }
 
 void Board::removePiece(int row, char col) {
@@ -56,14 +72,74 @@ bool Board::isCell(int row, char col) {
 }
 
 bool Board::isOccupied(int row, char col) {
-  if (getPiece(row, col) != ' ' && getPiece(row, col) != '_') return true;
-  return false;
+  char pieceAt = getPiece(row, col);
+  if (pieceAt == ' ' || pieceAt == '_') return false;
+  return true;
+}
+
+// returns true if new cell is not blocked and in the path of the old cell
+// otherwise, returns false
+bool Board::isInPath(char oldPiece, char oldCol, int oldRow, 
+                     char newCol, int newRow) {
+  if (oldPiece == 'p') {
+    if (newRow < oldRow) return false;
+    for (int i = oldRow + 1; i <= newRow; ++i) {
+      if(isOccupied(i, oldCol)) return false;
+    }
+    return true;
+  } else if (oldPiece == 'P') {
+    if (newRow > oldRow) return false;
+    for (int i = oldRow - 1; i >= newRow; --i) {
+      if(isOccupied(i, oldCol)) return false;
+    }
+    return true;
+  } else if (oldPiece == 'r') {
+
+    return true;
+  } else if (oldPiece == 'R') {
+
+    return true;
+  } else if (oldPiece == 'n') {
+
+    return true;
+  } else if (oldPiece == 'N') {
+
+    return true;
+  } else if (oldPiece == 'b') {
+
+    return true;
+  } else if (oldPiece == 'B') {
+
+    return true;
+  } else if (oldPiece == 'q') {
+
+    return true;
+  } else if (oldPiece == 'Q') {
+
+    return true;
+  } else if (oldPiece == 'k') {
+
+    return true;
+  } else {
+    
+    return true;
+  }
+}
+
+bool Board::isValidMove(char oldPiece, char oldCol, int oldRow, 
+                        char newCol, int newRow) {
+  if (!isCell(oldRow, oldCol)) return false;
+  if (!isCell(newRow, newCol)) return false; 
+  if (!isOccupied(oldRow, oldCol)) return false;
+  if (isOccupied(newRow, newCol)) return false;
+  if (!isInPath(oldPiece, oldCol, oldRow, newCol, newRow)) return false;
+  if (oldCol == newCol && oldRow == newRow) return false;
+  return true;
 }
 
 void Board::move(char oldCol, int oldRow, char newCol, int newRow) {
   char oldPiece = getPiece(oldRow, oldCol);
-  if (isCell(oldRow, oldCol) && isCell(newRow, newCol) 
-      && isOccupied(oldRow, oldCol)) {
+  if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow)) {
     removePiece(oldRow, oldCol);
     setPiece(newRow, newCol, oldPiece);
   }
