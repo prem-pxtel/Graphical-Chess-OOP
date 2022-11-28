@@ -4,9 +4,9 @@
 class Cell {
  public:
   int row;
-  int col;
+  char col;
   char piece;
-  Cell(int row, int col, char piece = 'n') : row{row}, col{col}, piece{piece} {}
+  Cell(int row, char col, char piece = 'n') : row{row}, col{col}, piece{piece} {}
 };
 
 #endif

@@ -3,6 +3,8 @@
 #include "board.h"
 #include <sstream>
 #include "textob.h"
+#include "decorator.h"
+#include "pawn.h"
 using std::cout;
 using std::endl;
 
@@ -15,11 +17,20 @@ int main() {
     std::istringstream sock{command};
     sock >> command;
     if (command == "game") {
-      cout << b << endl;
       Observer *ob1 = new TextOb{b};
       toDelete.push_back(ob1);
+      b->boardInit();
+      b->updateBoards();
     } else if (command == "move") {
-      
+      char oldCol;
+      int oldRow;
+      char newCol;
+      int newRow;
+      sock >> oldCol;
+      sock >> oldRow;
+      sock >> newCol;
+      sock >> newRow;
+      b->move(oldCol, oldRow, newCol, newRow);
       b->updateBoards();
     } else if (command == "resign") {
 
