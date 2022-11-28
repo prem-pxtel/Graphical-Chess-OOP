@@ -81,7 +81,9 @@ bool Board::isOccupied(int row, char col) {
 // otherwise, returns false
 bool Board::isInPath(char oldPiece, char oldCol, int oldRow, 
                      char newCol, int newRow) {
-  if (oldPiece == 'p') {
+  if (oldPiece == 'p') { // need to add interaction where if its the first time
+  // the pawn is moving, it should be allowed to move two pieces up not just one
+  // diagonal pawn
     if (newRow < oldRow) return false;
     for (int i = oldRow + 1; i <= newRow; ++i) {
       if(isOccupied(i, oldCol)) return false;
@@ -93,8 +95,35 @@ bool Board::isInPath(char oldPiece, char oldCol, int oldRow,
       if(isOccupied(i, oldCol)) return false;
     }
     return true;
-  } else if (oldPiece == 'r') {
-
+  } else if (oldPiece == 'r') { // two things for rook
+  // it is bidirection so need to consider if its going left or right or 
+  // up or down, then you need to check if from the spot it is now
+  // to the spot it wants to go to, is there anything blocking its way.
+  // if there is then dont let it move. if there isnt then let it move.
+  if (oldCol == newCol){ // up and down
+    if(oldRow <= newRow){
+    for(int i = oldRow + 1; i <= newRow; i++){
+      if(isOccupied(i, oldCol)) return false;
+    }
+    }
+    else{
+      for(int i = oldRow - 1; i >= newRow; i--){
+      if(isOccupied(i, oldCol)) return false;
+    }
+    }
+  }
+  else{ // left and right
+    if(oldCol <= newCol){
+      for(int i = oldCol + 1; i <= newCol; i++){
+        if(isOccupied(oldRow, i)) return false;
+      }
+    }
+    else{
+      for(int i = oldCol - 1; i >= newCol; i--){
+        if(isOccupied(oldRow, i)) return false;
+      }
+    }
+  }
     return true;
   } else if (oldPiece == 'R') {
 
