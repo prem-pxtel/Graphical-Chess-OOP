@@ -15,13 +15,13 @@ bool Pawn::isInPath(char oldPiece, char oldCol, int oldRow,
   // diagonal pawn
     if (newRow < oldRow) return false;
     for (int i = oldRow + 1; i <= newRow; ++i) {
-      if(isOccupied(i, oldCol)) return false;
+      if(b->isOccupied(i, oldCol)) return false;
     }
     return true;
   } else if (oldPiece == 'P') {
     if (newRow > oldRow) return false;
     for (int i = oldRow - 1; i >= newRow; --i) {
-      if(isOccupied(i, oldCol)) return false;
+      if(b->isOccupied(i, oldCol)) return false;
     }
   }
   return true;
