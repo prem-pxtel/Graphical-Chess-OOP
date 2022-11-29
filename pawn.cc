@@ -1,9 +1,11 @@
 #include <iostream>
 #include <vector>
 #include "pawn.h"
+#include <utility>
 
-Pawn::Pawn(Board *b) : b{b} {
-  firstMove = true;
+Pawn::Pawn(int row, char col, char piece, Board *b) 
+  : Cell{row, col, piece}, b{b} {
+    firstMove = true;
 }
 
 // returns true if new cell is not blocked and in the path of the old cell
@@ -46,6 +48,9 @@ bool Pawn::isValidMove(char oldPiece, char oldCol, int oldRow,
 void Pawn::move(char oldCol, int oldRow, char newCol, int newRow) {
   char oldPiece = b->getPiece(oldRow, oldCol);
   if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow)) {
+    Cell *temp = b->board[oldRow][oldCol];
+    b->board[oldRow][oldCol] = b->board[newRow][newCol];
+    b->board[newRow][newCol] = temp;
     b->removePiece(oldRow, oldCol);
     b->setPiece(newRow, newCol, oldPiece);
   }

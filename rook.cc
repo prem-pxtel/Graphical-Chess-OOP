@@ -3,7 +3,8 @@
 #include "rook.h"
 #include "board.h"
 
-Rook::Rook(Board *b) : b{b} {}
+Rook::Rook(int row, char col, char piece, Board *b)
+  : Cell{row, col, piece}, b{b} {}
 
 // returns true if new cell is not blocked and in the path of the old cell
 // otherwise, returns false

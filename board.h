@@ -2,12 +2,13 @@
 #define BOARD_H
 #include <iostream>
 #include <vector>
-#include "cell.h"
 #include "subject.h"
+class Cell;
 
 class Board : public Subject {
-  std::vector<std::vector<Cell*>> board;
  public:
+  std::vector<std::vector<Cell*>> board;
+
   Board();
   char getPiece(int row, char col) const override;
   void setPiece(int row, char col, char p) override;

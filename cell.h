@@ -6,7 +6,8 @@ class Cell {
   int row;
   char col;
   char piece;
-  Cell(int row, char col, char piece = 'n') : row{row}, col{col}, piece{piece} {}
+  Cell(int row, char col, char piece) : row{row}, col{col}, piece{piece} {}
+  virtual void move(char colOld, int rowOld, char colNew, int rowNew) = 0;
 };
 
 #endif

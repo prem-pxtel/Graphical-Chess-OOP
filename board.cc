@@ -1,16 +1,34 @@
 #include <iostream>
 #include <vector>
+#include "blank.h"
+#include "pawn.h"
 #include "board.h"
 
 Board::Board() {
-  for (int i = 1; i <= 8; i++) {
+  for (int i = 1; i <= 2; i++) {
+    std::vector<Cell*> row;
+    for (char j = 'a'; j <= 'h'; ++j) {
+      row.push_back(new Pawn{i, j, 'p', this});
+    }
+    board.push_back(row);
+  }
+
+  for (int i = 3; i <= 6; i++) {
     std::vector<Cell*> row;
     for (char j = 'a'; j <= 'h'; ++j) {
       if (((j - 97) + i) % 2 == 0) {
-        row.push_back(new Cell{i, j, ' '});
+        row.push_back(new Blank{i, j, ' ', this});
       } else {
-        row.push_back(new Cell{i, j, '_'});
+        row.push_back(new Blank{i, j, '_', this});
       }
+    }
+    board.push_back(row);
+  }
+
+  for (int i = 1; i <= 2; i++) {
+    std::vector<Cell*> row;
+    for (char j = 'a'; j <= 'h'; ++j) {
+      row.push_back(new Pawn{i, j, 'P', this});
     }
     board.push_back(row);
   }

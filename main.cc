@@ -12,8 +12,6 @@ using std::endl;
 int main() {
   std::vector<Observer*> toDelete;
   Board *b = new Board;
-  Pawn *p = new Pawn{b};
-  Rook *r = new Rook{b};
   std::string command;
   while (getline(std::cin, command)) {
     std::istringstream input{command};
@@ -21,7 +19,6 @@ int main() {
     if (command == "game") {
       Observer *ob1 = new TextOb{b};
       toDelete.push_back(ob1);
-      b->boardInit();
       b->updateBoards();
     } else if (command == "move") {
       char oldCol;
@@ -32,12 +29,7 @@ int main() {
       input >> oldRow;
       input >> newCol;
       input >> newRow;
-      char piece = b->getPiece(oldRow, oldCol);
-      if (piece == 'p' || piece == 'P') {
-        p->move(oldCol, oldRow, newCol, newRow);
-      } else if (piece == 'r' || piece == 'R') {
-        r->move(oldCol, oldRow, newCol, newRow);
-      }
+      b->getBoard()[oldRow - 1][oldCol - 97]->move(oldCol, oldRow, newCol, newRow);
       b->updateBoards();
     } else if (command == "resign") {
 
