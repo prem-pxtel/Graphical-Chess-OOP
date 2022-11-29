@@ -41,16 +41,15 @@ bool Pawn::isValidMove(char oldPiece, char oldCol, int oldRow,
     if (newRow > oldRow + 2) return false;
   } else {
     if (newRow > oldRow + 1) return false;
-  }
+  } 
+  firstMove = false;
   return true;
 }
 
 void Pawn::move(char oldCol, int oldRow, char newCol, int newRow) {
   char oldPiece = b->getPiece(oldRow, oldCol);
   if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow)) {
-    Cell *temp = b->board[oldRow][oldCol];
-    b->board[oldRow][oldCol] = b->board[newRow][newCol];
-    b->board[newRow][newCol] = temp;
+    std::swap(b->board[oldRow - 1][oldCol - 97], b->board[newRow - 1][newCol - 97]);
     b->removePiece(oldRow, oldCol);
     b->setPiece(newRow, newCol, oldPiece);
   }

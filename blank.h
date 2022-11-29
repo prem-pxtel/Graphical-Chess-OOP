@@ -1,9 +1,9 @@
-#ifndef PAWN_H
-#define PAWN_H
+#ifndef BLANK_H
+#define BLANK_H
 #include <iostream>
 #include <vector>
 #include "cell.h"
-class Board;
+#include "board.h"
 
 class Blank : public Cell {
   Board *b;

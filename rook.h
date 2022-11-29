@@ -2,6 +2,7 @@
 #define ROOK_H
 #include <iostream>
 #include <vector>
+#include "cell.h"
 class Board;
 
 class Rook : public Cell {

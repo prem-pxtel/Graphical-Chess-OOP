@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "cell.h"
-class Board;
+#include "board.h"
 
 class Pawn : public Cell {
   Board *b;
