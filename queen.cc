@@ -109,8 +109,8 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
 
 bool Queen::isValidMove(char oldPiece, char oldCol, int oldRow, 
                         char newCol, int newRow) {
-  if(!(oldCol == newCol) || !(oldRow == newRow)){
-  if(abs((oldCol - newCol)) != abs((oldRow - newRow))) return false;
+  if (!(oldCol == newCol) || !(oldRow == newRow)) {
+    if (abs((oldCol - newCol)) != abs((oldRow - newRow))) return false;
   }
   if (!b->isCell(oldRow, oldCol)) return false;
   if (!b->isCell(newRow, newCol)) return false; 
