@@ -3,6 +3,7 @@
 #include "blank.h"
 #include "pawn.h"
 #include "rook.h"
+#include "bishop.h"
 #include "board.h"
 #include <utility>
 
@@ -10,10 +11,10 @@ Board::Board() {
   std::vector<Cell*> row1;
   row1.push_back(new Rook{1, 'a', 'r', this});
   row1.push_back(new Rook{1, 'b', 'n', this});
-  row1.push_back(new Rook{1, 'c', 'b', this});
+  row1.push_back(new Bishop{1, 'c', 'b', this});
   row1.push_back(new Rook{1, 'd', 'q', this});
   row1.push_back(new Rook{1, 'e', 'k', this});
-  row1.push_back(new Rook{1, 'f', 'b', this});
+  row1.push_back(new Bishop{1, 'f', 'b', this});
   row1.push_back(new Rook{1, 'g', 'n', this});
   row1.push_back(new Rook{1, 'h', 'r', this});
   board.push_back(row1);
@@ -45,10 +46,10 @@ Board::Board() {
   std::vector<Cell*> row8;
   row8.push_back(new Rook{8, 'a', 'R', this});
   row8.push_back(new Rook{8, 'b', 'N', this});
-  row8.push_back(new Rook{8, 'c', 'B', this});
+  row8.push_back(new Bishop{8, 'c', 'B', this});
   row8.push_back(new Rook{8, 'd', 'Q', this});
   row8.push_back(new Rook{8, 'e', 'K', this});
-  row8.push_back(new Rook{8, 'f', 'B', this});
+  row8.push_back(new Bishop{8, 'f', 'B', this});
   row8.push_back(new Rook{8, 'g', 'N', this});
   row8.push_back(new Rook{8, 'h', 'R', this});
   board.push_back(row8);

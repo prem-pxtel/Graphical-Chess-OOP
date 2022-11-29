@@ -38,9 +38,19 @@ bool Pawn::isValidMove(char oldPiece, char oldCol, int oldRow,
   if (!isInPath(oldPiece, oldCol, oldRow, newCol, newRow)) return false;
   if (oldCol == newCol && oldRow == newRow) return false;
   if (firstMove) {
-    if (newRow > oldRow + 2) return false;
+    if(oldPiece == 'P'){
+      if(newRow < oldRow - 2) return false;
+    }
+    else{
+      if (newRow > oldRow + 2) return false;
+    }
   } else {
-    if (newRow > oldRow + 1) return false;
+    if(oldPiece == 'P'){
+      if (newRow < oldRow - 1) return false;
+    }
+    else{
+      if (newRow > oldRow + 1) return false;
+    }
   } 
   firstMove = false;
   return true;
