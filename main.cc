@@ -21,15 +21,13 @@ int main() {
       toDelete.push_back(ob1);
       b->updateBoards();
     } else if (command == "move") {
-      char oldCol;
-      int oldRow;
-      char newCol;
-      int newRow;
+      char oldCol, newCol;
+      int oldRow, newRow;
       input >> oldCol;
       input >> oldRow;
       input >> newCol;
       input >> newRow;
-      b->getBoard()[oldRow - 1][oldCol - 97]->move(oldCol, oldRow, newCol, newRow);
+      b->getBoard()[oldRow-1][oldCol-97]->move(oldCol, oldRow, newCol, newRow);
       b->updateBoards();
     } else if (command == "resign") {
 

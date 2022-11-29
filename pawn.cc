@@ -3,8 +3,8 @@
 #include "pawn.h"
 #include <utility>
 
-Pawn::Pawn(int row, char col, char piece, Board *b) 
-  : Cell{row, col, piece}, b{b} {
+Pawn::Pawn(char piece, Board *b) 
+  : Piece{piece}, b{b} {
     firstMove = true;
 }
 

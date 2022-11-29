@@ -3,8 +3,8 @@
 #include "bishop.h"
 #include "board.h"
 
-Bishop::Bishop(int row, char col, char piece, Board *b)
-  : Cell{row, col, piece}, b{b} {}
+Bishop::Bishop(char piece, Board *b)
+  : Piece{piece}, b{b} {}
 
 // returns true if new cell is not blocked and in the path of the old cell
 // otherwise, returns false

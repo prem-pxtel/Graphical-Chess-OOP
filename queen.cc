@@ -3,8 +3,8 @@
 #include "queen.h"
 #include "board.h"
 
-Queen::Queen(int row, char col, char piece, Board *b)
-  : Cell{row, col, piece}, b{b} {}
+Queen::Queen(char piece, Board *b)
+  : Piece{piece}, b{b} {}
 
 // returns true if new cell is not blocked and in the path of the old cell
 // otherwise, returns false

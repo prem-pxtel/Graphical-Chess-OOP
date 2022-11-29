@@ -1,58 +1,58 @@
 #include <iostream>
 #include <vector>
+#include <utility>
+#include "board.h"
 #include "blank.h"
 #include "pawn.h"
 #include "rook.h"
 #include "bishop.h"
-#include "board.h"
 #include "queen.h"
-#include <utility>
 
 Board::Board() {
-  std::vector<Cell*> row1;
-  row1.push_back(new Rook{1, 'a', 'r', this});
-  row1.push_back(new Rook{1, 'b', 'n', this});
-  row1.push_back(new Bishop{1, 'c', 'b', this});
-  row1.push_back(new Queen{1, 'd', 'q', this});
-  row1.push_back(new Rook{1, 'e', 'k', this});
-  row1.push_back(new Bishop{1, 'f', 'b', this});
-  row1.push_back(new Rook{1, 'g', 'n', this});
-  row1.push_back(new Rook{1, 'h', 'r', this});
+  std::vector<Piece*> row1;
+  row1.push_back(new Rook{'r', this});
+  row1.push_back(new Rook{'n', this});
+  row1.push_back(new Bishop{'b', this});
+  row1.push_back(new Queen{'q', this});
+  row1.push_back(new Rook{'k', this});
+  row1.push_back(new Bishop{'b', this});
+  row1.push_back(new Rook{'n', this});
+  row1.push_back(new Rook{'r', this});
   board.push_back(row1);
 
-  std::vector<Cell*> row;
+  std::vector<Piece*> row;
   for (char j = 'a'; j <= 'h'; ++j) {
-    row.push_back(new Pawn{2, j, 'p', this});
+    row.push_back(new Pawn{'p', this});
   }
   board.push_back(row);
 
   for (int i = 3; i <= 6; i++) {
-    std::vector<Cell*> blankRow;
+    std::vector<Piece*> blankRow;
     for (char j = 'a'; j <= 'h'; ++j) {
       if (((j - 97) + i) % 2 == 0) {
-        blankRow.push_back(new Blank{i, j, ' ', this});
+        blankRow.push_back(new Blank{' ', this});
       } else {
-        blankRow.push_back(new Blank{i, j, '_', this});
+        blankRow.push_back(new Blank{'_', this});
       }
     }
     board.push_back(blankRow);
   }
 
-  std::vector<Cell*> row7;
+  std::vector<Piece*> row7;
   for (char j = 'a'; j <= 'h'; ++j) {
-    row7.push_back(new Pawn{7, j, 'P', this});
+    row7.push_back(new Pawn{'P', this});
   }
   board.push_back(row7);
 
-  std::vector<Cell*> row8;
-  row8.push_back(new Rook{8, 'a', 'R', this});
-  row8.push_back(new Rook{8, 'b', 'N', this});
-  row8.push_back(new Bishop{8, 'c', 'B', this});
-  row8.push_back(new Rook{8, 'd', 'Q', this});
-  row8.push_back(new Rook{8, 'e', 'K', this});
-  row8.push_back(new Bishop{8, 'f', 'B', this});
-  row8.push_back(new Rook{8, 'g', 'N', this});
-  row8.push_back(new Rook{8, 'h', 'R', this});
+  std::vector<Piece*> row8;
+  row8.push_back(new Rook{'R', this});
+  row8.push_back(new Rook{'N', this});
+  row8.push_back(new Bishop{'B', this});
+  row8.push_back(new Rook{'Q', this});
+  row8.push_back(new Rook{'K', this});
+  row8.push_back(new Bishop{'B', this});
+  row8.push_back(new Rook{'N', this});
+  row8.push_back(new Rook{'R', this});
   board.push_back(row8);
 }
 
@@ -73,29 +73,6 @@ void Board::swapPiece(int oldRow, int oldCol, int newRow, int newCol) {
 }
 
 void Board::updateBoards() { notifyObservers(); }
-
-void Board::boardInit() {
-  for (char j = 'a'; j <= 'h'; ++j) {  
-    setPiece(2, j, 'p');
-    setPiece(7, j, 'P');
-  }
-  setPiece(1, 'a', 'r');
-  setPiece(1, 'b', 'n');
-  setPiece(1, 'c', 'b');
-  setPiece(1, 'd', 'q');
-  setPiece(1, 'e', 'k');
-  setPiece(1, 'f', 'b');
-  setPiece(1, 'g', 'n');
-  setPiece(1, 'h', 'r');
-  setPiece(8, 'a', 'R');
-  setPiece(8, 'b', 'N');
-  setPiece(8, 'c', 'B');
-  setPiece(8, 'd', 'Q');
-  setPiece(8, 'e', 'K');
-  setPiece(8, 'f', 'B');
-  setPiece(8, 'g', 'N');
-  setPiece(8, 'h', 'R');
-}
 
 void Board::removePiece(int row, char col) {
   if (isWhite(row, col)) {

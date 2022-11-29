@@ -3,8 +3,8 @@
 #include "rook.h"
 #include "board.h"
 
-Rook::Rook(int row, char col, char piece, Board *b)
-  : Cell{row, col, piece}, b{b} {
+Rook::Rook(char piece, Board *b)
+  : Piece{piece}, b{b} {
     firstMove = true;
   }
 
