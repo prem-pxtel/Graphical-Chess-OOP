@@ -14,7 +14,7 @@ class Board : public Subject {
   void removePiece(int row, char col);
   std::vector<std::vector<Cell*>> getBoard() { return board; }
   friend std::ostream & operator<<(std::ostream &out, const Board *b);
-  void swapPiece(int oldRow, char oldCol, int newRow, int newCol);
+  void swapPiece(int oldRow, int oldCol, int newRow, int newCol);
   void updateBoards();
   void boardInit();
   bool isCell(int row, char col);

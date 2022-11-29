@@ -78,6 +78,7 @@ bool Rook::isValidMove(char oldPiece, char oldCol, int oldRow,
 void Rook::move(char oldCol, int oldRow, char newCol, int newRow) {
   char oldPiece = b->getPiece(oldRow, oldCol);
   if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow)) {
+    b->swapPiece(oldRow, oldCol, newRow, newCol);
     b->removePiece(oldRow, oldCol);
     b->setPiece(newRow, newCol, oldPiece);
   }

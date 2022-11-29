@@ -26,7 +26,7 @@ Board::Board() {
     board.push_back(row);
   }
 
-  for (int i = 1; i <= 2; i++) {
+  for (int i = 7; i <= 8; i++) {
     std::vector<Cell*> row;
     for (char j = 'a'; j <= 'h'; ++j) {
       row.push_back(new Pawn{i, j, 'P', this});
@@ -47,12 +47,8 @@ void Board::setPiece(int row, char col, char p) {
   board[rowNum][colNum]->piece = p;
 }
 
-void Board::swapPiece(int oldRow, char oldCol, int newRow, int newCol) {
-  int oldRowNum = oldRow - 1;
-  int oldColNum = oldCol - 97;
-  int newRowNum = oldRow - 1;
-  int newColNum = oldCol - 97;
-  std::swap(board[oldRowNum][oldColNum], board[newRowNum][newColNum]);
+void Board::swapPiece(int oldRow, int oldCol, int newRow, int newCol) {
+  std::swap(board[oldRow - 1][oldCol - 97], board[newRow - 1][newCol - 97]);
 }
 
 void Board::updateBoards() { notifyObservers(); }
