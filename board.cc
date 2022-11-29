@@ -5,6 +5,7 @@
 #include "rook.h"
 #include "bishop.h"
 #include "board.h"
+#include "queen.h"
 #include <utility>
 
 Board::Board() {
@@ -12,7 +13,7 @@ Board::Board() {
   row1.push_back(new Rook{1, 'a', 'r', this});
   row1.push_back(new Rook{1, 'b', 'n', this});
   row1.push_back(new Bishop{1, 'c', 'b', this});
-  row1.push_back(new Rook{1, 'd', 'q', this});
+  row1.push_back(new Queen{1, 'd', 'q', this});
   row1.push_back(new Rook{1, 'e', 'k', this});
   row1.push_back(new Bishop{1, 'f', 'b', this});
   row1.push_back(new Rook{1, 'g', 'n', this});
