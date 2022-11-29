@@ -16,13 +16,9 @@ class Board : public Subject {
   friend std::ostream & operator<<(std::ostream &out, const Board *b);
   void updateBoards();
   void boardInit();
-  void move(char colOld, int rowOld, char colNew, int rowNew);
   bool isCell(int row, char col);
   bool isOccupied(int row, char col);
-  bool isValidMove(char oldPiece, char oldCol, int oldRow, 
-                   char newCol, int newRow);
-  bool isInPath(char oldPiece, char oldCol, int oldRow, 
-                char newCol, int newRow);
+  bool isWhite(int row, int col);
 };
 
 std::ostream & operator<<(std::ostream &out, const Board *b);

@@ -1,14 +1,13 @@
-#ifndef PAWN_H
-#define PAWN_H
+#ifndef ROOK_H
+#define ROOK_H
 #include <iostream>
 #include <vector>
 #include "board.h"
 
-class Pawn : public Board {
+class Rook : public Board {
   Board *b;
-  bool firstMove;
  public:
-  Pawn(Board *b);
+  Rook(Board *b);
   void move(char colOld, int rowOld, char colNew, int rowNew);
   bool isValidMove(char oldPiece, char oldCol, int oldRow, 
                    char newCol, int newRow);
