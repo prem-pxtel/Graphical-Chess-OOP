@@ -3,6 +3,7 @@
 #include "blank.h"
 #include "pawn.h"
 #include "board.h"
+#include <utility>
 
 Board::Board() {
   for (int i = 1; i <= 2; i++) {
@@ -44,6 +45,14 @@ void Board::setPiece(int row, char col, char p) {
   int rowNum = row - 1;
   int colNum = col - 97;
   board[rowNum][colNum]->piece = p;
+}
+
+void Board::swapPiece(int oldRow, char oldCol, int newRow, int newCol) {
+  int oldRowNum = oldRow - 1;
+  int oldColNum = oldCol - 97;
+  int newRowNum = oldRow - 1;
+  int newColNum = oldCol - 97;
+  std::swap(board[oldRowNum][oldColNum], board[newRowNum][newColNum]);
 }
 
 void Board::updateBoards() { notifyObservers(); }
