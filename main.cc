@@ -9,6 +9,15 @@
 using std::cout;
 using std::endl;
 
+int invertRow(int oldRow) {
+  float middle = 4.5;
+  if (1 <= oldRow && oldRow <= 4) {
+    return oldRow + (2 * (middle - oldRow));
+  } else {
+    return oldRow - (2 * (oldRow - middle));
+  }
+}
+
 int main() {
   std::vector<Observer*> toDelete;
   Board *b = new Board;
@@ -27,7 +36,10 @@ int main() {
       input >> oldRow;
       input >> newCol;
       input >> newRow;
-      b->getBoard()[oldRow-1][oldCol-97]->move(oldCol, oldRow, newCol, newRow);
+      int oldRowNum = invertRow(oldRow) - 1;
+      int oldColNum = oldCol - 'a';
+      b->getBoard()[oldRowNum][oldColNum]->move(oldCol, invertRow(oldRow),
+                                                newCol, invertRow(newRow));
       b->updateBoards();
     } else if (command == "resign") {
 

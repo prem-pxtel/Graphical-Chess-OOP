@@ -29,10 +29,10 @@ Board::Board() {
   for (int i = 3; i <= 6; i++) {
     std::vector<Piece*> blankRow;
     for (char j = 'a'; j <= 'h'; ++j) {
-      if (((j - 97) + i) % 2 == 0) {
-        blankRow.push_back(new Blank{' ', this});
-      } else {
+      if (((j - 'a') + i) % 2 == 0) {
         blankRow.push_back(new Blank{'_', this});
+      } else {
+        blankRow.push_back(new Blank{' ', this});
       }
     }
     board.push_back(blankRow);
@@ -58,13 +58,13 @@ Board::Board() {
 
 char Board::getPiece(int row, char col) const {
   int rowNum = row - 1;
-  int colNum = col - 97;
+  int colNum = col - 'a';
   return board[rowNum][colNum]->piece;
 }
 
 void Board::setPiece(int row, char col, char p) {
   int rowNum = row - 1;
-  int colNum = col - 97;
+  int colNum = col - 'a';
   board[rowNum][colNum]->piece = p;
 }
 
@@ -100,10 +100,12 @@ bool Board::isOccupied(int row, char col) {
 
 std::ostream & operator<<(std::ostream &out, const Board *b) {
   for (int i = 1; i <= 8; i++) {
-      for (int j = 'a'; j <= 'h'; ++j) {
-          std::cout << b->getPiece(i, j) << " ";
-      }
-      std::cout << std::endl;
+    std::cout << 8 - i + 1 << " ";
+    for (int j = 'a'; j <= 'h'; ++j) {
+        std::cout << b->getPiece(i, j);
+    }
+    std::cout << std::endl;
   }
+  std::cout << std::endl << "  abcdefgh" << std::endl;
   return out;
 }
