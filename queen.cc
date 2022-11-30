@@ -11,7 +11,8 @@ Queen::Queen(char piece, Board *b)
 bool Queen::isInPath(char oldPiece, char oldCol, int oldRow, 
                      char newCol, int newRow) {
   if (oldPiece == 'q') {
-    if (oldCol == newCol) { // up and down
+    if(oldCol == newCol || oldRow == newRow){
+          if (oldCol == newCol) { // up and down
       if (oldRow <= newRow) {
         for (int i = oldRow + 1; i <= newRow; ++i) {
           if (b->isOccupied(i, oldCol)) return false;
@@ -31,7 +32,9 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
           if (b->isOccupied(oldRow, i)) return false;
         }
       }
-    } else if (oldCol < newCol) { // to the right
+    }
+    } else { // to the right
+    if(oldCol < newCol){
       if (oldRow < newRow) { // down and right
         for (int i = oldRow + 1; i <= newRow; ++i) {
           oldCol++;
@@ -43,7 +46,8 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
           if (b->isOccupied(i, oldCol)) return false;
         }
       }
-    } else { // to the left
+    }
+      else { // to the left
       if (oldRow < newRow) { // down and left
         for(int i = oldCol - 1; i >= newCol; --i) {
           oldRow++;
@@ -55,6 +59,7 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
           if (b->isOccupied(oldRow, i)) return false;
         }
       }
+    }
     }
     return true;
   } else { // oldPiece == 'Q'
