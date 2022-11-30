@@ -13,100 +13,103 @@ King::King(char piece, Board *b)
 bool King::isInPath(char oldPiece, char oldCol, int oldRow, 
                      char newCol, int newRow) {
   if (oldPiece == 'k') {
-    if(oldCol == newCol || oldRow == newRow){
-          if (oldCol == newCol) { // up and down
-      if (oldRow <= newRow) {
-        for (int i = oldRow + 1; i <= newRow; ++i) {
-          if (b->isOccupied(i, oldCol)) return false;
-        }
-      } else {
-        for (int i = oldRow - 1; i >= newRow; --i) {
-          if (b->isOccupied(i, oldCol)) return false;
-        }
-      }
-    } else if (oldRow == newRow){ // left and right
-      if (oldCol <= newCol) {
-        for(int i = oldCol + 1; i <= newCol; ++i) {
-          if (b->isOccupied(oldRow, i)) return false;
-        }
-      } else {
-        for(int i = oldCol - 1; i >= newCol; --i) {
-          if (b->isOccupied(oldRow, i)) return false;
-        }
-      }
-    }
-    } else { // to the right
-    if(oldCol < newCol){
-      if (oldRow < newRow) { // down and right
-        for (int i = oldRow + 1; i <= newRow; ++i) {
-          oldCol++;
-          if (b->isOccupied(i, oldCol)) return false;
-        }
-      } else { // up and right
-        for (int i = oldRow - 1; i >= newRow; --i) {
-          oldCol++;
-          if (b->isOccupied(i, oldCol)) return false;
+    if (oldCol == newCol || oldRow == newRow) {
+      if (oldCol == newCol) { // up and down
+        if (oldRow <= newRow) {
+          for (int i = oldRow + 1; i <= newRow; ++i) {
+            if (b->isOccupied(i, oldCol)) return false;
+          }
+        } else {
+          for (int i = oldRow - 1; i >= newRow; --i) {
+            if (b->isOccupied(i, oldCol)) return false;
+          }
+        } 
+      } else if (oldRow == newRow) { // left and right
+        if (oldCol <= newCol) {
+          for(int i = oldCol + 1; i <= newCol; ++i) {
+            if (b->isOccupied(oldRow, i)) return false;
+          }
+        } else {
+          for(int i = oldCol - 1; i >= newCol; --i) {
+            if (b->isOccupied(oldRow, i)) return false;
+          }
         }
       }
-    }
-      else { // to the left
-      if (oldRow < newRow) { // down and left
-        for(int i = oldCol - 1; i >= newCol; --i) {
-          oldRow++;
-          if (b->isOccupied(oldRow, i)) return false;
+    } else {
+      if (oldCol < newCol) { // to the right
+        if (oldRow < newRow) { // down and right
+          for (int i = oldRow + 1; i <= newRow; ++i) {
+            oldCol++;
+            if (b->isOccupied(i, oldCol)) return false;
+          }
+        } else { // up and right
+          for (int i = oldRow - 1; i >= newRow; --i) {
+            oldCol++;
+            if (b->isOccupied(i, oldCol)) return false;
+          }
         }
-      } else { // up and left
-        for(int i = oldCol - 1; i >= newCol; --i) {
-          oldRow--;
-          if (b->isOccupied(oldRow, i)) return false;
+      } else { // to the left
+        if (oldRow < newRow) { // down and left
+          for(int i = oldCol - 1; i >= newCol; --i) {
+            oldRow++;
+            if (b->isOccupied(oldRow, i)) return false;
+          }
+        } else { // up and left
+          for(int i = oldCol - 1; i >= newCol; --i) {
+            oldRow--;
+            if (b->isOccupied(oldRow, i)) return false;
+          }
         }
       }
-    }
     }
     return true;
   } else { // oldPiece == 'K'
-    if (oldCol == newCol) { // up and down
-      if (oldRow <= newRow) {
-        for (int i = oldRow + 1; i <= newRow; ++i) {
-          if (b->isOccupied(i, oldCol)) return false;
-        }
-      } else {
-        for (int i = oldRow - 1; i >= newRow; --i) {
-          if (b->isOccupied(i, oldCol)) return false;
-        }
-      }
-    } else if (oldRow == newRow){ // left and right
-      if (oldCol <= newCol) {
-        for(int i = oldCol + 1; i <= newCol; ++i) {
-          if (b->isOccupied(oldRow, i)) return false;
-        }
-      } else {
-        for(int i = oldCol - 1; i >= newCol; --i) {
-          if (b->isOccupied(oldRow, i)) return false;
-        }
-      }
-    } else if (oldCol < newCol) { // to the right
-      if (oldRow < newRow) { // down and right
-        for (int i = oldRow + 1; i <= newRow; ++i) {
-          oldCol++;
-          if (b->isOccupied(i, oldCol)) return false;
-        }
-      } else { // up and right
-        for (int i = oldRow - 1; i >= newRow; --i) {
-          oldCol++;
-          if (b->isOccupied(i, oldCol)) return false;
+    if (oldCol == newCol || oldRow == newRow) {
+      if (oldCol == newCol) { // up and down
+        if (oldRow <= newRow) {
+          for (int i = oldRow + 1; i <= newRow; ++i) {
+            if (b->isOccupied(i, oldCol)) return false;
+          }
+        } else {
+          for (int i = oldRow - 1; i >= newRow; --i) {
+            if (b->isOccupied(i, oldCol)) return false;
+          }
+        } 
+      } else if (oldRow == newRow) { // left and right
+        if (oldCol <= newCol) {
+          for(int i = oldCol + 1; i <= newCol; ++i) {
+            if (b->isOccupied(oldRow, i)) return false;
+          }
+        } else {
+          for(int i = oldCol - 1; i >= newCol; --i) {
+            if (b->isOccupied(oldRow, i)) return false;
+          }
         }
       }
-    } else { // to the left
-      if (oldRow < newRow) { // down and left
-        for(int i = oldCol - 1; i >= newCol; --i) {
-          oldRow++;
-          if (b->isOccupied(oldRow, i)) return false;
+    } else {
+      if (oldCol < newCol) { // to the right
+        if (oldRow < newRow) { // down and right
+          for (int i = oldRow + 1; i <= newRow; ++i) {
+            oldCol++;
+            if (b->isOccupied(i, oldCol)) return false;
+          }
+        } else { // up and right
+          for (int i = oldRow - 1; i >= newRow; --i) {
+            oldCol++;
+            if (b->isOccupied(i, oldCol)) return false;
+          }
         }
-      } else { // up and left
-        for(int i = oldCol - 1; i >= newCol; --i) {
-          oldRow--;
-          if (b->isOccupied(oldRow, i)) return false;
+      } else { // to the left
+        if (oldRow < newRow) { // down and left
+          for(int i = oldCol - 1; i >= newCol; --i) {
+            oldRow++;
+            if (b->isOccupied(oldRow, i)) return false;
+          }
+        } else { // up and left
+          for(int i = oldCol - 1; i >= newCol; --i) {
+            oldRow--;
+            if (b->isOccupied(oldRow, i)) return false;
+          }
         }
       }
     }
