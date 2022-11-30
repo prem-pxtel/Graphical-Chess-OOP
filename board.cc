@@ -8,16 +8,17 @@
 #include "bishop.h"
 #include "queen.h"
 #include "king.h"
+#include "knight.h"
 
 Board::Board() {
   std::vector<Piece*> row1;
   row1.push_back(new Rook{'r', this});
-  row1.push_back(new Rook{'n', this});
+  row1.push_back(new Knight{'n', this});
   row1.push_back(new Bishop{'b', this});
   row1.push_back(new Queen{'q', this});
   row1.push_back(new King{'k', this});
   row1.push_back(new Bishop{'b', this});
-  row1.push_back(new Rook{'n', this});
+  row1.push_back(new Knight{'n', this});
   row1.push_back(new Rook{'r', this});
   board.push_back(row1);
 
@@ -47,12 +48,12 @@ Board::Board() {
 
   std::vector<Piece*> row8;
   row8.push_back(new Rook{'R', this});
-  row8.push_back(new Rook{'N', this});
+  row8.push_back(new Knight{'N', this});
   row8.push_back(new Bishop{'B', this});
   row8.push_back(new Queen{'Q', this});
   row8.push_back(new King{'K', this});
   row8.push_back(new Bishop{'B', this});
-  row8.push_back(new Rook{'N', this});
+  row8.push_back(new Knight{'N', this});
   row8.push_back(new Rook{'R', this});
   board.push_back(row8);
 }
