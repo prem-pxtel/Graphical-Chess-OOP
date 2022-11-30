@@ -7,6 +7,7 @@
 #include "rook.h"
 #include "bishop.h"
 #include "queen.h"
+#include "king.h"
 
 Board::Board() {
   std::vector<Piece*> row1;
@@ -14,7 +15,7 @@ Board::Board() {
   row1.push_back(new Rook{'n', this});
   row1.push_back(new Bishop{'b', this});
   row1.push_back(new Queen{'q', this});
-  row1.push_back(new Rook{'k', this});
+  row1.push_back(new King{'k', this});
   row1.push_back(new Bishop{'b', this});
   row1.push_back(new Rook{'n', this});
   row1.push_back(new Rook{'r', this});
@@ -49,7 +50,7 @@ Board::Board() {
   row8.push_back(new Rook{'N', this});
   row8.push_back(new Bishop{'B', this});
   row8.push_back(new Rook{'Q', this});
-  row8.push_back(new Rook{'K', this});
+  row8.push_back(new King{'K', this});
   row8.push_back(new Bishop{'B', this});
   row8.push_back(new Rook{'N', this});
   row8.push_back(new Rook{'R', this});
@@ -83,8 +84,8 @@ void Board::removePiece(int row, char col) {
 }
 
 bool Board::isWhite(int row, int col) {
-  if ((col + row) % 2 == 0) return false;
-  return true; 
+  if ((col + row) % 2 == 0) return true;
+  return false; 
 }
 
 bool Board::isCell(int row, char col) {

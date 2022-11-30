@@ -1,10 +1,8 @@
 #include <iostream>
 #include <vector>
-#include "board.h"
-#include "pawn.h"
-#include "rook.h"
-#include <string>
 #include <sstream>
+#include "board.h"
+#include "piece.h"
 #include "textob.h"
 using std::cout;
 using std::endl;
