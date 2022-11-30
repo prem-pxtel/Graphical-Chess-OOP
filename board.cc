@@ -69,7 +69,7 @@ void Board::setPiece(int row, char col, char p) {
 }
 
 void Board::swapPiece(int oldRow, int oldCol, int newRow, int newCol) {
-  std::swap(board[oldRow - 1][oldCol - 97], board[newRow - 1][newCol - 97]);
+  std::swap(board[oldRow - 1][oldCol - 'a'], board[newRow - 1][newCol - 'a']);
 }
 
 void Board::updateBoards() { notifyObservers(); }
