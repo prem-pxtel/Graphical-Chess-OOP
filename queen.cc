@@ -5,7 +5,6 @@
 
 Queen::Queen(char piece, Board *b)
   : Piece{piece}, b{b} {}
-
 // returns true if new cell is not blocked and in the path of the old cell
 // otherwise, returns false
 bool Queen::isInPath(char oldPiece, char oldCol, int oldRow, 
@@ -129,9 +128,22 @@ bool Queen::isValidMove(char oldPiece, char oldCol, int oldRow,
   return true;
 }
 
+bool Queen::isValidMover(char oldPiece, char oldCol, int oldRow, 
+                        char newCol, int newRow) {
+  if((oldCol != newCol) && (oldRow != newRow)) return false;
+ // if() return false; // not let it move diagonally so ensure that its only moving either up or down or left or right
+  if (!b->isCell(oldRow, oldCol)) return false;
+  if (!b->isCell(newRow, newCol)) return false; 
+  if (!b->isOccupied(oldRow, oldCol)) return false;
+  if (b->isOccupied(newRow, newCol)) return false;
+  if (!isInPath(oldPiece, oldCol, oldRow, newCol, newRow)) return false;
+  if (oldCol == newCol && oldRow == newRow) return false;
+  return true;
+}
+
 void Queen::move(char oldCol, int oldRow, char newCol, int newRow) {
   char oldPiece = b->getPiece(oldRow, oldCol);
-  if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow)) {
+  if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow) || (isValidMover(oldPiece, oldCol, oldRow, newCol, newRow))) {
     b->swapPiece(oldRow, oldCol, newRow, newCol);
     b->removePiece(oldRow, oldCol);
   }

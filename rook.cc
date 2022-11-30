@@ -68,6 +68,8 @@ bool Rook::isInPath(char oldPiece, char oldCol, int oldRow,
 
 bool Rook::isValidMove(char oldPiece, char oldCol, int oldRow, 
                         char newCol, int newRow) {
+  if((oldCol != newCol) && (oldRow != newRow)) return false;
+ // if() return false; // not let it move diagonally so ensure that its only moving either up or down or left or right
   if (!b->isCell(oldRow, oldCol)) return false;
   if (!b->isCell(newRow, newCol)) return false; 
   if (!b->isOccupied(oldRow, oldCol)) return false;

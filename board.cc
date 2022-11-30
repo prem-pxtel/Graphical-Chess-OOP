@@ -49,7 +49,7 @@ Board::Board() {
   row8.push_back(new Rook{'R', this});
   row8.push_back(new Rook{'N', this});
   row8.push_back(new Bishop{'B', this});
-  row8.push_back(new Rook{'Q', this});
+  row8.push_back(new Queen{'Q', this});
   row8.push_back(new King{'K', this});
   row8.push_back(new Bishop{'B', this});
   row8.push_back(new Rook{'N', this});
