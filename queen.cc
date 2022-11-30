@@ -117,7 +117,7 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
 bool Queen::isValidMove(char oldPiece, char oldCol, int oldRow, 
                         char newCol, int newRow) {
   if (!(oldCol == newCol) || !(oldRow == newRow)) {
-    if (abs((oldCol - newCol)) != abs((oldRow - newRow))) return false;
+    if (abs((newCol - oldCol)) != abs((newRow - oldRow))) return false;
   }
   if (!b->isCell(oldRow, oldCol)) return false;
   if (!b->isCell(newRow, newCol)) return false; 
@@ -143,7 +143,8 @@ bool Queen::isValidMover(char oldPiece, char oldCol, int oldRow,
 
 void Queen::move(char oldCol, int oldRow, char newCol, int newRow) {
   char oldPiece = b->getPiece(oldRow, oldCol);
-  if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow) || (isValidMover(oldPiece, oldCol, oldRow, newCol, newRow))) {
+  if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow) || 
+     (isValidMover(oldPiece, oldCol, oldRow, newCol, newRow))) {
     b->swapPiece(oldRow, oldCol, newRow, newCol);
     b->removePiece(oldRow, oldCol);
   }
