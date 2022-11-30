@@ -131,8 +131,45 @@ bool King::isValidMove(char oldPiece, char oldCol, int oldRow,
   return true;
 }
 
+bool King::isValidCastle(char oldCol, int oldRow, char newCol, int newRow) {
+  if (oldRow != newRow) return false;
+  if (newCol == oldCol - 2) {
+    char pieceAtRook = b->getPiece(newRow, newCol - 2);
+    if ((pieceAtRook == 'r' || pieceAtRook == 'R') 
+       && (b->getPiecePtr(newRow, newCol - 2)->firstMove == true)) {
+      if (b->isOccupied(newRow, newCol - 1)) return false;
+      if (b->isOccupied(newRow, newCol)) return false;
+      if (b->isOccupied(newRow, newCol + 1)) return false;
+      return true;
+    }
+  } else if (newCol == oldCol + 2) {
+    char pieceAtRook = b->getPiece(newRow, newCol + 1);
+    if ((pieceAtRook == 'r' || pieceAtRook == 'R') 
+       && (b->getPiecePtr(newRow, newCol + 1)->firstMove == true)) {
+      if (b->isOccupied(newRow, newCol - 1)) return false;
+      if (b->isOccupied(newRow, newCol)) return false;
+      return true;
+    }
+  }
+  return false;
+}
+
+void King::castle(int oldRow, char oldCol, int newRow, char newCol) {
+  if (newCol == oldCol - 2) {
+      b->swapPiece(oldRow, 'e', newRow, 'c');
+      b->swapPiece(oldRow, 'a', newRow, 'd');
+  } else {
+    b->swapPiece(oldRow, 'e', newRow, 'g');
+    b->swapPiece(oldRow,  'h', newRow, 'f');
+  }
+}
+
 void King::move(char oldCol, int oldRow, char newCol, int newRow) {
   char oldPiece = b->getPiece(oldRow, oldCol);
+  if (isValidCastle(oldCol, oldRow, newCol, newRow)) {
+    castle(oldRow, oldCol, newRow, newCol);
+    return;
+  }
   if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow)) {
     b->swapPiece(oldRow, oldCol, newRow, newCol);
     b->removePiece(oldRow, oldCol);

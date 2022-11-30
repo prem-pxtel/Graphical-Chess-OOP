@@ -12,8 +12,6 @@ class Knight : public Piece {
   void move(char colOld, int rowOld, char colNew, int rowNew) override; 
   bool isValidMove(char oldPiece, char oldCol, int oldRow, 
                    char newCol, int newRow);
-  bool isInPath(char oldPiece, char oldCol, int oldRow, 
-                char newCol, int newRow);
 };
 
 #endif
