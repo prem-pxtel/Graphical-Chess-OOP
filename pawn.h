@@ -12,6 +12,7 @@ class Pawn : public Piece {
   char obstacleCol;
  public:
   Pawn(char piece, Board *b);
+  //virtual ~Pawn();
   void move(char colOld, int rowOld, char colNew, int rowNew) override;
   void capture(int oldRow, char oldCol, int newRow, char newCol) override;
   bool isValidMove(char oldPiece, char oldCol, int oldRow, 

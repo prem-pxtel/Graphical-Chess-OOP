@@ -6,6 +6,9 @@
 
 Queen::Queen(char piece, Board *b)
   : Piece{piece}, b{b} {}
+
+//Queen::~Queen() {}
+
 // returns true if new cell is not blocked and in the path of the old cell
 // otherwise, returns false
 bool Queen::isInPath(char oldPiece, char oldCol, int oldRow, 

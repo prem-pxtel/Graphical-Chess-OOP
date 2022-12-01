@@ -9,6 +9,8 @@ Pawn::Pawn(char piece, Board *b)
     firstMove = true;
 }
 
+//Pawn::~Pawn() {}
+
 // returns true if new cell is not blocked and in the path of the old cell
 // otherwise, returns false
 bool Pawn::isInPath(char oldPiece, char oldCol, int oldRow, 
@@ -32,23 +34,24 @@ bool Pawn::isInPath(char oldPiece, char oldCol, int oldRow,
 
 bool Pawn::isValidMove(char oldPiece, char oldCol, int oldRow, 
                         char newCol, int newRow) {
+  if((oldCol != newCol) && (oldRow != newRow)) return false;
   if (!b->isCell(oldRow, oldCol)) return false;
   if (!b->isCell(newRow, newCol)) return false; 
   if (!b->isOccupied(oldRow, oldCol)) return false;
   if (oldCol == newCol && oldRow == newRow) return false;
   if (!isInPath(oldPiece, oldCol, oldRow, newCol, newRow)) return false;
   if (firstMove) {
-    if(oldPiece == 'P'){
+    if (oldPiece == 'P') {
       if(newRow < oldRow - 2) return false;
     }
-    else{
+    else {
       if (newRow > oldRow + 2) return false;
     }
   } else {
-    if(oldPiece == 'P'){
+    if (oldPiece == 'P') {
       if (newRow < oldRow - 1) return false;
     }
-    else{
+    else {
       if (newRow > oldRow + 1) return false;
     }
   } 
@@ -81,6 +84,7 @@ bool Pawn::isInDiagonalPath(char oldPiece, char oldCol, int oldRow,
       return true;
     }
   }
+  return false;
 }
 
 void Pawn::capture(int oldRow, char oldCol, int newRow, char newCol) {

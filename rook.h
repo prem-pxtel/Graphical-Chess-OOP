@@ -12,6 +12,7 @@ class Rook : public Piece {
   char obstacleCol;
  public:
   Rook(char piece, Board *b);
+  //virtual ~Rook();
   void move(char colOld, int rowOld, char colNew, int rowNew) override; 
   void capture(int oldRow, char oldCol, int newRow, char newCol) override;
   bool isValidMove(char oldPiece, char oldCol, int oldRow, 

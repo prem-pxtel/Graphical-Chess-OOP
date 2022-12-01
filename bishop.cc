@@ -7,6 +7,8 @@
 Bishop::Bishop(char piece, Board *b)
   : Piece{piece}, b{b} {}
 
+//Bishop::~Bishop() {}
+
 // returns true if new cell is not blocked and in the path of the old cell
 // otherwise, returns false
 bool Bishop::isInPath(char oldPiece, char oldCol, int oldRow, 

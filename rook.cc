@@ -9,6 +9,8 @@ Rook::Rook(char piece, Board *b)
     firstMove = true;
   }
 
+//Rook::~Rook() {}
+
 // returns true if new cell is not blocked and in the path of the old cell
 // otherwise, returns false
 bool Rook::isInPath(char oldPiece, char oldCol, int oldRow, 
