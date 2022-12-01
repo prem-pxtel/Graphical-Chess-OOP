@@ -28,12 +28,12 @@ int main() {
       input >> newRow;
       if (whiteTurn) {
         if (b->isWhitePiece(oldRow, oldCol)) {
-          cout << "Black person's turn" << endl;
+          cout << "White person's turn" << endl;
           continue;
         }
       } else {
         if (!b->isWhitePiece(oldRow, oldCol)) {
-          cout << "White person's turn" << endl;
+          cout << "Black person's turn" << endl;
           continue;
         }
       }
