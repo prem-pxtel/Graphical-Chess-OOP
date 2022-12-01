@@ -27,26 +27,26 @@ int main() {
       input >> newCol;
       input >> newRow;
       if (whiteTurn) {
-        if (b->isWhitePiece(oldRow, oldCol)) {
+        if (!b->isWhitePiece(b->invertRow(oldRow), oldCol)) {
           cout << "White person's turn" << endl;
           continue;
         }
       } else {
-        if (!b->isWhitePiece(oldRow, oldCol)) {
+        if (b->isWhitePiece(b->invertRow(oldRow), oldCol)) {
           cout << "Black person's turn" << endl;
           continue;
         }
       }
-      b->getPiecePtr(oldRow, oldCol)->move(oldCol, b->invertRow(oldRow),
-                                           newCol, b->invertRow(newRow));
+      b->getPiecePtr(b->invertRow(oldRow), oldCol)
+       ->move(oldCol, b->invertRow(oldRow), newCol, b->invertRow(newRow));
       b->updateBoards();
       if (whiteTurn) whiteTurn = false;
       else whiteTurn = true;
     } else if (command == "resign") {
 
-    } else {
+    } else if (command == "setup") {
 
-    }
+    } else continue;
   }
   for(auto &ob : toDelete) delete ob;
 }

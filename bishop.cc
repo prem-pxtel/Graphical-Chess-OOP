@@ -114,10 +114,11 @@ bool Bishop::isValidMove(char oldPiece, char oldCol, int oldRow,
 }
 
 void Bishop::capture(int oldRow, char oldCol, int newRow, char newCol) {
-  std::cout << "capturing" << std::endl;
   b->swapPiece(oldRow, oldCol, newRow, newCol);
   delete b->getPiecePtr(oldRow, oldCol);
-  b->getBoard()[b->invertRow(oldRow) - 1][oldCol - 'a'] = new Blank{' ', b};
+  int oldRowNum = b->invertRow(oldRow) - 1;
+  int oldColNum = oldCol - 'a';
+  b->getBoard()[oldRowNum][oldColNum] = new Blank{' ', b};
   b->removePiece(oldRow, oldCol); // sets to either " " or "_"
 }
 

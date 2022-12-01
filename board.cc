@@ -74,9 +74,9 @@ int Board::invertRow(int oldRow) {
 }
 
 Piece * Board::getPiecePtr(int row, char col) {
-  int oldRowNum = invertRow(row) - 1;
-  int oldColNum = col - 'a';
-  return board[oldRowNum][oldColNum];
+  int rowNum = row - 1;
+  int colNum = col - 'a';
+  return board[rowNum][colNum];
 }
 
 void Board::setPiece(int row, char col, char p) {

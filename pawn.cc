@@ -90,7 +90,9 @@ bool Pawn::isInDiagonalPath(char oldPiece, char oldCol, int oldRow,
 void Pawn::capture(int oldRow, char oldCol, int newRow, char newCol) {
   b->swapPiece(oldRow, oldCol, newRow, newCol);
   delete b->getPiecePtr(oldRow, oldCol);
-  b->getBoard()[b->invertRow(oldRow) - 1][oldCol - 'a'] = new Blank{' ', b};
+  int oldRowNum = b->invertRow(oldRow) - 1;
+  int oldColNum = oldCol - 'a';
+  b->getBoard()[oldRowNum][oldColNum] = new Blank{' ', b};
   b->removePiece(oldRow, oldCol); // sets to either " " or "_"
 }
 
