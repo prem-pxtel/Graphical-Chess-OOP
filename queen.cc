@@ -187,7 +187,6 @@ bool Queen::isValidMove(char oldPiece, char oldCol, int oldRow,
   if (!b->isCell(oldRow, oldCol)) return false;
   if (!b->isCell(newRow, newCol)) return false; 
   if (!b->isOccupied(oldRow, oldCol)) return false;
-  if (b->isOccupied(newRow, newCol)) return false;
   if (!isInPath(oldPiece, oldCol, oldRow, newCol, newRow)) return false;
   if (oldCol == newCol && oldRow == newRow) return false;
   return true;

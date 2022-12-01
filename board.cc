@@ -101,7 +101,7 @@ void Board::removePiece(int row, char col) {
 
 bool Board::isWhite(int row, int col) {
   if ((col + row) % 2 == 0) return true;
-  return false; 
+  return false;
 }
 
 bool Board::isWhitePiece(int row, char col) {
