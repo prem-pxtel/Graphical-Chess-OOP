@@ -61,7 +61,7 @@ bool Pawn::isValidMove(char oldPiece, char oldCol, int oldRow,
 
 bool Pawn::isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
                             char newCol, int newRow) {
-  if (b->isWhite(oldRow, oldCol)) {
+  if (b->isWhitePiece(oldRow, oldCol)) {
     if (b->isOccupied(oldRow - 1, oldCol + 1)) {
       obstacleRow = oldRow - 1;
       obstacleCol = oldCol + 1;
@@ -88,7 +88,6 @@ bool Pawn::isInDiagonalPath(char oldPiece, char oldCol, int oldRow,
 }
 
 void Pawn::capture(int oldRow, char oldCol, int newRow, char newCol) {
-  std::cout << "capturing" << std::endl;
   b->swapPiece(oldRow, oldCol, newRow, newCol);
   delete b->getPiecePtr(oldRow, oldCol);
   b->getBoard()[b->invertRow(oldRow) - 1][oldCol - 'a'] = new Blank{' ', b};
@@ -100,12 +99,15 @@ void Pawn::move(char oldCol, int oldRow, char newCol, int newRow) {
   if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow)) {
     b->swapPiece(oldRow, oldCol, newRow, newCol);
     b->removePiece(oldRow, oldCol);
-  } else if (isInDiagonalPath(oldPiece, oldRow, oldCol, newRow, newCol) 
+  } else if (b->isOccupied(newRow, newCol)) {
+    std::cout << oldPiece << std::endl;
+      if (isInDiagonalPath(oldPiece, oldCol, oldRow, newCol, newRow) 
              && b->isWhitePiece(oldRow, oldCol) 
              != b->isWhitePiece(newRow, newCol)
              && b->getPiece(newRow, newCol) != 'k'
              && b->getPiece(newRow, newCol) != 'K') {
-    capture(oldRow, oldCol, obstacleRow, obstacleCol);
+        capture(oldRow, oldCol, obstacleRow, obstacleCol);
+      }
   }
   obstacleRow = 10; // setting obstacle data to unattainable values,
   obstacleCol = 'z'; // so that future captures aren't affected by past data
