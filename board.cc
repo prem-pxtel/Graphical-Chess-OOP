@@ -127,3 +127,54 @@ std::ostream & operator<<(std::ostream &out, const Board *b) {
   std::cout << std::endl << "  abcdefgh" << std::endl;
   return out;
 }
+
+// check is when a piece if moved in any of its possible moves could capture the king.
+// looping through every piece 
+// if it is a blank piece, continue, if it is a white piece, go through its ispath. 
+// if the obstacle is the enemy king cout check, and then vice versa for black.
+
+
+bool Board::check(){
+  int wkingrow;
+  char wkingcol;
+  int bkingrow;
+  char bkingcol;
+  for(int i = 1; i <= 8; i++){
+    for(int j = 'a'; j<= 'h'; j++){
+      char val = getPiece(i,j);
+      if(val == 'K'){
+        wkingrow = i;
+        wkingcol = j;
+      }
+      else if (val == 'k'){
+        bkingrow = i;
+        wkingcol = j;
+    }
+  }
+}
+  for(int i = 1; i <= 8; i++){
+    for(int j = 'a'; j <= 'h'; j++){ 
+      if(isOccupied(i,j)){ // if occupied check if its checking the king.
+      Piece *value = board[i - 1][j - 'a'];
+      char pic = getPiece(i,j);
+      if('a' <= pic && pic <= 'z'){ // checks if it can check the white king
+        if(!(value->isValidMove(pic, i, j, wkingrow, wkingcol))){
+          if(value->obstacleRow == wkingrow && value->obstacleCol == wkingcol){
+            std::cout << "check" << std::endl;
+            return true;
+          }
+        }
+      }
+      else{ // checks if it can check the black king
+      if(!(value->isValidMove(pic, i, j, bkingrow, bkingcol))){
+          if(value->obstacleRow == bkingrow && value->obstacleCol == bkingcol){
+            std::cout << "check" << std::endl;
+            return true;
+          }
+        }
+      }
+      }
+    }
+  }
+}
+

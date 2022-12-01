@@ -182,7 +182,7 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
   }
 }
 
-bool Queen::isValidMove(char oldPiece, char oldCol, int oldRow, 
+bool Queen::isValidMoveb(char oldPiece, char oldCol, int oldRow, 
                         char newCol, int newRow) {
   if (!(oldCol == newCol) || !(oldRow == newRow)) {
     if (abs((newCol - oldCol)) != abs((newRow - oldRow))) return false;
@@ -214,9 +214,19 @@ void Queen::capture(int oldRow, char oldCol, int newRow, char newCol) {
   b->removePiece(oldRow, oldCol); // sets to either " " or "_"
 }
 
+bool Queen::isValidMove(char oldPiece, char oldCol, int oldRow, char newCol, int newRow){
+  if (isValidMoveb(oldPiece, oldCol, oldRow, newCol, newRow) || 
+     (isValidMover(oldPiece, oldCol, oldRow, newCol, newRow))) {
+      return true;
+     }
+     else{
+      return false;
+     }
+}
+
 void Queen::move(char oldCol, int oldRow, char newCol, int newRow) {
   char oldPiece = b->getPiece(oldRow, oldCol);
-  if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow) || 
+  if (isValidMoveb(oldPiece, oldCol, oldRow, newCol, newRow) || 
      (isValidMover(oldPiece, oldCol, oldRow, newCol, newRow))) {
     b->swapPiece(oldRow, oldCol, newRow, newCol);
     b->removePiece(oldRow, oldCol);
@@ -227,8 +237,6 @@ void Queen::move(char oldCol, int oldRow, char newCol, int newRow) {
              && b->getPiece(newRow, newCol) != 'K') {
     capture(oldRow, oldCol, newRow, newCol);
   }
-  std::cout << obstacleRow << std::endl;
-  std::cout << obstacleCol << std::endl;
   obstacleRow = 10; // setting obstacle data to unattainable values,
   obstacleCol = 'z'; // so that future captures aren't affected by past data
 }

@@ -43,6 +43,9 @@ int main() {
         b->updateBoards();
         whiteTurn = false;
         cout << "Player 2's Turn" << endl;
+        if(b->check()){
+          cout << "check" << endl;
+        }
       } else {
         if (b->isWhitePiece(invertRow(oldRow), oldCol)) continue;
         b->getPiecePtr(invertRow(oldRow), oldCol)
@@ -50,6 +53,9 @@ int main() {
         b->updateBoards();
         whiteTurn = true;
         cout << "Player 1's Turn" << endl;
+        if(b->check()){
+          cout << "check" << endl;
+        }
       }
     } else if (command == "resign") {
 
