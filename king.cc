@@ -233,9 +233,7 @@ void King::castle(int oldRow, char oldCol, int newRow, char newCol) {
 void King::capture(int oldRow, char oldCol, int newRow, char newCol) {
   b->swapPiece(oldRow, oldCol, newRow, newCol);
   delete b->getPiecePtr(oldRow, oldCol);
-  int oldRowNum = b->invertRow(oldRow) - 1;
-  int oldColNum = oldCol - 'a';
-  b->getBoard()[oldRowNum][oldColNum] = new Blank{' ', b};
+  b->getBoard()[oldRow - 1][oldCol - 'a'] = new Blank{' ', b};
   b->removePiece(oldRow, oldCol); // sets to either " " or "_"
 }
 

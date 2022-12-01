@@ -104,7 +104,7 @@ bool Bishop::isInPath(char oldPiece, char oldCol, int oldRow,
 
 bool Bishop::isValidMove(char oldPiece, char oldCol, int oldRow, 
                         char newCol, int newRow) {
-  if(abs((oldCol - newCol)) != abs((oldRow - newRow))) return false;
+  if(abs((newCol - oldCol)) != abs((newRow - oldRow))) return false;
   if (!b->isCell(oldRow, oldCol)) return false;
   if (!b->isCell(newRow, newCol)) return false; 
   if (!b->isOccupied(oldRow, oldCol)) return false;
@@ -116,9 +116,7 @@ bool Bishop::isValidMove(char oldPiece, char oldCol, int oldRow,
 void Bishop::capture(int oldRow, char oldCol, int newRow, char newCol) {
   b->swapPiece(oldRow, oldCol, newRow, newCol);
   delete b->getPiecePtr(oldRow, oldCol);
-  int oldRowNum = b->invertRow(oldRow) - 1;
-  int oldColNum = oldCol - 'a';
-  b->getBoard()[oldRowNum][oldColNum] = new Blank{' ', b};
+  b->getBoard()[oldRow - 1][oldCol - 'a'] = new Blank{' ', b};
   b->removePiece(oldRow, oldCol); // sets to either " " or "_"
 }
 

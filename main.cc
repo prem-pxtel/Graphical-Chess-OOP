@@ -19,6 +19,7 @@ int main() {
       Observer *ob1 = new TextOb{b};
       toDelete.push_back(ob1);
       b->updateBoards();
+      cout << "Player 1's Turn" << endl;
     } else if (command == "move") {
       char oldCol, newCol;
       int oldRow, newRow;
@@ -27,21 +28,20 @@ int main() {
       input >> newCol;
       input >> newRow;
       if (whiteTurn) {
-        if (!b->isWhitePiece(b->invertRow(oldRow), oldCol)) {
-          cout << "White person's turn" << endl;
-          continue;
-        }
+        if (!b->isWhitePiece(b->invertRow(oldRow), oldCol)) continue;
+        b->getPiecePtr(b->invertRow(oldRow), oldCol)
+         ->move(oldCol, b->invertRow(oldRow), newCol, b->invertRow(newRow));
+        b->updateBoards();
+        whiteTurn = false;
+        cout << "Player 2's Turn" << endl;
       } else {
-        if (b->isWhitePiece(b->invertRow(oldRow), oldCol)) {
-          cout << "Black person's turn" << endl;
-          continue;
-        }
+        if (b->isWhitePiece(b->invertRow(oldRow), oldCol)) continue;
+        b->getPiecePtr(b->invertRow(oldRow), oldCol)
+         ->move(oldCol, b->invertRow(oldRow), newCol, b->invertRow(newRow));
+        b->updateBoards();
+        whiteTurn = true;
+        cout << "Player 1's Turn" << endl;
       }
-      b->getPiecePtr(b->invertRow(oldRow), oldCol)
-       ->move(oldCol, b->invertRow(oldRow), newCol, b->invertRow(newRow));
-      b->updateBoards();
-      if (whiteTurn) whiteTurn = false;
-      else whiteTurn = true;
     } else if (command == "resign") {
 
     } else if (command == "setup") {
