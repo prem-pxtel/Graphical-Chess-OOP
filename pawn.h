@@ -18,6 +18,8 @@ class Pawn : public Piece {
                    char newCol, int newRow);
   bool isInPath(char oldPiece, char oldCol, int oldRow, 
                 char newCol, int newRow);
+  bool isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
+                        char newCol, int newRow);
 };
 
 #endif
