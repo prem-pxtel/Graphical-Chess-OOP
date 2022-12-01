@@ -139,6 +139,7 @@ bool Board::check(){
   char wkingcol;
   int bkingrow;
   char bkingcol;
+  bool retval = false;
   for(int i = 1; i <= 8; i++){
     for(int j = 'a'; j<= 'h'; j++){
       char val = getPiece(i,j);
@@ -148,7 +149,7 @@ bool Board::check(){
       }
       else if (val == 'k'){
         bkingrow = i;
-        wkingcol = j;
+        bkingcol = j;
     }
   }
 }
@@ -158,23 +159,33 @@ bool Board::check(){
       Piece *value = board[i - 1][j - 'a'];
       char pic = getPiece(i,j);
       if('a' <= pic && pic <= 'z'){ // checks if it can check the white king
-        if(!(value->isValidMove(pic, i, j, wkingrow, wkingcol))){
+//      std::cout << "wcheck" << std::endl;
+        if(!(value->isValidMove(pic, j, i, wkingcol, wkingrow))){
+//          std::cout << wkingrow << std::endl;
+//          std::cout << wkingcol << std::endl;
+//          std::cout << "checkthrough" << std::endl;
           if(value->obstacleRow == wkingrow && value->obstacleCol == wkingcol){
             std::cout << "check" << std::endl;
-            return true;
-          }
+            retval = true;          
+            }
         }
       }
       else{ // checks if it can check the black king
-      if(!(value->isValidMove(pic, i, j, bkingrow, bkingcol))){
+//      std::cout << "bcheck" << std::endl;
+//      std::cout << bkingrow << std::endl;
+//      std::cout << bkingcol << std::endl;
+      if(!(value->isValidMove(pic, j, i, bkingcol, bkingrow))){
+//        std::cout << "checkthrough" << std::endl;
+          std::cout << value->obstacleRow << std::endl;
+          std::cout << value->obstacleCol - 97<< std::endl;
           if(value->obstacleRow == bkingrow && value->obstacleCol == bkingcol){
             std::cout << "check" << std::endl;
-            return true;
+            retval = true;
           }
         }
       }
       }
     }
   }
+  return retval;
 }
-
