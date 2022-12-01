@@ -104,6 +104,14 @@ bool Board::isWhite(int row, int col) {
   return false; 
 }
 
+bool Board::isWhitePiece(int row, char col) {
+  char value = getPiece(row, col);
+  if ('A' <= value && value <= 'Z') {
+    return true;
+  }
+  return false;
+}
+
 bool Board::isCell(int row, char col) {
   if (1 <= row && row <= 8 && 'a' <= col && col <= 'h') return true;
   return false;

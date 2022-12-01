@@ -126,7 +126,8 @@ void Rook::move(char oldCol, int oldRow, char newCol, int newRow) {
     b->swapPiece(oldRow, oldCol, newRow, newCol);
     b->removePiece(oldRow, oldCol);
   } else if (newRow == obstacleRow && newCol == obstacleCol 
-             && b->isWhite(oldRow, oldCol) != b->isWhite(newRow, newCol)
+             && b->isWhitePiece(oldRow, oldCol) 
+             != b->isWhitePiece(newRow, newCol)
              && b->getPiece(newRow, newCol) != 'k'
              && b->getPiece(newRow, newCol) != 'K') {
     capture(oldRow, oldCol, newRow, newCol);
