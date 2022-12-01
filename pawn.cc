@@ -100,14 +100,13 @@ void Pawn::move(char oldCol, int oldRow, char newCol, int newRow) {
     b->swapPiece(oldRow, oldCol, newRow, newCol);
     b->removePiece(oldRow, oldCol);
   } else if (b->isOccupied(newRow, newCol)) {
-    std::cout << oldPiece << std::endl;
-      if (isInDiagonalPath(oldPiece, oldCol, oldRow, newCol, newRow) 
-             && b->isWhitePiece(oldRow, oldCol) 
-             != b->isWhitePiece(newRow, newCol)
-             && b->getPiece(newRow, newCol) != 'k'
-             && b->getPiece(newRow, newCol) != 'K') {
+    if (isInDiagonalPath(oldPiece, oldCol, oldRow, newCol, newRow) 
+        && b->isWhitePiece(oldRow, oldCol) 
+        != b->isWhitePiece(newRow, newCol)
+        && b->getPiece(newRow, newCol) != 'k'
+        && b->getPiece(newRow, newCol) != 'K') {
         capture(oldRow, oldCol, obstacleRow, obstacleCol);
-      }
+    }
   }
   obstacleRow = 10; // setting obstacle data to unattainable values,
   obstacleCol = 'z'; // so that future captures aren't affected by past data

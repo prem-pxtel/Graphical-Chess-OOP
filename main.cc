@@ -38,7 +38,7 @@ int main() {
         }
       }
       b->getPiecePtr(oldRow, oldCol)->move(oldCol, b->invertRow(oldRow),
-                                            newCol, b->invertRow(newRow));
+                                           newCol, b->invertRow(newRow));
       b->updateBoards();
       if (whiteTurn) whiteTurn = false;
       else whiteTurn = true;
