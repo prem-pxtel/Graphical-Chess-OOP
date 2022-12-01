@@ -7,6 +7,15 @@
 using std::cout;
 using std::endl;
 
+int invertRow(int oldRow) {
+  float middle = 4.5;
+  if (1 <= oldRow && oldRow <= 4) {
+    return oldRow + (2 * (middle - oldRow));
+  } else {
+    return oldRow - (2 * (oldRow - middle));
+  }
+}
+
 int main() {
   std::vector<Observer*> toDelete;
   Board *b = new Board;
@@ -28,16 +37,16 @@ int main() {
       input >> newCol;
       input >> newRow;
       if (whiteTurn) {
-        if (!b->isWhitePiece(b->invertRow(oldRow), oldCol)) continue;
-        b->getPiecePtr(b->invertRow(oldRow), oldCol)
-         ->move(oldCol, b->invertRow(oldRow), newCol, b->invertRow(newRow));
+        if (!b->isWhitePiece(invertRow(oldRow), oldCol)) continue;
+        b->getPiecePtr(invertRow(oldRow), oldCol)
+         ->move(oldCol, invertRow(oldRow), newCol, invertRow(newRow));
         b->updateBoards();
         whiteTurn = false;
         cout << "Player 2's Turn" << endl;
       } else {
-        if (b->isWhitePiece(b->invertRow(oldRow), oldCol)) continue;
-        b->getPiecePtr(b->invertRow(oldRow), oldCol)
-         ->move(oldCol, b->invertRow(oldRow), newCol, b->invertRow(newRow));
+        if (b->isWhitePiece(invertRow(oldRow), oldCol)) continue;
+        b->getPiecePtr(invertRow(oldRow), oldCol)
+         ->move(oldCol, invertRow(oldRow), newCol, invertRow(newRow));
         b->updateBoards();
         whiteTurn = true;
         cout << "Player 1's Turn" << endl;

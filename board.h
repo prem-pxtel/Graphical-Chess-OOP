@@ -12,8 +12,7 @@ class Board : public Subject {
   char getPiece(int row, char col) const override;
   void setPiece(int row, char col, char p) override;
   void removePiece(int row, char col);
-  std::vector<std::vector<Piece*>> getBoard() { return board; }
-  int invertRow(int oldRow);
+  std::vector<std::vector<Piece*>> getBoard();
   Piece *getPiecePtr(int row, char col);
   friend std::ostream & operator<<(std::ostream &out, const Board *b);
   void swapPiece(int oldRow, int oldCol, int newRow, int newCol);

@@ -64,14 +64,7 @@ char Board::getPiece(int row, char col) const {
   return board[rowNum][colNum]->piece;
 }
 
-int Board::invertRow(int oldRow) {
-  float middle = 4.5;
-  if (1 <= oldRow && oldRow <= 4) {
-    return oldRow + (2 * (middle - oldRow));
-  } else {
-    return oldRow - (2 * (oldRow - middle));
-  }
-}
+std::vector<std::vector<Piece*>> Board::getBoard() { return board; }
 
 Piece * Board::getPiecePtr(int row, char col) {
   int rowNum = row - 1;
