@@ -10,6 +10,7 @@ using std::endl;
 int main() {
   std::vector<Observer*> toDelete;
   Board *b = new Board;
+  bool whiteTurn = true;
   std::string command;
   while (getline(std::cin, command)) {
     std::istringstream input{command};
@@ -25,9 +26,16 @@ int main() {
       input >> oldRow;
       input >> newCol;
       input >> newRow;
+      if (whiteTurn) {
+        if (b->isWhitePiece(oldRow, oldCol)) continue;
+      } else {
+        if (!b->isWhitePiece(oldRow, oldCol)) continue;
+      }
       b->getPiecePtr(oldRow, oldCol)->move(oldCol, b->invertRow(oldRow),
-                                           newCol, b->invertRow(newRow));
+                                            newCol, b->invertRow(newRow));
       b->updateBoards();
+      if (whiteTurn) whiteTurn = false;
+      whiteTurn = true;
     } else if (command == "resign") {
 
     } else {
