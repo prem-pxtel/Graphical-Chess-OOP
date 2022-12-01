@@ -28,8 +28,10 @@ int main() {
       input >> newRow;
       if (whiteTurn) {
         if (b->isWhitePiece(oldRow, oldCol)) continue;
+        cout << "Other person's turn" << endl;
       } else {
         if (!b->isWhitePiece(oldRow, oldCol)) continue;
+        cout << "Other person's turn" << endl;
       }
       b->getPiecePtr(oldRow, oldCol)->move(oldCol, b->invertRow(oldRow),
                                             newCol, b->invertRow(newRow));
