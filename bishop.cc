@@ -2,6 +2,7 @@
 #include <vector>
 #include "bishop.h"
 #include "board.h"
+#include "blank.h"
 
 Bishop::Bishop(char piece, Board *b)
   : Piece{piece}, b{b} {}
@@ -15,24 +16,40 @@ bool Bishop::isInPath(char oldPiece, char oldCol, int oldRow,
       if (oldRow < newRow) { // down and right
         for (int i = oldRow + 1; i <= newRow; ++i) {
           oldCol++;
-          if (b->isOccupied(i, oldCol)) return false;
+          if (b->isOccupied(i, oldCol)) {
+            obstacleRow = i;
+            obstacleCol = oldCol;
+            return false;
+          }
         }
       } else { // up and right
         for (int i = oldRow - 1; i >= newRow; --i) {
           oldCol++;
-          if (b->isOccupied(i, oldCol)) return false;
+          if (b->isOccupied(i, oldCol)) {
+            obstacleRow = i;
+            obstacleCol = oldCol;
+            return false;
+          }
         }
       }
     } else { // to the left
       if (oldRow < newRow) { // down and left
         for(int i = oldCol - 1; i >= newCol; --i) {
           oldRow++;
-          if (b->isOccupied(oldRow, i)) return false;
+          if (b->isOccupied(oldRow, i)) {
+            obstacleRow = oldRow;
+            obstacleCol = i;
+            return false;
+          }
         }
       } else { // up and left
         for(int i = oldCol - 1; i >= newCol; --i) {
           oldRow--;
-          if (b->isOccupied(oldRow, i)) return false;
+          if (b->isOccupied(oldRow, i)) {
+            obstacleRow = oldRow;
+            obstacleCol = i;
+            return false;
+          }
         }
       }
     }
@@ -42,24 +59,40 @@ bool Bishop::isInPath(char oldPiece, char oldCol, int oldRow,
       if (oldRow < newRow) { // down and right
         for (int i = oldRow + 1; i <= newRow; ++i) {
           oldCol++;
-          if (b->isOccupied(i, oldCol)) return false;
+          if (b->isOccupied(i, oldCol)) {
+            obstacleRow = i;
+            obstacleCol = oldCol;
+            return false;
+          }
         }
       } else { // up and right
         for (int i = oldRow - 1; i >= newRow; --i) {
           oldCol++;
-          if (b->isOccupied(i, oldCol)) return false;
+          if (b->isOccupied(i, oldCol)) {
+            obstacleRow = i;
+            obstacleCol = oldCol;
+            return false;
+          }
         }
       }
     } else { // to the left
       if (oldRow < newRow) { // down and left
         for(int i = oldCol - 1; i >= newCol; --i) {
           oldRow++;
-          if (b->isOccupied(oldRow, i)) return false;
+          if (b->isOccupied(oldRow, i)) {
+            obstacleRow = oldRow;
+            obstacleCol = i;
+            return false;
+          }
         }
       } else { // up and left
         for(int i = oldCol - 1; i >= newCol; --i) {
           oldRow--;
-          if (b->isOccupied(oldRow, i)) return false;
+          if (b->isOccupied(oldRow, i)) {
+            obstacleRow = oldRow;
+            obstacleCol = i;
+            return false;
+          }
         }
       }
     }
@@ -73,10 +106,17 @@ bool Bishop::isValidMove(char oldPiece, char oldCol, int oldRow,
   if (!b->isCell(oldRow, oldCol)) return false;
   if (!b->isCell(newRow, newCol)) return false; 
   if (!b->isOccupied(oldRow, oldCol)) return false;
-  if (b->isOccupied(newRow, newCol)) return false;
-  if (!isInPath(oldPiece, oldCol, oldRow, newCol, newRow)) return false;
   if (oldCol == newCol && oldRow == newRow) return false;
+  if (!isInPath(oldPiece, oldCol, oldRow, newCol, newRow)) return false;
   return true;
+}
+
+void Bishop::capture(int oldRow, char oldCol, int newRow, char newCol) {
+  std::cout << "capturing" << std::endl;
+  b->swapPiece(oldRow, oldCol, newRow, newCol);
+  delete b->getPiecePtr(oldRow, oldCol);
+  b->getBoard()[b->invertRow(oldRow) - 1][oldCol - 'a'] = new Blank{' ', b};
+  b->removePiece(oldRow, oldCol); // sets to either " " or "_"
 }
 
 void Bishop::move(char oldCol, int oldRow, char newCol, int newRow) {
@@ -84,5 +124,12 @@ void Bishop::move(char oldCol, int oldRow, char newCol, int newRow) {
   if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow)) {
     b->swapPiece(oldRow, oldCol, newRow, newCol);
     b->removePiece(oldRow, oldCol);
+  } else if (newRow == obstacleRow && newCol == obstacleCol 
+             && b->isWhite(oldRow, oldCol) != b->isWhite(newRow, newCol)
+             && b->getPiece(newRow, newCol) != 'k'
+             && b->getPiece(newRow, newCol) != 'K') {
+    capture(oldRow, oldCol, newRow, newCol);
   }
+  obstacleRow = 10; // setting obstacle data to unattainable values,
+  obstacleCol = 'z'; // so that future captures aren't affected by past data
 }

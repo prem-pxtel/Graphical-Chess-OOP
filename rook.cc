@@ -2,6 +2,7 @@
 #include <vector>
 #include "rook.h"
 #include "board.h"
+#include "blank.h"
 
 Rook::Rook(char piece, Board *b)
   : Piece{piece}, b{b} {
@@ -73,11 +74,18 @@ bool Rook::isValidMove(char oldPiece, char oldCol, int oldRow,
   if (!b->isCell(oldRow, oldCol)) return false;
   if (!b->isCell(newRow, newCol)) return false; 
   if (!b->isOccupied(oldRow, oldCol)) return false;
-  if (b->isOccupied(newRow, newCol)) return false;
-  if (!isInPath(oldPiece, oldCol, oldRow, newCol, newRow)) return false;
   if (oldCol == newCol && oldRow == newRow) return false;
+  if (!isInPath(oldPiece, oldCol, oldRow, newCol, newRow)) return false;
   firstMove = false;
   return true;
+}
+
+void Rook::capture(int oldRow, char oldCol, int newRow, char newCol) {
+  std::cout << "capturing" << std::endl;
+  b->swapPiece(oldRow, oldCol, newRow, newCol);
+  delete b->getPiecePtr(oldRow, oldCol);
+  b->getBoard()[b->invertRow(oldRow) - 1][oldCol - 'a'] = new Blank{' ', b};
+  b->removePiece(oldRow, oldCol); // sets to either " " or "_"
 }
 
 void Rook::move(char oldCol, int oldRow, char newCol, int newRow) {
@@ -85,5 +93,12 @@ void Rook::move(char oldCol, int oldRow, char newCol, int newRow) {
   if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow)) {
     b->swapPiece(oldRow, oldCol, newRow, newCol);
     b->removePiece(oldRow, oldCol);
+  } else if (newRow == obstacleRow && newCol == obstacleCol 
+             && b->isWhite(oldRow, oldCol) != b->isWhite(newRow, newCol)
+             && b->getPiece(newRow, newCol) != 'k'
+             && b->getPiece(newRow, newCol) != 'K') {
+    capture(oldRow, oldCol, newRow, newCol);
   }
+  obstacleRow = 10; // setting obstacle data to unattainable values,
+  obstacleCol = 'z'; // so that future captures aren't affected by past data
 }

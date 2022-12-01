@@ -9,6 +9,7 @@ class Piece {
     firstMove = true;
   }
   virtual void move(char colOld, int rowOld, char colNew, int rowNew) = 0;
+  virtual void capture(int oldRow, char oldCol, int newRow, char newCol) = 0;
 };
 
 #endif
