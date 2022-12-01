@@ -36,8 +36,12 @@ int main() {
       b->getPiecePtr(oldRow, oldCol)->move(oldCol, b->invertRow(oldRow),
                                             newCol, b->invertRow(newRow));
       b->updateBoards();
-      if (whiteTurn) whiteTurn = false;
-      whiteTurn = true;
+      if (whiteTurn) {
+        whiteTurn = false;
+      }
+      else{
+        whiteTurn = true;
+      }
     } else if (command == "resign") {
 
     } else {
