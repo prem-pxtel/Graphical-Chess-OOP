@@ -7,7 +7,7 @@
 Knight::Knight(char piece, Board *b)
   : Piece{piece}, b{b} {}
 
-//Knight::~Knight() {}
+Knight::~Knight() {}
 
 bool Knight::isValidMove(char oldPiece, char oldCol, int oldRow, 
                         char newCol, int newRow) {

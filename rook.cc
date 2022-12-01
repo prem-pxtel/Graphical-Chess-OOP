@@ -9,7 +9,7 @@ Rook::Rook(char piece, Board *b)
     firstMove = true;
   }
 
-//Rook::~Rook() {}
+Rook::~Rook() {}
 
 // returns true if new cell is not blocked and in the path of the old cell
 // otherwise, returns false

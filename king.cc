@@ -9,7 +9,7 @@ King::King(char piece, Board *b)
     firstMove = true;
   }
 
-//King::~King() {}
+King::~King() {}
 
 // returns true if new cell is not blocked and in the path of the old cell
 // otherwise, returns false

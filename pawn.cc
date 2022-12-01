@@ -9,7 +9,7 @@ Pawn::Pawn(char piece, Board *b)
     firstMove = true;
 }
 
-//Pawn::~Pawn() {}
+Pawn::~Pawn() {}
 
 // returns true if new cell is not blocked and in the path of the old cell
 // otherwise, returns false

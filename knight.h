@@ -11,7 +11,7 @@ class Knight : public Piece {
   char obstacleCol;
  public:
   Knight(char piece, Board *b);
-  //virtual ~Knight();
+  ~Knight();
   void move(char colOld, int rowOld, char colNew, int rowNew) override; 
   void capture(int oldRow, char oldCol, int newRow, char newCol) override;
   bool isValidMove(char oldPiece, char oldCol, int oldRow, 

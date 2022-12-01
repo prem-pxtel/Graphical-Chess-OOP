@@ -7,7 +7,7 @@
 Bishop::Bishop(char piece, Board *b)
   : Piece{piece}, b{b} {}
 
-//Bishop::~Bishop() {}
+Bishop::~Bishop() {}
 
 // returns true if new cell is not blocked and in the path of the old cell
 // otherwise, returns false

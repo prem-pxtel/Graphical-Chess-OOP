@@ -6,7 +6,7 @@ class Piece {
   char piece;
   bool firstMove;
   Piece(char piece) : piece{piece} { firstMove = true; }
-  //virtual ~Piece() = 0;
+  virtual ~Piece() {}
   virtual void move(char colOld, int rowOld, char colNew, int rowNew) = 0;
   virtual void capture(int oldRow, char oldCol, int newRow, char newCol) = 0;
 };
