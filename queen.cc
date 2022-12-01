@@ -17,7 +17,7 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
           for (int i = oldRow + 1; i <= newRow; ++i) {
             if (b->isOccupied(i, oldCol)) {
               obstacleRow = i;
-              obstacleRow = oldCol;
+              obstacleCol = oldCol;
               return false;
             }
           }
@@ -25,7 +25,7 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
           for (int i = oldRow - 1; i >= newRow; --i) {
             if (b->isOccupied(i, oldCol)) {
               obstacleRow = i;
-              obstacleRow = oldCol;
+              obstacleCol = oldCol;
               return false;
             }
           }
@@ -35,7 +35,7 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
           for(int i = oldCol + 1; i <= newCol; ++i) {
             if (b->isOccupied(oldRow, i)) {
               obstacleRow = oldRow;
-              obstacleRow = i;
+              obstacleCol = i;
               return false;
             }
           }
@@ -43,7 +43,7 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
           for(int i = oldCol - 1; i >= newCol; --i) {
             if (b->isOccupied(oldRow, i)) {
               obstacleRow = oldRow;
-              obstacleRow = i;
+              obstacleCol = i;
               return false;
             }
           }
@@ -56,7 +56,7 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
             oldCol++;
             if (b->isOccupied(i, oldCol)) {
               obstacleRow = i;
-              obstacleRow = oldCol;
+              obstacleCol = oldCol;
               return false;
             }
           }
@@ -65,7 +65,7 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
             oldCol++;
             if (b->isOccupied(i, oldCol)) {
               obstacleRow = i;
-              obstacleRow = oldCol;
+              obstacleCol = oldCol;
               return false;
             }
           }
@@ -76,7 +76,7 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
             oldRow++;
             if (b->isOccupied(oldRow, i)) {
               obstacleRow = oldRow;
-              obstacleRow = i;
+              obstacleCol = i;
               return false;
             }
           }
@@ -85,7 +85,7 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
             oldRow--;
             if (b->isOccupied(oldRow, i)) {
               obstacleRow = oldRow;
-              obstacleRow = i;
+              obstacleCol = i;
               return false;
             }
           }
@@ -100,7 +100,7 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
           for (int i = oldRow + 1; i <= newRow; ++i) {
             if (b->isOccupied(i, oldCol)) {
               obstacleRow = i;
-              obstacleRow = oldCol;
+              obstacleCol = oldCol;
               return false;
             }
           }
@@ -108,7 +108,7 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
           for (int i = oldRow - 1; i >= newRow; --i) {
             if (b->isOccupied(i, oldCol)) {
               obstacleRow = i;
-              obstacleRow = oldCol;
+              obstacleCol = oldCol;
               return false;
             }
           }
@@ -118,7 +118,7 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
           for(int i = oldCol + 1; i <= newCol; ++i) {
             if (b->isOccupied(oldRow, i)) {
               obstacleRow = oldRow;
-              obstacleRow = i;
+              obstacleCol = i;
               return false;
             }
           }
@@ -126,7 +126,7 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
           for(int i = oldCol - 1; i >= newCol; --i) {
             if (b->isOccupied(oldRow, i)) {
               obstacleRow = oldRow;
-              obstacleRow = i;
+              obstacleCol = i;
               return false;
             }
           }
@@ -139,7 +139,7 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
             oldCol++;
             if (b->isOccupied(i, oldCol)) {
               obstacleRow = i;
-              obstacleRow = oldCol;
+              obstacleCol = oldCol;
               return false;
             }
           }
@@ -148,7 +148,7 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
             oldCol++;
             if (b->isOccupied(i, oldCol)) {
               obstacleRow = i;
-              obstacleRow = oldCol;
+              obstacleCol = oldCol;
               return false;
             }
           }
@@ -159,7 +159,7 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
             oldRow++;
             if (b->isOccupied(oldRow, i)) {
               obstacleRow = oldRow;
-              obstacleRow = i;
+              obstacleCol = i;
               return false;
             }
           }
@@ -168,7 +168,7 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
             oldRow--;
             if (b->isOccupied(oldRow, i)) {
               obstacleRow = oldRow;
-              obstacleRow = i;
+              obstacleCol = i;
               return false;
             }
           }
@@ -226,6 +226,8 @@ void Queen::move(char oldCol, int oldRow, char newCol, int newRow) {
              && b->getPiece(newRow, newCol) != 'K') {
     capture(oldRow, oldCol, newRow, newCol);
   }
+  std::cout << obstacleRow << std::endl;
+  std::cout << obstacleCol << std::endl;
   obstacleRow = 10; // setting obstacle data to unattainable values,
   obstacleCol = 'z'; // so that future captures aren't affected by past data
 }

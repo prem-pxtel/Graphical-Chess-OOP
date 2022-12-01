@@ -20,7 +20,7 @@ bool King::isInPath(char oldPiece, char oldCol, int oldRow,
           for (int i = oldRow + 1; i <= newRow; ++i) {
             if (b->isOccupied(i, oldCol)) {
               obstacleRow = i;
-              obstacleRow = oldCol;
+              obstacleCol = oldCol;
               return false;
             }
           }
@@ -28,7 +28,7 @@ bool King::isInPath(char oldPiece, char oldCol, int oldRow,
           for (int i = oldRow - 1; i >= newRow; --i) {
             if (b->isOccupied(i, oldCol)) {
               obstacleRow = i;
-              obstacleRow = oldCol;
+              obstacleCol = oldCol;
               return false;
             }
           }
@@ -38,7 +38,7 @@ bool King::isInPath(char oldPiece, char oldCol, int oldRow,
           for(int i = oldCol + 1; i <= newCol; ++i) {
             if (b->isOccupied(oldRow, i)) {
               obstacleRow = oldRow;
-              obstacleRow = i;
+              obstacleCol = i;
               return false;
             }
           }
@@ -46,7 +46,7 @@ bool King::isInPath(char oldPiece, char oldCol, int oldRow,
           for(int i = oldCol - 1; i >= newCol; --i) {
             if (b->isOccupied(oldRow, i)) {
               obstacleRow = oldRow;
-              obstacleRow = i;
+              obstacleCol = i;
               return false;
             }
           }
@@ -59,7 +59,7 @@ bool King::isInPath(char oldPiece, char oldCol, int oldRow,
             oldCol++;
             if (b->isOccupied(i, oldCol)) {
               obstacleRow = i;
-              obstacleRow = oldCol;
+              obstacleCol = oldCol;
               return false;
             }
           }
@@ -68,7 +68,7 @@ bool King::isInPath(char oldPiece, char oldCol, int oldRow,
             oldCol++;
             if (b->isOccupied(i, oldCol)) {
               obstacleRow = i;
-              obstacleRow = oldCol;
+              obstacleCol = oldCol;
               return false;
             }
           }
@@ -79,7 +79,7 @@ bool King::isInPath(char oldPiece, char oldCol, int oldRow,
             oldRow++;
             if (b->isOccupied(oldRow, i)) {
               obstacleRow = oldRow;
-              obstacleRow = i;
+              obstacleCol = i;
               return false;
             }
           }
@@ -88,7 +88,7 @@ bool King::isInPath(char oldPiece, char oldCol, int oldRow,
             oldRow--;
             if (b->isOccupied(oldRow, i)) {
               obstacleRow = oldRow;
-              obstacleRow = i;
+              obstacleCol = i;
               return false;
             }
           }
@@ -103,7 +103,7 @@ bool King::isInPath(char oldPiece, char oldCol, int oldRow,
           for (int i = oldRow + 1; i <= newRow; ++i) {
             if (b->isOccupied(i, oldCol)) {
               obstacleRow = i;
-              obstacleRow = oldCol;
+              obstacleCol = oldCol;
               return false;
             }
           }
@@ -111,7 +111,7 @@ bool King::isInPath(char oldPiece, char oldCol, int oldRow,
           for (int i = oldRow - 1; i >= newRow; --i) {
             if (b->isOccupied(i, oldCol)) {
               obstacleRow = i;
-              obstacleRow = oldCol;
+              obstacleCol = oldCol;
               return false;
             }
           }
@@ -121,7 +121,7 @@ bool King::isInPath(char oldPiece, char oldCol, int oldRow,
           for(int i = oldCol + 1; i <= newCol; ++i) {
             if (b->isOccupied(oldRow, i)) {
               obstacleRow = oldRow;
-              obstacleRow = i;
+              obstacleCol = i;
               return false;
             }
           }
@@ -129,7 +129,7 @@ bool King::isInPath(char oldPiece, char oldCol, int oldRow,
           for(int i = oldCol - 1; i >= newCol; --i) {
             if (b->isOccupied(oldRow, i)) {
               obstacleRow = oldRow;
-              obstacleRow = i;
+              obstacleCol = i;
               return false;
             }
           }
@@ -142,7 +142,7 @@ bool King::isInPath(char oldPiece, char oldCol, int oldRow,
             oldCol++;
             if (b->isOccupied(i, oldCol)) {
               obstacleRow = i;
-              obstacleRow = oldCol;
+              obstacleCol = oldCol;
               return false;
             }
           }
@@ -151,7 +151,7 @@ bool King::isInPath(char oldPiece, char oldCol, int oldRow,
             oldCol++;
             if (b->isOccupied(i, oldCol)) {
               obstacleRow = i;
-              obstacleRow = oldCol;
+              obstacleCol = oldCol;
               return false;
             }
           }
@@ -162,7 +162,7 @@ bool King::isInPath(char oldPiece, char oldCol, int oldRow,
             oldRow++;
             if (b->isOccupied(oldRow, i)) {
               obstacleRow = oldRow;
-              obstacleRow = i;
+              obstacleCol = i;
               return false;
             }
           }
@@ -171,7 +171,7 @@ bool King::isInPath(char oldPiece, char oldCol, int oldRow,
             oldRow--;
             if (b->isOccupied(oldRow, i)) {
               obstacleRow = oldRow;
-              obstacleRow = i;
+              obstacleCol = i;
               return false;
             }
           }
