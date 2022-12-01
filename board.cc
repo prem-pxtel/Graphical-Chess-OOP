@@ -133,7 +133,6 @@ std::ostream & operator<<(std::ostream &out, const Board *b) {
 // if it is a blank piece, continue, if it is a white piece, go through its ispath. 
 // if the obstacle is the enemy king cout check, and then vice versa for black.
 
-
 bool Board::check(){
   int wkingrow;
   char wkingcol;
@@ -156,15 +155,14 @@ bool Board::check(){
   for(int i = 1; i <= 8; i++){
     for(int j = 'a'; j <= 'h'; j++){ 
       if(isOccupied(i,j)){ // if occupied check if its checking the king.
-      Piece *value = board[i - 1][j - 'a'];
       char pic = getPiece(i,j);
       if('a' <= pic && pic <= 'z'){ // checks if it can check the white king
 //      std::cout << "wcheck" << std::endl;
-        if(!(value->isValidMove(pic, j, i, wkingcol, wkingrow))){
+        if(!(getPiecePtr(i,j)->isValidMove(pic, j, i, wkingcol, wkingrow))){
 //          std::cout << wkingrow << std::endl;
 //          std::cout << wkingcol << std::endl;
 //          std::cout << "checkthrough" << std::endl;
-          if(value->obstacleRow == wkingrow && value->obstacleCol == wkingcol){
+          if(getPiecePtr(i,j)->ObstacleR() == wkingrow && getPiecePtr(i,j)->ObstacleC() == wkingcol){
             std::cout << "check" << std::endl;
             retval = true;          
             }
@@ -174,11 +172,11 @@ bool Board::check(){
 //      std::cout << "bcheck" << std::endl;
 //      std::cout << bkingrow << std::endl;
 //      std::cout << bkingcol << std::endl;
-      if(!(value->isValidMove(pic, j, i, bkingcol, bkingrow))){
+      if(!(getPiecePtr(i,j)->isValidMove(pic, j, i, bkingcol, bkingrow))){
 //        std::cout << "checkthrough" << std::endl;
-          std::cout << value->obstacleRow << std::endl;
-          std::cout << value->obstacleCol - 97<< std::endl;
-          if(value->obstacleRow == bkingrow && value->obstacleCol == bkingcol){
+          std::cout << getPiecePtr(i,j)->ObstacleR();
+          std::cout << getPiecePtr(i,j)->ObstacleC() << std::endl;
+          if(getPiecePtr(i,j)->ObstacleR() == bkingrow && getPiecePtr(i,j)->ObstacleC() == bkingcol){
             std::cout << "check" << std::endl;
             retval = true;
           }

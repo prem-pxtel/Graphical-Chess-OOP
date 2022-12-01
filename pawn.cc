@@ -111,3 +111,11 @@ void Pawn::move(char oldCol, int oldRow, char newCol, int newRow) {
   obstacleRow = 10; // setting obstacle data to unattainable values,
   obstacleCol = 'z'; // so that future captures aren't affected by past data
 }
+
+int Pawn::ObstacleR(){
+  return obstacleRow;
+}
+
+char Pawn::ObstacleC(){
+  return obstacleCol;
+}

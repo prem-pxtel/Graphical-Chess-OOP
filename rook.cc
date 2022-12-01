@@ -136,3 +136,11 @@ void Rook::move(char oldCol, int oldRow, char newCol, int newRow) {
   obstacleRow = 10; // setting obstacle data to unattainable values,
   obstacleCol = 'z'; // so that future captures aren't affected by past data
 }
+
+int Rook::ObstacleR(){
+  return obstacleRow;
+}
+
+char Rook::ObstacleC(){
+  return obstacleCol;
+}

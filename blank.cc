@@ -17,3 +17,11 @@ void Blank::capture(int oldRow, char oldCol, int newRow, char newCol) {}
 bool Blank::isValidMove(char oldPiece, char oldCol, int oldRow, char newCol, int newRow){
   return false;
 }
+
+int Blank::ObstacleR(){
+  return obstacleRow;
+}
+
+char Blank::ObstacleC(){
+  return obstacleCol;
+}
