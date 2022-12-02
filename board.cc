@@ -11,6 +11,8 @@
 #include "knight.h"
 
 Board::Board() {
+  whitecheck = false;
+  blackcheck = false;
   std::vector<Piece*> row1;
   row1.push_back(new Rook{'r', this});
   row1.push_back(new Knight{'n', this});
@@ -147,6 +149,8 @@ bool Board::check(){
   int bkingrow;
   char bkingcol;
   bool retval = false;
+  whitecheck = false;
+  blackcheck = false;
   for (int i = 1; i <= 8; ++i) {
     for (int j = 'a'; j <= 'h'; ++j){
       char val = getPiece(i, j);
@@ -168,6 +172,7 @@ bool Board::check(){
             if (getPiecePtr(i, j)->getObsRow() == wkingrow 
               && getPiecePtr(i, j)->getObsCol() == wkingcol) {
               std::cout << "White is in check." << std::endl;
+              whitecheck = true;
               retval = true;
               getPiecePtr(i, j)->clearObs();    
             }
@@ -177,6 +182,7 @@ bool Board::check(){
             if (getPiecePtr(i, j)->getObsRow() == bkingrow 
                 && getPiecePtr(i,j)->getObsCol() == bkingcol) {
               std::cout << "Black is in check." << std::endl;
+              blackcheck = true;
               retval = true;
               getPiecePtr(i, j)->clearObs();
             }
@@ -187,3 +193,5 @@ bool Board::check(){
   }
   return retval;
 }
+
+

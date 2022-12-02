@@ -15,6 +15,8 @@ class Pawn : public Piece {
   ~Pawn();
   void move(char colOld, int rowOld, char colNew, 
             int rowNew, char newPiece) override;
+  void revertmove(char colOld, int rowOld, char colNew, 
+            int rowNew, char newPiece) override;            
   void capture(int oldRow, char oldCol, int newRow, char newCol) override;
   void promote(char oldPiece, char newPiece, int newRow, char newCol);
   bool isValidMove(char oldPiece, char oldCol, int oldRow, 

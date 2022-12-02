@@ -248,6 +248,11 @@ void Queen::move(char oldCol, int oldRow,
   }
 }
 
+void Queen::revertmove(char oldCol, int oldRow, 
+                 char newCol, int newRow, char newPiece) {
+b->swapPiece(newRow, newCol, oldRow, oldCol);
+b->removePiece(newRow, newCol);
+}
 int Queen::getObsRow() {
   return obstacleRow;
 }

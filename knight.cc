@@ -57,6 +57,12 @@ void Knight::move(char oldCol, int oldRow,
   }
 }
 
+void Knight::revertmove(char oldCol, int oldRow, 
+                  char newCol, int newRow, char newPiece){
+                    b->swapPiece(newRow, newCol, oldRow, oldCol);
+                    b->removePiece(newRow, newCol);
+}
+
 int Knight::getObsRow() {
   return obstacleRow;
 }

@@ -8,6 +8,8 @@ class Piece;
 class Board : public Subject {
   std::vector<std::vector<Piece*>> board;
  public:
+  bool whitecheck = false;
+  bool blackcheck = false;
   Board();
   ~Board();
   char getPiece(int row, char col) const override;

@@ -23,6 +23,7 @@ int main() {
   bool whiteTurn = true;
   std::string command;
   while (getline(std::cin, command)) {
+    bool alreadymoved = false;
     std::istringstream input{command};
     input >> command;
     if (command == "game") {
@@ -46,15 +47,51 @@ int main() {
         if (whiteTurn) {
           if (!b->isWhitePiece(invertRow(oldRow), oldCol)) 
           throw InvalidMove{};
-        } else {
-          if (b->isWhitePiece(invertRow(oldRow), oldCol)) 
-          throw InvalidMove{};
-        }
+          if(b->whitecheck == true){
         b->getPiecePtr(invertRow(oldRow), oldCol)
           ->move(oldCol, invertRow(oldRow), newCol, 
                         invertRow(newRow), promo);
         b->updateBoards();
         b->check();
+        if(b->whitecheck == true){ // revert move here.
+        b->getPiecePtr(invertRow(newRow), newCol)
+          ->revertmove(oldCol, invertRow(oldRow), newCol, 
+                        invertRow(newRow), promo);
+          cout << "no no" << endl;
+          throw InvalidMove{};
+        }
+        else{
+          alreadymoved = true;
+        }           
+        }
+        } else {
+        if (b->isWhitePiece(invertRow(oldRow), oldCol)) 
+          throw InvalidMove{};
+        if(b->blackcheck == true){
+        b->getPiecePtr(invertRow(oldRow), oldCol)
+          ->move(oldCol, invertRow(oldRow), newCol, 
+                        invertRow(newRow), promo);
+        b->updateBoards();
+        b->check();
+        if(b->blackcheck == true){ // revert move here.
+        b->getPiecePtr(invertRow(newRow), newCol)
+          ->revertmove(oldCol, invertRow(oldRow), newCol, 
+                        invertRow(newRow), promo);
+          cout << "no no" << endl;
+          throw InvalidMove{};
+        }
+        else{
+          alreadymoved = true;
+        }                    
+        }
+        }
+        if(!alreadymoved){
+        b->getPiecePtr(invertRow(oldRow), oldCol)
+          ->move(oldCol, invertRow(oldRow), newCol, 
+                        invertRow(newRow), promo);
+        b->updateBoards();
+        b->check();
+        }
         if (whiteTurn) {
           cout << "Player 2's Turn" << endl;
           whiteTurn = false;

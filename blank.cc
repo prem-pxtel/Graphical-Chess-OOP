@@ -15,6 +15,12 @@ void Blank::move(char oldCol, int oldRow,
   throw InvalidMove{};
 }
 
+void Blank::revertmove(char oldCol, int oldRow, 
+                 char newCol, int newRow, char newPiece) {
+  throw InvalidMove{};
+}
+
+
 void Blank::capture(int oldRow, char oldCol, int newRow, char newCol) {}
 
 bool Blank::isValidMove(char oldPiece, char oldCol, int oldRow, char newCol, int newRow){

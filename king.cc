@@ -262,6 +262,12 @@ void King::move(char oldCol, int oldRow,
   }
 }
 
+void King::revertmove(char oldCol, int oldRow, 
+                 char newCol, int newRow, char newPiece) {
+b->swapPiece(newRow, newCol, oldRow, oldCol);
+b->removePiece(newRow, newCol);
+}
+
 int King::getObsRow() {
   return obstacleRow;
 }
