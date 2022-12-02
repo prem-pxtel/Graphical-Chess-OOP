@@ -125,7 +125,8 @@ void Bishop::capture(int oldRow, char oldCol, int newRow, char newCol) {
   b->removePiece(oldRow, oldCol); // sets to either " " or "_"
 }
 
-void Bishop::move(char oldCol, int oldRow, char newCol, int newRow) {
+void Bishop::move(char oldCol, int oldRow, 
+                  char newCol, int newRow, char newPiece) {
   char oldPiece = b->getPiece(oldRow, oldCol);
   if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow)) {
     b->swapPiece(oldRow, oldCol, newRow, newCol);

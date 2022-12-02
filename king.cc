@@ -242,7 +242,8 @@ void King::capture(int oldRow, char oldCol, int newRow, char newCol) {
   b->removePiece(oldRow, oldCol); // sets to either " " or "_"
 }
 
-void King::move(char oldCol, int oldRow, char newCol, int newRow) {
+void King::move(char oldCol, int oldRow, 
+                char newCol, int newRow, char newPiece) {
   char oldPiece = b->getPiece(oldRow, oldCol);
   if (isValidCastle(oldCol, oldRow, newCol, newRow)) {
     castle(oldRow, oldCol, newRow, newCol);

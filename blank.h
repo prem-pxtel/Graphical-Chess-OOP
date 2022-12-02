@@ -12,7 +12,8 @@ class Blank : public Piece {
  public:
   Blank(char piece, Board *b);
   ~Blank();
-  void move(char colOld, int rowOld, char colNew, int rowNew) override;
+  void move(char colOld, int rowOld, 
+            char colNew, int rowNew, char newPiece) override;
   void capture(int oldRow, char oldCol, int newRow, char newCol) override;
   bool isValidMove(char oldPiece, char oldCol, int oldRow, char newCol, int newRow) override;
   int getObsRow() override;

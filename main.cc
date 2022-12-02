@@ -18,8 +18,8 @@ int invertRow(int oldRow) {
 }
 
 int main() {
-  std::vector<Observer*> toDelete;
   Board *b = new Board;
+  std::vector<Observer*> toDelete;
   bool whiteTurn = true;
   std::string command;
   while (getline(std::cin, command)) {
@@ -39,10 +39,23 @@ int main() {
       input >> newCol;
       input >> newRow;
       input >> promo;
-      b->getPiecePtr(invertRow(oldRow), oldCol)
-         ->move(oldCol, invertRow(oldRow), newCol, invertRow(newRow));
-      b->updateBoards();
-      b->check();
+
+      if (('a' <= oldCol && oldCol <= 'h') && (1 <= oldRow && oldRow <= 8)
+          && ('a' <= newCol && newCol <= 'h') && (1 <= newRow && newRow <= 8)) {
+        try {
+          b->getPiecePtr(invertRow(oldRow), oldCol)
+            ->move(oldCol, invertRow(oldRow), newCol, 
+                          invertRow(newRow), promo);
+          b->updateBoards();
+          b->check();
+        } catch (InvalidMove) {
+          cout << "Invalid Move. You are retarded." << endl;
+        }
+      } else {
+        cout << "Invalid Move." << endl;
+      }
+    }
+    
 
 /*      if (whiteTurn) {
         if (!b->isWhitePiece(invertRow(oldRow), oldCol)) continue;
@@ -62,7 +75,7 @@ int main() {
         b->check();
       }
 */
-    } else if (command == "resign") {
+     else if (command == "resign") {
 
     } else if (command == "setup") {
 

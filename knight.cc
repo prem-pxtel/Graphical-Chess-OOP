@@ -39,7 +39,8 @@ void Knight::capture(int oldRow, char oldCol, int newRow, char newCol) {
   b->removePiece(oldRow, oldCol); // sets to either " " or "_"
 }
 
-void Knight::move(char oldCol, int oldRow, char newCol, int newRow) {
+void Knight::move(char oldCol, int oldRow, 
+                  char newCol, int newRow, char newPiece) {
   char oldPiece = b->getPiece(oldRow, oldCol);
   if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow)) {
     b->swapPiece(oldRow, oldCol, newRow, newCol);

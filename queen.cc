@@ -229,7 +229,8 @@ bool Queen::isValidMove(char oldPiece, char oldCol, int oldRow, char newCol, int
      }
 }
 
-void Queen::move(char oldCol, int oldRow, char newCol, int newRow) {
+void Queen::move(char oldCol, int oldRow, 
+                 char newCol, int newRow, char newPiece) {
   char oldPiece = b->getPiece(oldRow, oldCol);
   if (isValidMoveb(oldPiece, oldCol, oldRow, newCol, newRow) || 
      (isValidMover(oldPiece, oldCol, oldRow, newCol, newRow))) {
