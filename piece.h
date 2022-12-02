@@ -5,15 +5,14 @@ class Piece {
  public:
   char piece;
   bool firstMove;
-  int obstacleRow = 10;
-  char obstacleCol = 'z';
-  Piece(char piece) : piece{piece} { firstMove = true; }
+  Piece(char piece) : piece{piece} {}
   virtual ~Piece() {}
   virtual void move(char colOld, int rowOld, char colNew, int rowNew) = 0;
   virtual void capture(int oldRow, char oldCol, int newRow, char newCol) = 0;
   virtual bool isValidMove(char oldPiece, char oldCol, int oldRow, char newCol, int newRow) = 0;
-  virtual char ObstacleC() = 0;
-  virtual int ObstacleR() = 0;
+  virtual int getObsRow() = 0;
+  virtual char getObsCol() = 0;
+  virtual void clearObs() = 0;
 };
 
 #endif

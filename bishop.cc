@@ -102,6 +102,11 @@ bool Bishop::isInPath(char oldPiece, char oldCol, int oldRow,
   }
 }
 
+void Bishop::clearObs() {
+  obstacleRow = 10;
+  obstacleCol = 'z';
+}
+
 bool Bishop::isValidMove(char oldPiece, char oldCol, int oldRow, 
                         char newCol, int newRow) {
   if(abs((newCol - oldCol)) != abs((newRow - oldRow))) return false;
@@ -132,14 +137,14 @@ void Bishop::move(char oldCol, int oldRow, char newCol, int newRow) {
              && b->getPiece(newRow, newCol) != 'K') {
     capture(oldRow, oldCol, newRow, newCol);
   }
-  obstacleRow = 10; // setting obstacle data to unattainable values,
-  obstacleCol = 'z'; // so that future captures aren't affected by past data
+  clearObs(); // setting obstacle data to unattainable values,
+              // so that future captures aren't affected by past data
 }
 
-int Bishop::ObstacleR(){
+int Bishop::getObsRow() {
   return obstacleRow;
 }
 
-char Bishop::ObstacleC(){
+char Bishop::getObsCol() {
   return obstacleCol;
 }

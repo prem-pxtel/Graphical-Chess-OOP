@@ -184,6 +184,11 @@ bool King::isInPath(char oldPiece, char oldCol, int oldRow,
   }
 }
 
+void King::clearObs() {
+  obstacleRow = 10;
+  obstacleCol = 'z';
+}
+
 bool King::isValidMove(char oldPiece, char oldCol, int oldRow, 
                         char newCol, int newRow) {
   int rowDiff = newRow - oldRow;
@@ -251,16 +256,15 @@ void King::move(char oldCol, int oldRow, char newCol, int newRow) {
              && b->getPiece(newRow, newCol) != 'K') {
     capture(oldRow, oldCol, newRow, newCol);
   }
-  obstacleRow = 10; // setting obstacle data to unattainable values,
-  obstacleCol = 'z'; // so that future captures aren't affected by past data
+  clearObs(); // setting obstacle data to unattainable values,
+              // so that future captures aren't affected by past data
 }
 
-char King::ObstacleC(){
-  return obstacleCol;
-}
-
-int King::ObstacleR(){
+int King::getObsRow() {
   return obstacleRow;
 }
 
+char King::getObsCol() {
+  return obstacleCol;
+}
 

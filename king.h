@@ -21,8 +21,9 @@ class King : public Piece {
   bool isValidCastle(char oldCol, int oldRow, char newCol, int newRow);
   bool isInPath(char oldPiece, char oldCol, int oldRow, 
                 char newCol, int newRow);
-  int ObstacleR() override;
-  char ObstacleC() override;
+  int getObsRow() override;
+  char getObsCol() override;
+  void clearObs() override;
 };
 
 #endif

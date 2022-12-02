@@ -18,10 +18,12 @@ bool Blank::isValidMove(char oldPiece, char oldCol, int oldRow, char newCol, int
   return false;
 }
 
-int Blank::ObstacleR(){
+int Blank::getObsRow() {
   return obstacleRow;
 }
 
-char Blank::ObstacleC(){
+char Blank::getObsCol() {
   return obstacleCol;
 }
+
+void Blank::clearObs() {}

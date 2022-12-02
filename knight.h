@@ -16,8 +16,9 @@ class Knight : public Piece {
   void capture(int oldRow, char oldCol, int newRow, char newCol) override;
   bool isValidMove(char oldPiece, char oldCol, int oldRow, 
                    char newCol, int newRow) override;
-  int ObstacleR() override;
-  char ObstacleC() override;
+  int getObsRow() override;
+  char getObsCol() override;
+  void clearObs() override;
 };
 
 #endif

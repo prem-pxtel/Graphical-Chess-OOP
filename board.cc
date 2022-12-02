@@ -132,56 +132,47 @@ std::ostream & operator<<(std::ostream &out, const Board *b) {
 // looping through every piece 
 // if it is a blank piece, continue, if it is a white piece, go through its ispath. 
 // if the obstacle is the enemy king cout check, and then vice versa for black.
-
 bool Board::check(){
   int wkingrow;
   char wkingcol;
   int bkingrow;
   char bkingcol;
   bool retval = false;
-  for(int i = 1; i <= 8; i++){
-    for(int j = 'a'; j<= 'h'; j++){
-      char val = getPiece(i,j);
-      if(val == 'K'){
+  for (int i = 1; i <= 8; ++i) {
+    for (int j = 'a'; j <= 'h'; ++j){
+      char val = getPiece(i, j);
+      if (val == 'K') {
         wkingrow = i;
         wkingcol = j;
-      }
-      else if (val == 'k'){
+      } else if (val == 'k') {
         bkingrow = i;
         bkingcol = j;
+      }
     }
   }
-}
-  for(int i = 1; i <= 8; i++){
-    for(int j = 'a'; j <= 'h'; j++){ 
-      if(isOccupied(i,j)){ // if occupied check if its checking the king.
-      char pic = getPiece(i,j);
-      if('a' <= pic && pic <= 'z'){ // checks if it can check the white king
-//      std::cout << "wcheck" << std::endl;
-        if(!(getPiecePtr(i,j)->isValidMove(pic, j, i, wkingcol, wkingrow))){
-//          std::cout << wkingrow << std::endl;
-//          std::cout << wkingcol << std::endl;
-//          std::cout << "checkthrough" << std::endl;
-          if(getPiecePtr(i,j)->ObstacleR() == wkingrow && getPiecePtr(i,j)->ObstacleC() == wkingcol){
-            std::cout << "check" << std::endl;
-            retval = true;          
+  for (int i = 1; i <= 8; ++i) {
+    for (int j = 'a'; j <= 'h'; ++j) { 
+      if (isOccupied(i, j)) { // if occupied check if its checking the king
+        char pic = getPiece(i, j);
+        if ('a' <= pic && pic <= 'z') { // checks if it can check the white king
+          if (!(getPiecePtr(i,j)->isValidMove(pic, j, i, wkingcol, wkingrow))) {
+            if (getPiecePtr(i, j)->getObsRow() == wkingrow 
+              && getPiecePtr(i, j)->getObsCol() == wkingcol) {
+              std::cout << "White is in check." << std::endl;
+              retval = true;
+              getPiecePtr(i, j)->clearObs();    
             }
-        }
-      }
-      else{ // checks if it can check the black king
-//      std::cout << "bcheck" << std::endl;
-//      std::cout << bkingrow << std::endl;
-//      std::cout << bkingcol << std::endl;
-      if(!(getPiecePtr(i,j)->isValidMove(pic, j, i, bkingcol, bkingrow))){
-//        std::cout << "checkthrough" << std::endl;
-          std::cout << getPiecePtr(i,j)->ObstacleR();
-          std::cout << getPiecePtr(i,j)->ObstacleC() << std::endl;
-          if(getPiecePtr(i,j)->ObstacleR() == bkingrow && getPiecePtr(i,j)->ObstacleC() == bkingcol){
-            std::cout << "check" << std::endl;
-            retval = true;
+          }
+        } else { // checks if it can check the black king
+          if (!(getPiecePtr(i,j)->isValidMove(pic, j, i, bkingcol, bkingrow))) {
+            if (getPiecePtr(i, j)->getObsRow() == bkingrow 
+                && getPiecePtr(i,j)->getObsCol() == bkingcol) {
+              std::cout << "Black is in check." << std::endl;
+              retval = true;
+              getPiecePtr(i, j)->clearObs();
+            }
           }
         }
-      }
       }
     }
   }

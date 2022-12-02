@@ -182,6 +182,11 @@ bool Queen::isInPath(char oldPiece, char oldCol, int oldRow,
   }
 }
 
+void Queen::clearObs() {
+  obstacleRow = 10;
+  obstacleCol = 'z';
+}
+
 bool Queen::isValidMoveb(char oldPiece, char oldCol, int oldRow, 
                         char newCol, int newRow) {
   if (!(oldCol == newCol) || !(oldRow == newRow)) {
@@ -237,14 +242,14 @@ void Queen::move(char oldCol, int oldRow, char newCol, int newRow) {
              && b->getPiece(newRow, newCol) != 'K') {
     capture(oldRow, oldCol, newRow, newCol);
   }
-  obstacleRow = 10; // setting obstacle data to unattainable values,
-  obstacleCol = 'z'; // so that future captures aren't affected by past data
+  clearObs(); // setting obstacle data to unattainable values,
+              // so that future captures aren't affected by past data
 }
 
-int Queen::ObstacleR(){
+int Queen::getObsRow() {
   return obstacleRow;
 }
 
-char Queen::ObstacleC(){
+char Queen::getObsCol() {
   return obstacleCol;
 }

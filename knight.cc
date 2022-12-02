@@ -9,6 +9,11 @@ Knight::Knight(char piece, Board *b)
 
 Knight::~Knight() {}
 
+void Knight::clearObs() {
+  obstacleRow = 10;
+  obstacleCol = 'z';
+}
+
 bool Knight::isValidMove(char oldPiece, char oldCol, int oldRow, 
                         char newCol, int newRow) {
   if(!(((newRow == oldRow + 2) && (newCol == oldCol + 1)) 
@@ -46,14 +51,14 @@ void Knight::move(char oldCol, int oldRow, char newCol, int newRow) {
              && b->getPiece(newRow, newCol) != 'K') {
     capture(oldRow, oldCol, newRow, newCol);
   }
-  obstacleRow = 10; // setting obstacle data to unattainable values,
-  obstacleCol = 'z'; // so that future captures aren't affected by past data
+  clearObs(); // setting obstacle data to unattainable values,
+              // so that future captures aren't affected by past data
 }
 
-char Knight::ObstacleC(){
-  return obstacleCol;
-}
-
-int Knight::ObstacleR(){
+int Knight::getObsRow() {
   return obstacleRow;
+}
+
+char Knight::getObsCol() {
+  return obstacleCol;
 }

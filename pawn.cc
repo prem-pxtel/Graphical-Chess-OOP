@@ -87,6 +87,11 @@ bool Pawn::isInDiagonalPath(char oldPiece, char oldCol, int oldRow,
   return false;
 }
 
+void Pawn::clearObs() {
+  obstacleRow = 10;
+  obstacleCol = 'z';
+}
+
 void Pawn::capture(int oldRow, char oldCol, int newRow, char newCol) {
   b->swapPiece(oldRow, oldCol, newRow, newCol);
   delete b->getPiecePtr(oldRow, oldCol);
@@ -108,14 +113,14 @@ void Pawn::move(char oldCol, int oldRow, char newCol, int newRow) {
         capture(oldRow, oldCol, obstacleRow, obstacleCol);
     }
   }
-  obstacleRow = 10; // setting obstacle data to unattainable values,
-  obstacleCol = 'z'; // so that future captures aren't affected by past data
+  clearObs(); // setting obstacle data to unattainable values,
+              // so that future captures aren't affected by past data
 }
 
-int Pawn::ObstacleR(){
+int Pawn::getObsRow() {
   return obstacleRow;
 }
 
-char Pawn::ObstacleC(){
+char Pawn::getObsCol() {
   return obstacleCol;
 }
