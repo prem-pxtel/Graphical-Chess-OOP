@@ -9,6 +9,7 @@ class Board : public Subject {
   std::vector<std::vector<Piece*>> board;
  public:
   Board();
+  ~Board();
   char getPiece(int row, char col) const override;
   void setPiece(int row, char col, char p) override;
   void removePiece(int row, char col);

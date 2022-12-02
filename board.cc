@@ -22,11 +22,11 @@ Board::Board() {
   row1.push_back(new Rook{'r', this});
   board.push_back(row1);
 
-  std::vector<Piece*> row;
+  std::vector<Piece*> row2;
   for (char j = 'a'; j <= 'h'; ++j) {
-    row.push_back(new Pawn{'p', this});
+    row2.push_back(new Pawn{'p', this});
   }
-  board.push_back(row);
+  board.push_back(row2);
 
   for (int i = 3; i <= 6; i++) {
     std::vector<Piece*> blankRow;
@@ -57,6 +57,15 @@ Board::Board() {
   row8.push_back(new Rook{'R', this});
   board.push_back(row8);
 }
+
+Board::~Board() {
+  for (int i = 0; i < 8; ++i) {
+    for (char j = 'a'; j < 'h'; ++j) {
+      delete board[i][j];
+    }
+  }
+}
+
 
 char Board::getPiece(int row, char col) const {
   int rowNum = row - 1;

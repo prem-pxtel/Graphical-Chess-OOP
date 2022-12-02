@@ -42,6 +42,7 @@ int main() {
       b->getPiecePtr(invertRow(oldRow), oldCol)
          ->move(oldCol, invertRow(oldRow), newCol, invertRow(newRow));
       b->updateBoards();
+      b->check();
 
 /*      if (whiteTurn) {
         if (!b->isWhitePiece(invertRow(oldRow), oldCol)) continue;
@@ -68,4 +69,5 @@ int main() {
     } else continue;
   }
   for(auto &ob : toDelete) delete ob;
+  delete b;
 }
