@@ -15,12 +15,14 @@ class Pawn : public Piece {
   ~Pawn();
   void move(char colOld, int rowOld, char colNew, int rowNew) override;
   void capture(int oldRow, char oldCol, int newRow, char newCol) override;
+  void promote(char oldPiece, char newPiece, int newRow, char newCol);
   bool isValidMove(char oldPiece, char oldCol, int oldRow, 
                    char newCol, int newRow) override;
   bool isInPath(char oldPiece, char oldCol, int oldRow, 
                 char newCol, int newRow);
   bool isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
                         char newCol, int newRow);
+  bool isValidPromotion(char oldPiece, char newPiece, int newRow);
   int getObsRow() override;
   char getObsCol() override;
   void clearObs() override;

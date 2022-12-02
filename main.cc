@@ -4,6 +4,7 @@
 #include "board.h"
 #include "piece.h"
 #include "textob.h"
+#include "pawn.h"
 using std::cout;
 using std::endl;
 
@@ -32,11 +33,17 @@ int main() {
     } else if (command == "move") {
       char oldCol, newCol;
       int oldRow, newRow;
+      char promo = ' ';
       input >> oldCol;
       input >> oldRow;
       input >> newCol;
       input >> newRow;
-      if (whiteTurn) {
+      input >> promo;
+      b->getPiecePtr(invertRow(oldRow), oldCol)
+         ->move(oldCol, invertRow(oldRow), newCol, invertRow(newRow));
+      b->updateBoards();
+
+/*      if (whiteTurn) {
         if (!b->isWhitePiece(invertRow(oldRow), oldCol)) continue;
         b->getPiecePtr(invertRow(oldRow), oldCol)
          ->move(oldCol, invertRow(oldRow), newCol, invertRow(newRow));
@@ -53,6 +60,7 @@ int main() {
         cout << "Player 1's Turn" << endl;
         b->check();
       }
+*/
     } else if (command == "resign") {
 
     } else if (command == "setup") {

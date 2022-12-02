@@ -2,6 +2,10 @@
 #include <vector>
 #include "pawn.h"
 #include "blank.h"
+#include "queen.h"
+#include "rook.h"
+#include "knight.h"
+#include "bishop.h"
 #include <utility>
 
 Pawn::Pawn(char piece, Board *b) 
@@ -97,6 +101,40 @@ void Pawn::capture(int oldRow, char oldCol, int newRow, char newCol) {
   delete b->getPiecePtr(oldRow, oldCol);
   b->getBoard()[oldRow - 1][oldCol - 'a'] = new Blank{' ', b};
   b->removePiece(oldRow, oldCol); // sets to either " " or "_"
+}
+
+bool Pawn::isValidPromotion(char oldPiece, char newPiece, int newRow) {
+  if (oldPiece == 'p') {
+    if (newRow == 8 && 'a' <= newPiece && newPiece <= 'z') return true;
+  } else {
+    if (newRow == 1 && 'A' <= newPiece && newPiece <= 'Z') return true;
+  }
+  return false;
+}
+
+void Pawn::promote(char oldPiece, char newPiece, int newRow, char newCol) {
+  delete b->getPiecePtr(newRow, newCol);
+  if (oldPiece == 'p') {
+    if (newPiece == 'r') {
+      b->getBoard()[newRow - 1][newCol - 'a'] = new Rook{'q', b};
+    } else if (newPiece == 'n') {
+      b->getBoard()[newRow - 1][newCol - 'a'] = new Knight{'q', b};
+    } else if (newPiece == 'b') {
+      b->getBoard()[newRow - 1][newCol - 'a'] = new Bishop{'q', b};
+    } else {
+      b->getBoard()[newRow - 1][newCol - 'a'] = new Queen{'q', b};
+    }
+  } else {
+    if (newPiece == 'R') {
+      b->getBoard()[newRow - 1][newCol - 'a'] = new Rook{'q', b};
+    } else if (newPiece == 'N') {
+      b->getBoard()[newRow - 1][newCol - 'a'] = new Knight{'q', b};
+    } else if (newPiece == 'B') {
+      b->getBoard()[newRow - 1][newCol - 'a'] = new Bishop{'q', b};
+    } else {
+      b->getBoard()[newRow - 1][newCol - 'a'] = new Queen{'q', b};
+    }
+  }
 }
 
 void Pawn::move(char oldCol, int oldRow, char newCol, int newRow) {
