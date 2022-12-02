@@ -9,6 +9,10 @@ class Bishop : public Piece {
   Board *b;
   int obstacleRow;
   char obstacleCol;
+  bool lastmovecapture = false;
+  char capturedpiece;
+  bool capturedfirst;
+  bool capturedpiececolour;
  public:
   Bishop(char piece, Board *b);
   ~Bishop();

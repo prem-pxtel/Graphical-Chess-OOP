@@ -10,6 +10,10 @@ class Rook : public Piece {
   bool firstMove;
   int obstacleRow;
   char obstacleCol;
+  bool lastmovecapture = false;
+  char capturedpiece;
+  bool capturedfirst;
+  bool capturedpiececolour;
  public:
   Rook(char piece, Board *b);
   ~Rook();

@@ -10,6 +10,10 @@ class Pawn : public Piece {
   bool firstMove;
   int obstacleRow;
   char obstacleCol;
+  bool lastmovecapture = false;
+  char capturedpiece;
+  bool capturedfirst;
+  bool capturedpiececolour;
  public:
   Pawn(char piece, Board *b);
   ~Pawn();

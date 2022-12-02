@@ -10,6 +10,10 @@ class King : public Piece {
   bool firstMove;
   int obstacleRow;
   char obstacleCol;
+  bool lastmovecapture = false;
+  char capturedpiece;
+  bool capturedfirst;
+  bool capturedpiececolour;
  public:
   King(char piece, Board *b);
   ~King();

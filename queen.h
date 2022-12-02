@@ -9,6 +9,10 @@ class Queen : public Piece {
   Board *b;
   int obstacleRow;
   char obstacleCol;
+  bool lastmovecapture = false;
+  char capturedpiece;
+  bool capturedfirst;
+  bool capturedpiececolour;
  public:
   Queen(char piece, Board *b);
   ~Queen();

@@ -194,4 +194,8 @@ bool Board::check(){
   return retval;
 }
 
+bool Board::checkmate(){
+  
+}
+
 

@@ -25,6 +25,7 @@ class Board : public Subject {
   bool isWhite(int row, int col);
   bool isWhitePiece(int row, char col);
   bool check();
+  bool checkmate();
 };
 
 std::ostream & operator<<(std::ostream &out, const Board *b);

@@ -51,16 +51,16 @@ int main() {
         b->getPiecePtr(invertRow(oldRow), oldCol)
           ->move(oldCol, invertRow(oldRow), newCol, 
                         invertRow(newRow), promo);
-        b->updateBoards();
         b->check();
         if(b->whitecheck == true){ // revert move here.
         b->getPiecePtr(invertRow(newRow), newCol)
           ->revertmove(oldCol, invertRow(oldRow), newCol, 
                         invertRow(newRow), promo);
-          cout << "no no" << endl;
+          b->updateBoards();
           throw InvalidMove{};
         }
         else{
+          b->updateBoards();
           alreadymoved = true;
         }           
         }
@@ -71,16 +71,16 @@ int main() {
         b->getPiecePtr(invertRow(oldRow), oldCol)
           ->move(oldCol, invertRow(oldRow), newCol, 
                         invertRow(newRow), promo);
-        b->updateBoards();
         b->check();
         if(b->blackcheck == true){ // revert move here.
         b->getPiecePtr(invertRow(newRow), newCol)
           ->revertmove(oldCol, invertRow(oldRow), newCol, 
                         invertRow(newRow), promo);
-          cout << "no no" << endl;
+          b->updateBoards();
           throw InvalidMove{};
         }
         else{
+          b->updateBoards();
           alreadymoved = true;
         }                    
         }

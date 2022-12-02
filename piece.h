@@ -5,6 +5,10 @@ class Piece {
  public:
   char piece;
   bool firstMove;
+  bool lastmovecapture = false;
+  char capturedpiece;
+  bool capturedfirst;
+  bool capturedpiececolour;
   Piece(char piece) : piece{piece} {}
   virtual ~Piece() {}
   virtual void move(char colOld, int rowOld, 
