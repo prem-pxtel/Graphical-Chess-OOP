@@ -242,9 +242,10 @@ void Queen::move(char oldCol, int oldRow,
              && b->getPiece(newRow, newCol) != 'k'
              && b->getPiece(newRow, newCol) != 'K') {
     capture(oldRow, oldCol, newRow, newCol);
+    clearObs();
+  } else {
+    throw InvalidMove{};
   }
-  clearObs(); // setting obstacle data to unattainable values,
-              // so that future captures aren't affected by past data
 }
 
 int Queen::getObsRow() {

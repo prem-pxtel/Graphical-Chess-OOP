@@ -103,10 +103,7 @@ void Pawn::capture(int oldRow, char oldCol, int newRow, char newCol) {
   b->removePiece(oldRow, oldCol); // sets to either " " or "_"
 }
 
-bool Pawn::isValidPromo(char oldPiece, char newPiece, int newRow) {
-  if (newPiece == ' ') {
-    return false;
-  }
+bool Pawn::promoReady(char oldPiece, int newRow) {
   if (oldPiece == 'p') {
     if (newRow == 8) return true;
   } else if (oldPiece == 'P') {
@@ -115,54 +112,73 @@ bool Pawn::isValidPromo(char oldPiece, char newPiece, int newRow) {
   return false;
 }
 
-void Pawn::promote(char oldPiece, char newPiece, int newRow, char newCol) {
-  delete b->getPiecePtr(newRow, newCol);
+void Pawn::promote(char oldPiece, char newPiece, int oldRow, char oldCol) {
   if (oldPiece == 'p') {
-    if (newPiece == 'r' || newPiece == 'R') {
-      b->getBoard()[newRow - 1][newCol - 'a'] = new Rook{'r', b};
-    } else if (newPiece == 'n' || newPiece == 'N') {
-      b->getBoard()[newRow - 1][newCol - 'a'] = new Knight{'n', b};
-    } else if (newPiece == 'b' || newPiece == 'B') {
-      b->getBoard()[newRow - 1][newCol - 'a'] = new Bishop{'b', b};
-    } else {
-      b->getBoard()[newRow - 1][newCol - 'a'] = new Queen{'q', b};
+    if (newPiece == 'r') {
+      delete b->getPiecePtr(oldRow, oldCol);
+      b->getBoard()[oldRow - 1][oldCol - 'a'] = new Rook{'r', b};
+      return;
+    } else if (newPiece == 'n') {
+      delete b->getPiecePtr(oldRow, oldCol);
+      b->getBoard()[oldRow - 1][oldCol - 'a'] = new Knight{'n', b};
+      return;
+    } else if (newPiece == 'b') {
+      delete b->getPiecePtr(oldRow, oldCol);
+      b->getBoard()[oldRow - 1][oldCol - 'a'] = new Bishop{'b', b};
+      return;
+    } else if (newPiece == 'q') {
+      delete b->getPiecePtr(oldRow, oldCol);
+      b->getBoard()[oldRow - 1][oldCol - 'a'] = new Queen{'q', b};
+      return;
     }
-  } else {
-    if (newPiece == 'R' || newPiece == 'r') {
-      b->getBoard()[newRow - 1][newCol - 'a'] = new Rook{'R', b};
-    } else if (newPiece == 'N' || newPiece == 'n') {
-      b->getBoard()[newRow - 1][newCol - 'a'] = new Knight{'N', b};
-    } else if (newPiece == 'B' || newPiece == 'b') {
-      b->getBoard()[newRow - 1][newCol - 'a'] = new Bishop{'B', b};
-    } else {
-      b->getBoard()[newRow - 1][newCol - 'a'] = new Queen{'Q', b};
+  } else if (oldPiece == 'P') {
+    if (newPiece == 'R') {
+      delete b->getPiecePtr(oldRow, oldCol);
+      b->getBoard()[oldRow - 1][oldCol - 'a'] = new Rook{'R', b};
+      return;
+    } else if (newPiece == 'N') {
+      delete b->getPiecePtr(oldRow, oldCol);
+      b->getBoard()[oldRow - 1][oldCol - 'a'] = new Knight{'N', b};
+      return;
+    } else if (newPiece == 'B') {
+      delete b->getPiecePtr(oldRow, oldCol);
+      b->getBoard()[oldRow - 1][oldCol - 'a'] = new Bishop{'B', b};
+      return;
+    } else if (newPiece == 'Q') {
+      delete b->getPiecePtr(oldRow, oldCol);
+      b->getBoard()[oldRow - 1][oldCol - 'a'] = new Queen{'Q', b};
+      return;
     }
   }
+  throw InvalidMove{};
 }
 
 void Pawn::move(char oldCol, int oldRow, 
                 char newCol, int newRow, char newPiece) {
   char oldPiece = b->getPiece(oldRow, oldCol);
   if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow)) {
+    if (promoReady(oldPiece, newRow)) {
+      promote(oldPiece, newPiece, oldRow, oldCol);
+    }
     b->swapPiece(oldRow, oldCol, newRow, newCol);
     b->removePiece(oldRow, oldCol);
   } else if (b->isOccupied(newRow, newCol)) {
+    if (promoReady(oldPiece, newRow)) {
+      promote(oldPiece, newPiece, oldRow, oldCol);
+    }
     if (isInDiagonalPath(oldPiece, oldCol, oldRow, newCol, newRow) 
         && b->isWhitePiece(oldRow, oldCol) 
         != b->isWhitePiece(newRow, newCol)
         && b->getPiece(newRow, newCol) != 'k'
         && b->getPiece(newRow, newCol) != 'K') {
         capture(oldRow, oldCol, obstacleRow, obstacleCol);
+        std::cout << "SFDSS" << std::endl;
     }
-    if (isValidPromo(oldPiece, newPiece, newRow)) {
-      promote(oldPiece, newPiece, newRow, newCol);
-    }
-  clearObs(); // setting obstacle data to unattainable values,
-              // so that future captures aren't affected by past data
   } else {
     throw InvalidMove{};
   }
 }
+  
 
 int Pawn::getObsRow() {
   return obstacleRow;

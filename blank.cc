@@ -11,7 +11,9 @@ Blank::Blank(char piece, Board *b)
 Blank::~Blank() {}
 
 void Blank::move(char oldCol, int oldRow, 
-                 char newCol, int newRow, char newPiece) {}
+                 char newCol, int newRow, char newPiece) {
+  throw InvalidMove{};
+}
 
 void Blank::capture(int oldRow, char oldCol, int newRow, char newCol) {}
 

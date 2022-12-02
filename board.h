@@ -28,3 +28,5 @@ class Board : public Subject {
 std::ostream & operator<<(std::ostream &out, const Board *b);
 
 #endif
+
+class Check;

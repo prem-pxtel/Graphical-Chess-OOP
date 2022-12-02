@@ -34,48 +34,38 @@ int main() {
       char oldCol, newCol;
       int oldRow, newRow;
       char promo = ' ';
-      input >> oldCol;
-      input >> oldRow;
-      input >> newCol;
-      input >> newRow;
-      input >> promo;
-
-      if (('a' <= oldCol && oldCol <= 'h') && (1 <= oldRow && oldRow <= 8)
-          && ('a' <= newCol && newCol <= 'h') && (1 <= newRow && newRow <= 8)) {
-        try {
-          b->getPiecePtr(invertRow(oldRow), oldCol)
-            ->move(oldCol, invertRow(oldRow), newCol, 
-                          invertRow(newRow), promo);
-          b->updateBoards();
-          b->check();
-        } catch (InvalidMove) {
-          cout << "Invalid Move. You are retarded." << endl;
+      try {
+        if (!(input >> oldCol && input >> oldRow 
+            && input >> newCol && input >> newRow)) {
+          throw InvalidMove{};
         }
-      } else {
+        if (!(promo == 'r' || promo == 'R' || promo == 'b' || promo == 'B'
+             || promo == 'q' || promo == 'Q' || promo == ' ')) {
+          throw InvalidMove {};
+        }
+        if (whiteTurn) {
+          if (!b->isWhitePiece(invertRow(oldRow), oldCol)) 
+          throw InvalidMove{};
+        } else {
+          if (b->isWhitePiece(invertRow(oldRow), oldCol)) 
+          throw InvalidMove{};
+        }
+        b->getPiecePtr(invertRow(oldRow), oldCol)
+          ->move(oldCol, invertRow(oldRow), newCol, 
+                        invertRow(newRow), promo);
+        b->updateBoards();
+        b->check();
+        if (whiteTurn) {
+          cout << "Player 2's Turn" << endl;
+          whiteTurn = false;
+        } else {
+          cout << "Player 1's Turn" << endl;
+          whiteTurn = true;
+        }
+      } catch (InvalidMove) {
         cout << "Invalid Move." << endl;
       }
-    }
-    
-
-/*      if (whiteTurn) {
-        if (!b->isWhitePiece(invertRow(oldRow), oldCol)) continue;
-        b->getPiecePtr(invertRow(oldRow), oldCol)
-         ->move(oldCol, invertRow(oldRow), newCol, invertRow(newRow));
-        b->updateBoards();
-        whiteTurn = false;
-        cout << "Player 2's Turn" << endl;
-        b->check();
-      } else {
-        if (b->isWhitePiece(invertRow(oldRow), oldCol)) continue;
-        b->getPiecePtr(invertRow(oldRow), oldCol)
-         ->move(oldCol, invertRow(oldRow), newCol, invertRow(newRow));
-        b->updateBoards();
-        whiteTurn = true;
-        cout << "Player 1's Turn" << endl;
-        b->check();
-      }
-*/
-     else if (command == "resign") {
+    } else if (command == "resign") {
 
     } else if (command == "setup") {
 
