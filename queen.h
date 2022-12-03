@@ -9,17 +9,17 @@ class Queen : public Piece {
   Board *b;
   int obstacleRow;
   char obstacleCol;
-  bool lastmovecapture = false;
-  char capturedpiece;
-  bool capturedfirst;
-  bool capturedpiececolour;
+  bool lastMoveCapture = false;
+  char capturedPiece;
+  bool capturedFirst;
+  bool capturedPieceColour;
  public:
   Queen(char piece, Board *b);
   ~Queen();
   void move(char colOld, int rowOld, char colNew, 
             int rowNew, char newPiece) override; 
-  void revertmove(char colOld, int rowOld, char colNew, 
-            int rowNew, char newPiece) override;             
+  void revertMove(char colOld, int rowOld, char colNew, 
+                  int rowNew, char newPiece) override;             
   void capture(int oldRow, char oldCol, int newRow, char newCol) override;
   bool isValidMoveb(char oldPiece, char oldCol, int oldRow, 
                    char newCol, int newRow);

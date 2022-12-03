@@ -15,7 +15,7 @@ void Blank::move(char oldCol, int oldRow,
   throw InvalidMove{};
 }
 
-void Blank::revertmove(char oldCol, int oldRow, 
+void Blank::revertMove(char oldCol, int oldRow, 
                  char newCol, int newRow, char newPiece) {
   throw InvalidMove{};
 }

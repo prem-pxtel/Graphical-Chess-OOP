@@ -41,64 +41,61 @@ int main() {
           throw InvalidMove{};
         }
         if (!(promo == 'r' || promo == 'R' || promo == 'b' || promo == 'B'
-             || promo == 'q' || promo == 'Q' || promo == ' ')) {
+            || promo == 'q' || promo == 'Q' || promo == ' ')) {
           throw InvalidMove {};
         }
         if (whiteTurn) {
           if (!b->isWhitePiece(invertRow(oldRow), oldCol)) 
           throw InvalidMove{};
-          if(b->whitecheck == true){
-        b->getPiecePtr(invertRow(oldRow), oldCol)
-          ->move(oldCol, invertRow(oldRow), newCol, 
-                        invertRow(newRow), promo);
-        b->check();
-        if(b->whitecheck == true){ // revert move here.
-        b->getPiecePtr(invertRow(newRow), newCol)
-          ->revertmove(oldCol, invertRow(oldRow), newCol, 
-                        invertRow(newRow), promo);
-          b->updateBoards();
-          throw InvalidMove{};
-        }
-        else{
-          b->updateBoards();
-          alreadymoved = true;
-        }           
-        }
-        } else {
-        if (b->isWhitePiece(invertRow(oldRow), oldCol)) 
-          throw InvalidMove{};
-        if(b->blackcheck == true){
-        b->getPiecePtr(invertRow(oldRow), oldCol)
-          ->move(oldCol, invertRow(oldRow), newCol, 
-                        invertRow(newRow), promo);
-        b->check();
-        if(b->blackcheck == true){ // revert move here.
-        b->getPiecePtr(invertRow(newRow), newCol)
-          ->revertmove(oldCol, invertRow(oldRow), newCol, 
-                        invertRow(newRow), promo);
-          b->updateBoards();
-          throw InvalidMove{};
-        }
-        else{
-          b->updateBoards();
-          alreadymoved = true;
-        }                    
-        }
-        }
-        if(!alreadymoved){
-        b->getPiecePtr(invertRow(oldRow), oldCol)
-          ->move(oldCol, invertRow(oldRow), newCol, 
-                        invertRow(newRow), promo);
-        b->updateBoards();
-        if (b->check()) {
-          if(b->checkmate()){
-            cout << "Checkmate!" << endl;
-            break;
-          } else {
+          if(b->whitecheck == true) {
+            b->getPiecePtr(invertRow(oldRow), oldCol)
+              ->move(oldCol, invertRow(oldRow), newCol, 
+                            invertRow(newRow), promo);
             b->check();
+            if (b->whitecheck == true) { // revert move here.
+            b->getPiecePtr(invertRow(newRow), newCol)
+              ->revertMove(oldCol, invertRow(oldRow), newCol, 
+                            invertRow(newRow), promo);
+              b->updateBoards();
+              throw InvalidMove{};
+            } else {
+              b->updateBoards();
+              alreadymoved = true;
+            }           
           }
-        } 
-
+        } else {
+          if (b->isWhitePiece(invertRow(oldRow), oldCol)) 
+            throw InvalidMove{};
+          if (b->blackcheck == true) {
+            b->getPiecePtr(invertRow(oldRow), oldCol)
+              ->move(oldCol, invertRow(oldRow), newCol, 
+                            invertRow(newRow), promo);
+            b->check();
+            if (b->blackcheck == true) { // revert move here.
+              b->getPiecePtr(invertRow(newRow), newCol)
+              ->revertMove(oldCol, invertRow(oldRow), newCol, 
+                            invertRow(newRow), promo);
+              b->updateBoards();
+              throw InvalidMove{};
+            } else {
+              b->updateBoards();
+              alreadymoved = true;
+            }                    
+          }
+        }
+        if (!alreadymoved) {
+          b->getPiecePtr(invertRow(oldRow), oldCol)
+            ->move(oldCol, invertRow(oldRow), newCol, 
+                          invertRow(newRow), promo);
+          b->updateBoards();
+          if (b->check()) {
+            if (b->checkmate()) {
+              cout << "Checkmate!" << endl;
+              break;
+            } else {
+              b->check();
+            }
+          } 
         }
         if (whiteTurn) {
           cout << "Player 2's Turn" << endl;

@@ -123,11 +123,11 @@ bool Bishop::isValidMove(char oldPiece, char oldCol, int oldRow,
 }
 
 void Bishop::capture(int oldRow, char oldCol, int newRow, char newCol) {
-  capturedpiece = b->getPiece(newRow, newCol);
-  capturedpiececolour = b->isWhite(newRow, newCol);
-  if(capturedpiece == 'r' || capturedpiece == 'R'
-  || capturedpiece == 'p' || capturedpiece == 'P'){
-    capturedfirst = b->getPiecePtr(oldRow,oldCol)->firstMove;
+  capturedPiece = b->getPiece(newRow, newCol);
+  capturedPieceColour = b->isWhite(newRow, newCol);
+  if (capturedPiece == 'r' || capturedPiece == 'R'
+      || capturedPiece == 'p' || capturedPiece == 'P'){
+    capturedFirst = b->getPiecePtr(oldRow,oldCol)->firstMove;
   }
   b->swapPiece(oldRow, oldCol, newRow, newCol);
   delete b->getPiecePtr(oldRow, oldCol);
@@ -141,71 +141,71 @@ void Bishop::move(char oldCol, int oldRow,
   if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow)) {
     b->swapPiece(oldRow, oldCol, newRow, newCol);
     b->removePiece(oldRow, oldCol);
-    lastmovecapture = false;
+    lastMoveCapture = false;
   } else if (newRow == obstacleRow && newCol == obstacleCol 
              && b->isWhitePiece(oldRow, oldCol) 
              != b->isWhitePiece(newRow, newCol)
              && b->getPiece(newRow, newCol) != 'k'
              && b->getPiece(newRow, newCol) != 'K') {
     capture(oldRow, oldCol, newRow, newCol);
-    lastmovecapture = true;
+    lastMoveCapture = true;
     clearObs();
   } else {
     throw InvalidMove{};
   }
 }
 
-void Bishop::revertmove(char oldCol, int oldRow, 
-                  char newCol, int newRow, char newPiece) {
-if(lastmovecapture){
-delete b->getPiecePtr(oldRow, oldCol); // delete the blank, create a new pointer of what was there before, and then swap them back
-if(capturedpiece == 'p'){
-b->getBoard()[oldRow - 1][oldCol - 'a'] = new Pawn{'p', b}; // add first move after this
-b->getPiecePtr(oldRow,oldCol)->firstMove = capturedfirst;
-}
-else if (capturedpiece == 'P'){
-b->getBoard()[oldRow - 1][oldCol - 'a'] = new Pawn{'P', b};
-b->getPiecePtr(oldRow,oldCol)->firstMove = capturedfirst;
-}
-else if (capturedpiece == 'r'){
-b->getBoard()[oldRow - 1][oldCol - 'a'] = new Rook{'r', b}; 
-b->getPiecePtr(oldRow,oldCol)->firstMove = capturedfirst;
-}
-else if (capturedpiece == 'R'){
-b->getBoard()[oldRow - 1][oldCol - 'a'] = new Rook{'R', b};
-b->getPiecePtr(oldRow,oldCol)->firstMove = capturedfirst;
-}
-else if (capturedpiece == 'n'){
-b->getBoard()[oldRow - 1][oldCol - 'a'] = new Knight{'n', b};
-}
-else if (capturedpiece == 'N'){
-b->getBoard()[oldRow - 1][oldCol - 'a'] = new Knight{'N', b};  
-}
-else if (capturedpiece == 'b'){
-b->getBoard()[oldRow - 1][oldCol - 'a'] = new Bishop{'b', b};
-}
-else if (capturedpiece == 'B'){
-b->getBoard()[oldRow - 1][oldCol - 'a'] = new Bishop{'B', b};
-}
-else if (capturedpiece == 'q'){
-b->getBoard()[oldRow - 1][oldCol - 'a'] = new Queen{'q', b};
-}
-else if (capturedpiece == 'Q'){
-b->getBoard()[oldRow - 1][oldCol - 'a'] = new Queen{'Q', b};  
-}
-b->swapPiece(oldRow, oldCol, newRow, newCol);
-}
-else{
-b->swapPiece(newRow, newCol, oldRow, oldCol);
-b->removePiece(newRow, newCol);
-}
-b->updateBoards();
+void Bishop::revertMove(char oldCol, int oldRow, 
+                        char newCol, int newRow, char newPiece) {
+  if (lastMoveCapture) {
+    delete b->getPiecePtr(oldRow, oldCol); // delete the blank, create a new pointer of what was there before, and then swap them back
+  if (capturedPiece == 'p') {
+    b->getBoard()[oldRow - 1][oldCol - 'a'] = new Pawn{'p', b}; // add first move after this
+    b->getPiecePtr(oldRow, oldCol)->firstMove = capturedFirst;
+  }
+  else if (capturedPiece == 'P') {
+    b->getBoard()[oldRow - 1][oldCol - 'a'] = new Pawn{'P', b};
+    b->getPiecePtr(oldRow, oldCol)->firstMove = capturedFirst;
+  }
+  else if (capturedPiece == 'r') {
+    b->getBoard()[oldRow - 1][oldCol - 'a'] = new Rook{'r', b}; 
+    b->getPiecePtr(oldRow, oldCol)->firstMove = capturedFirst;
+  }
+  else if (capturedPiece == 'R'){
+    b->getBoard()[oldRow - 1][oldCol - 'a'] = new Rook{'R', b};
+    b->getPiecePtr(oldRow, oldCol)->firstMove = capturedFirst;
+  }
+  else if (capturedPiece == 'n'){
+    b->getBoard()[oldRow - 1][oldCol - 'a'] = new Knight{'n', b};
+  }
+  else if (capturedPiece == 'N'){
+    b->getBoard()[oldRow - 1][oldCol - 'a'] = new Knight{'N', b};  
+  }
+  else if (capturedPiece == 'b'){
+    b->getBoard()[oldRow - 1][oldCol - 'a'] = new Bishop{'b', b};
+  }
+  else if (capturedPiece == 'B'){
+    b->getBoard()[oldRow - 1][oldCol - 'a'] = new Bishop{'B', b};
+  }
+  else if (capturedPiece == 'q'){
+    b->getBoard()[oldRow - 1][oldCol - 'a'] = new Queen{'q', b};
+  }
+  else if (capturedPiece == 'Q'){
+    b->getBoard()[oldRow - 1][oldCol - 'a'] = new Queen{'Q', b};  
+  }
+    b->swapPiece(oldRow, oldCol, newRow, newCol);
+  }
+  else {
+    b->swapPiece(newRow, newCol, oldRow, oldCol);
+    b->removePiece(newRow, newCol);
+  }
+  b->updateBoards();
 }
 
 bool Bishop::isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
                         char newCol, int newRow) {
-return false;
-                        }
+  return false;
+}
 
 int Bishop::getObsRow() {
   return obstacleRow;
