@@ -16,6 +16,8 @@ class Board : public Subject {
   char wkingcol;
   int bkingrow;
   char bkingcol;
+  int whitewins = 0;
+  int blackwins = 0;
   Board();
   ~Board();
   char getPiece(int row, char col) const override;

@@ -701,11 +701,22 @@ bool Board::checkmate()
     }
     if (whitecheck)
     {
-      return (wmoves == 0);
+      if (wmoves == 0)
+      {
+        cout << "Checkmate! Black wins!" << endl;
+        ++blackwins;
+        return true;
+      }
     }
     else
     {
-      return (bmoves == 0);
+      if (bmoves == 0)
+      {
+        cout << "Checkmate! White wins!" << endl;
+        ++whitewins;
+        return true;
+      }
     }
   }
+  return false;
 }
