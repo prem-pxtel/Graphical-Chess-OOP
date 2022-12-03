@@ -119,8 +119,8 @@ int main() {
             cout << "Player 1's Turn" << endl;
             whiteTurn = true;
           }
-        } catch (InvalidMove) {
-          cout << "Invalid Move." << endl;
+        } catch (InvalidMove i) {
+          cout << i.errMsg << endl;
         }
       } else { // Computer's Turn
 

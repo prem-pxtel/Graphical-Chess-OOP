@@ -172,38 +172,6 @@ bool Pawn::promote(char oldPiece, char newPiece, int newRow, char newCol) {
   return false; // means newPiece was invalid
 }
 
-void Pawn::move(char oldCol, int oldRow, 
-                char newCol, int newRow, char newPiece) {
-  char oldPiece = b->getPiece(oldRow, oldCol);
-  if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow)) {
-    if (promoReady(oldPiece, newRow)) {
-      promote(oldPiece, newPiece, oldRow, oldCol);
-    }
-    b->swapPiece(oldRow, oldCol, newRow, newCol);
-    b->removePiece(oldRow, oldCol);
-    lastMoveCapture = false;
-  } else if (b->isOccupied(newRow, newCol)) {
-    if (isInDiagonalPath(oldPiece, oldCol, oldRow, newCol, newRow) 
-        && b->isWhitePiece(oldRow, oldCol) 
-        != b->isWhitePiece(newRow, newCol)
-        && b->getPiece(newRow, newCol) != 'k'
-        && b->getPiece(newRow, newCol) != 'K') {
-        capture(oldRow, oldCol, obstacleRow, obstacleCol);
-        lastMoveCapture = true;
-        clearObs();
-    }
-    if (promoReady(oldPiece, newRow)) {
-      if (promote(oldPiece, newPiece, newRow, newCol)) return;
-      else {
-        revertMove(oldCol, oldRow, newCol, newRow, newPiece);
-        throw InvalidMove{};
-      }
-    }
-  } else {
-    throw InvalidMove{};
-  }
-}
-
 void Pawn::revertMove(char oldCol, int oldRow, 
                       char newCol, int newRow, char newPiece) {
   if (lastMoveCapture) {
@@ -249,6 +217,39 @@ void Pawn::revertMove(char oldCol, int oldRow,
     b->removePiece(newRow, newCol);
   }
   b->updateBoards();
+}
+
+void Pawn::move(char oldCol, int oldRow, 
+                char newCol, int newRow, char newPiece) {
+  char oldPiece = b->getPiece(oldRow, oldCol);
+  if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow)) {
+    if (promoReady(oldPiece, newRow)) {
+      promote(oldPiece, newPiece, oldRow, oldCol);
+    }
+    b->swapPiece(oldRow, oldCol, newRow, newCol);
+    b->removePiece(oldRow, oldCol);
+    lastMoveCapture = false;
+  } else if (b->isOccupied(newRow, newCol)) {
+    if (isInDiagonalPath(oldPiece, oldCol, oldRow, newCol, newRow) 
+        && b->isWhitePiece(oldRow, oldCol) 
+        != b->isWhitePiece(newRow, newCol)
+        && b->getPiece(newRow, newCol) != 'k'
+        && b->getPiece(newRow, newCol) != 'K') {
+        capture(oldRow, oldCol, obstacleRow, obstacleCol);
+        lastMoveCapture = true;
+        clearObs();
+    }
+    if (promoReady(oldPiece, newRow)) {
+      if (promote(oldPiece, newPiece, newRow, newCol)) return;
+      else {
+        revertMove(oldCol, oldRow, newCol, newRow, newPiece);
+        std::string errMsg = "Invalid Pawn Promotion.";
+        throw InvalidMove{errMsg};
+      }
+    }
+  } else {
+    throw InvalidMove{};
+  }
 }
 
 int Pawn::getObsRow() {

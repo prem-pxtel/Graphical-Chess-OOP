@@ -25,6 +25,10 @@ class Piece {
   virtual void clearObs() = 0;
 };
 
-class InvalidMove {};
+class InvalidMove {
+ public:
+  std::string errMsg;
+  InvalidMove(std::string errMsg = "Invalid Command.") : errMsg{errMsg} {}
+};
 
 #endif
