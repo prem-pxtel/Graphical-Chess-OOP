@@ -65,36 +65,40 @@ bool Pawn::isValidMove(char oldPiece, char oldCol, int oldRow,
 
 bool Pawn::isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
                             char newCol, int newRow) {
-  if(abs((newCol - oldCol)) != abs((newRow - oldRow))) return false;
+  if (abs((newCol - oldCol)) != abs((newRow - oldRow))) return false;
   if (b->isWhitePiece(oldRow, oldCol)) {
-    if (b->isCell(oldRow - 1, oldCol + 1) && b->isOccupied(oldRow - 1, oldCol + 1)) {
+    if (b->isCell(oldRow - 1, oldCol + 1) && 
+        b->isOccupied(oldRow - 1, oldCol + 1)) {
       if (newRow == oldRow - 1 && newCol == oldCol + 1) {
-      obstacleRow = oldRow - 1;
-      obstacleCol = oldCol + 1;
-      return true;
+        obstacleRow = oldRow - 1;
+        obstacleCol = oldCol + 1;
+        return true;
       }
     }
-    if (b->isCell(oldRow - 1, oldCol - 1) && b->isOccupied(oldRow - 1, oldCol - 1)) {
+    if (b->isCell(oldRow - 1, oldCol - 1) &&
+        b->isOccupied(oldRow - 1, oldCol - 1)) {
       if (newRow == oldRow - 1 && newCol == oldCol - 1) {
-      obstacleRow = oldRow - 1;
-      obstacleCol = oldCol - 1;
-      return true;
+        obstacleRow = oldRow - 1;
+        obstacleCol = oldCol - 1;
+        return true;
       }
     }
   } else {
-    if (b->isCell(oldRow + 1, oldCol + 1) && b->isOccupied(oldRow + 1, oldCol + 1)) {
+    if (b->isCell(oldRow + 1, oldCol + 1) &&
+        b->isOccupied(oldRow + 1, oldCol + 1)) {
       if (newRow == oldRow + 1 && newCol == oldCol + 1) {
-      obstacleRow = oldRow + 1;
-      obstacleCol = oldCol + 1;
-      return true;
+        obstacleRow = oldRow + 1;
+        obstacleCol = oldCol + 1;
+        return true;
       }
     }
-    if (b->isCell(oldRow + 1, oldCol - 1) &&b->isOccupied(oldRow + 1, oldCol - 1)) {
+    if (b->isCell(oldRow + 1, oldCol - 1) &&
+        b->isOccupied(oldRow + 1, oldCol - 1)) {
       if (newRow == oldRow + 1 && newCol == oldCol - 1) {
-      obstacleRow = oldRow + 1;
-      obstacleCol = oldCol - 1;
-      return true;
-    }
+        obstacleRow = oldRow + 1;
+        obstacleCol = oldCol - 1;
+        return true;
+      }
     }
   }
   return false;
@@ -127,45 +131,45 @@ bool Pawn::promoReady(char oldPiece, int newRow) {
   return false;
 }
 
-void Pawn::promote(char oldPiece, char newPiece, int oldRow, char oldCol) {
+bool Pawn::promote(char oldPiece, char newPiece, int newRow, char newCol) {
   if (oldPiece == 'p') {
     if (newPiece == 'r') {
-      delete b->getPiecePtr(oldRow, oldCol);
-      b->getBoard()[oldRow - 1][oldCol - 'a'] = new Rook{'r', b};
-      return;
+      delete b->getPiecePtr(newRow, newCol);
+      b->getBoard()[newRow - 1][newCol - 'a'] = new Rook{'r', b};
+      return true;
     } else if (newPiece == 'n') {
-      delete b->getPiecePtr(oldRow, oldCol);
-      b->getBoard()[oldRow - 1][oldCol - 'a'] = new Knight{'n', b};
-      return;
+      delete b->getPiecePtr(newRow, newCol);
+      b->getBoard()[newRow - 1][newCol - 'a'] = new Knight{'n', b};
+      return true;
     } else if (newPiece == 'b') {
-      delete b->getPiecePtr(oldRow, oldCol);
-      b->getBoard()[oldRow - 1][oldCol - 'a'] = new Bishop{'b', b};
-      return;
+      delete b->getPiecePtr(newRow, newCol);
+      b->getBoard()[newRow - 1][newCol - 'a'] = new Bishop{'b', b};
+      return true;
     } else if (newPiece == 'q') {
-      delete b->getPiecePtr(oldRow, oldCol);
-      b->getBoard()[oldRow - 1][oldCol - 'a'] = new Queen{'q', b};
-      return;
+      delete b->getPiecePtr(newRow, newCol);
+      b->getBoard()[newRow - 1][newCol - 'a'] = new Queen{'q', b};
+      return true;
     }
   } else if (oldPiece == 'P') {
     if (newPiece == 'R') {
-      delete b->getPiecePtr(oldRow, oldCol);
-      b->getBoard()[oldRow - 1][oldCol - 'a'] = new Rook{'R', b};
-      return;
+      delete b->getPiecePtr(newRow, newCol);
+      b->getBoard()[newRow - 1][newCol - 'a'] = new Rook{'R', b};
+      return true;
     } else if (newPiece == 'N') {
-      delete b->getPiecePtr(oldRow, oldCol);
-      b->getBoard()[oldRow - 1][oldCol - 'a'] = new Knight{'N', b};
-      return;
+      delete b->getPiecePtr(newRow, newCol);
+      b->getBoard()[newRow - 1][newCol - 'a'] = new Knight{'N', b};
+      return true;
     } else if (newPiece == 'B') {
-      delete b->getPiecePtr(oldRow, oldCol);
-      b->getBoard()[oldRow - 1][oldCol - 'a'] = new Bishop{'B', b};
-      return;
+      delete b->getPiecePtr(newRow, newCol);
+      b->getBoard()[newRow - 1][newCol - 'a'] = new Bishop{'B', b};
+      return true;
     } else if (newPiece == 'Q') {
-      delete b->getPiecePtr(oldRow, oldCol);
-      b->getBoard()[oldRow - 1][oldCol - 'a'] = new Queen{'Q', b};
-      return;
+      delete b->getPiecePtr(newRow, newCol);
+      b->getBoard()[newRow - 1][newCol - 'a'] = new Queen{'Q', b};
+      return true;
     }
   }
-  throw InvalidMove{};
+  return false; // means newPiece was invalid
 }
 
 void Pawn::move(char oldCol, int oldRow, 
@@ -179,10 +183,6 @@ void Pawn::move(char oldCol, int oldRow,
     b->removePiece(oldRow, oldCol);
     lastMoveCapture = false;
   } else if (b->isOccupied(newRow, newCol)) {
-    if (promoReady(oldPiece, newRow)) {
-      promote(oldPiece, newPiece, oldRow, oldCol);
-      return;
-    }
     if (isInDiagonalPath(oldPiece, oldCol, oldRow, newCol, newRow) 
         && b->isWhitePiece(oldRow, oldCol) 
         != b->isWhitePiece(newRow, newCol)
@@ -191,9 +191,14 @@ void Pawn::move(char oldCol, int oldRow,
         capture(oldRow, oldCol, obstacleRow, obstacleCol);
         lastMoveCapture = true;
         clearObs();
-        return;
     }
-    throw InvalidMove{};
+    if (promoReady(oldPiece, newRow)) {
+      if (promote(oldPiece, newPiece, newRow, newCol)) return;
+      else {
+        revertMove(oldCol, oldRow, newCol, newRow, newPiece);
+        throw InvalidMove{};
+      }
+    }
   } else {
     throw InvalidMove{};
   }

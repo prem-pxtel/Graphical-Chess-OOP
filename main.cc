@@ -59,9 +59,10 @@ int main() {
               && input >> newCol && input >> newRow)) {
             throw InvalidMove{};
           }
+          input >> promo;
           if (!(promo == 'r' || promo == 'R' || promo == 'b' || promo == 'B'
               || promo == 'q' || promo == 'Q' || promo == ' ')) {
-            throw InvalidMove {};
+            throw InvalidMove{};
           }
           if (whiteTurn) {
             if (!b->isWhitePiece(invertRow(oldRow), oldCol)) 
@@ -69,12 +70,12 @@ int main() {
             if(b->whitecheck == true) {
               b->getPiecePtr(invertRow(oldRow), oldCol)
                 ->move(oldCol, invertRow(oldRow), newCol, 
-                              invertRow(newRow), promo);
+                       invertRow(newRow), promo);
               b->check();
               if (b->whitecheck == true) { // revert move here.
               b->getPiecePtr(invertRow(newRow), newCol)
                 ->revertMove(oldCol, invertRow(oldRow), newCol, 
-                              invertRow(newRow), promo);
+                             invertRow(newRow), promo);
                 b->updateBoards();
                 throw InvalidMove{};
               } else {
@@ -88,12 +89,12 @@ int main() {
             if (b->blackcheck == true) {
               b->getPiecePtr(invertRow(oldRow), oldCol)
                 ->move(oldCol, invertRow(oldRow), newCol, 
-                              invertRow(newRow), promo);
+                       invertRow(newRow), promo);
               b->check();
               if (b->blackcheck == true) { // revert move here.
                 b->getPiecePtr(invertRow(newRow), newCol)
                 ->revertMove(oldCol, invertRow(oldRow), newCol, 
-                              invertRow(newRow), promo);
+                             invertRow(newRow), promo);
                 b->updateBoards();
                 throw InvalidMove{};
               } else {
@@ -105,7 +106,7 @@ int main() {
           if (!alreadymoved) {
             b->getPiecePtr(invertRow(oldRow), oldCol)
             ->move(oldCol, invertRow(oldRow), newCol, 
-                            invertRow(newRow), promo);
+                   invertRow(newRow), promo);
             b->updateBoards();
             if (b->check()) {
               if (b->checkmate()) break;
@@ -123,7 +124,7 @@ int main() {
         }
       } else { // Computer's Turn
 
-        
+
       }
     } else if (command == "resign") {
       if (whiteTurn) {
