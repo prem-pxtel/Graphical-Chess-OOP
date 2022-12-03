@@ -294,11 +294,6 @@ bool Board::checkmate(){
             int obstacleRow = getPiecePtr(i, j)->getObsRow();
             char obstacleCol = getPiecePtr(i, j)->getObsCol();
         if (isCell(obstacleRow, obstacleCol)) {
-          std::cout << obstacleRow;
-          
-          std::cout << obstacleCol << std::endl;
-
-
           if (checkrow == obstacleRow && checkcol == obstacleCol 
              && isWhitePiece(i, j) 
              != isWhitePiece(obstacleRow, obstacleCol)
@@ -488,11 +483,6 @@ bool Board::checkmate(){
             int obstacleRow = getPiecePtr(i, j)->getObsRow();
             char obstacleCol = getPiecePtr(i, j)->getObsCol();
         if (isCell(obstacleRow, obstacleCol)) {
-          std::cout << obstacleRow;
-          
-          std::cout << obstacleCol << std::endl;
-
-
           if (checkrow == obstacleRow && checkcol == obstacleCol 
              && isWhitePiece(i, j) 
              != isWhitePiece(obstacleRow, obstacleCol)

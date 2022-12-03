@@ -71,7 +71,6 @@ bool Pawn::isInDiagonalPath(char oldPiece, char oldCol, int oldRow,
       if (newRow == oldRow - 1 && newCol == oldCol + 1) {
       obstacleRow = oldRow - 1;
       obstacleCol = oldCol + 1;
-std::cout << "gay1" << std::endl;
       return true;
       }
     }
@@ -79,7 +78,6 @@ std::cout << "gay1" << std::endl;
       if (newRow == oldRow - 1 && newCol == oldCol - 1) {
       obstacleRow = oldRow - 1;
       obstacleCol = oldCol - 1;
-std::cout << "sped2" << std::endl;
       return true;
       }
     }
@@ -88,7 +86,6 @@ std::cout << "sped2" << std::endl;
       if (newRow == oldRow + 1 && newCol == oldCol + 1) {
       obstacleRow = oldRow + 1;
       obstacleCol = oldCol + 1;
-std::cout << "prem" << std::endl;
       return true;
       }
     }
@@ -96,7 +93,6 @@ std::cout << "prem" << std::endl;
       if (newRow == oldRow + 1 && newCol == oldCol - 1) {
       obstacleRow = oldRow + 1;
       obstacleCol = oldCol - 1;
-std::cout << "avi" << std::endl;
       return true;
     }
     }
@@ -176,7 +172,6 @@ void Pawn::move(char oldCol, int oldRow,
                 char newCol, int newRow, char newPiece) {
   char oldPiece = b->getPiece(oldRow, oldCol);
   if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow)) {
-std::cout << "gay" << std::endl;
     if (promoReady(oldPiece, newRow)) {
       promote(oldPiece, newPiece, oldRow, oldCol);
     }
@@ -184,9 +179,7 @@ std::cout << "gay" << std::endl;
     b->removePiece(oldRow, oldCol);
     lastmovecapture = false;
   } else if (b->isOccupied(newRow, newCol)) {
-std::cout << "sped" << std::endl;
     if (promoReady(oldPiece, newRow)) {
-      std::cout << "purda" << std::endl;
       promote(oldPiece, newPiece, oldRow, oldCol);
       return;
     }
@@ -195,7 +188,6 @@ std::cout << "sped" << std::endl;
         != b->isWhitePiece(newRow, newCol)
         && b->getPiece(newRow, newCol) != 'k'
         && b->getPiece(newRow, newCol) != 'K') {
-std::cout << "prem" << std::endl;
         capture(oldRow, oldCol, obstacleRow, obstacleCol);
         lastmovecapture = true;
         clearObs();
@@ -203,7 +195,6 @@ std::cout << "prem" << std::endl;
     }
     throw InvalidMove{};
   } else {
-std::cout << "avi" << std::endl;
     throw InvalidMove{};
   }
 }
