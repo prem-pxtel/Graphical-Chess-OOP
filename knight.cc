@@ -115,6 +115,11 @@ b->removePiece(newRow, newCol);
 }
 }
 
+bool Knight::isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
+                        char newCol, int newRow) {
+return false;
+                        }
+
 int Knight::getObsRow() {
   return obstacleRow;
 }

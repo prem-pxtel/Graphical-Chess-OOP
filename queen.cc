@@ -305,6 +305,12 @@ b->swapPiece(newRow, newCol, oldRow, oldCol);
 b->removePiece(newRow, newCol);
 }
 }
+
+bool Queen::isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
+                        char newCol, int newRow) {
+return false;
+                        }
+
 int Queen::getObsRow() {
   return obstacleRow;
 }

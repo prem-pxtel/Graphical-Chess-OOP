@@ -91,6 +91,10 @@ int main() {
                         invertRow(newRow), promo);
         b->updateBoards();
         b->check();
+       /*   if(b->checkmate()){
+            cout << "winner winner chicken dinner" << endl;
+          }
+          */
         }
         if (whiteTurn) {
           cout << "Player 2's Turn" << endl;

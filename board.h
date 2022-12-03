@@ -10,6 +10,12 @@ class Board : public Subject {
  public:
   bool whitecheck = false;
   bool blackcheck = false;
+  int checkrow;
+  char checkcol;
+  int wkingrow;
+  char wkingcol;
+  int bkingrow;
+  char bkingcol;
   Board();
   ~Board();
   char getPiece(int row, char col) const override;

@@ -321,6 +321,11 @@ b->removePiece(newRow, newCol);
 }
 }
 
+bool King::isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
+                        char newCol, int newRow) {
+return false;
+                        }
+
 int King::getObsRow() {
   return obstacleRow;
 }

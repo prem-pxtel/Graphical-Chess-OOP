@@ -28,7 +28,7 @@ class Pawn : public Piece {
   bool isInPath(char oldPiece, char oldCol, int oldRow, 
                 char newCol, int newRow);
   bool isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
-                        char newCol, int newRow);
+                        char newCol, int newRow) override;
   bool promoReady(char oldPiece, int newRow);
   int getObsRow() override;
   char getObsCol() override;

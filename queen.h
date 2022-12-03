@@ -27,6 +27,8 @@ class Queen : public Piece {
                    char newCol, int newRow); 
   bool isValidMove(char oldPiece, char oldCol, int oldRow, 
                    char newCol, int newRow) override;
+  bool isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
+                        char newCol, int newRow) override;
   bool isInPath(char oldPiece, char oldCol, int oldRow, 
                 char newCol, int newRow);
   int getObsRow() override;

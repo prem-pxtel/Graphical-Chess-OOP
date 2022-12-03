@@ -201,6 +201,11 @@ b->removePiece(newRow, newCol);
 }
 }
 
+bool Bishop::isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
+                        char newCol, int newRow) {
+return false;
+                        }
+
 int Bishop::getObsRow() {
   return obstacleRow;
 }

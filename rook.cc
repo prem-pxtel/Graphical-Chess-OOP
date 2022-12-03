@@ -202,6 +202,11 @@ b->removePiece(newRow, newCol);
 }
 }
 
+bool Rook::isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
+                        char newCol, int newRow) {
+return false;
+                        }
+
 int Rook::getObsRow() {
   return obstacleRow;
 }
