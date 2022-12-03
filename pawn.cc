@@ -65,27 +65,40 @@ bool Pawn::isValidMove(char oldPiece, char oldCol, int oldRow,
 
 bool Pawn::isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
                             char newCol, int newRow) {
+  if(abs((newCol - oldCol)) != abs((newRow - oldRow))) return false;
   if (b->isWhitePiece(oldRow, oldCol)) {
-    if (b->isOccupied(oldRow - 1, oldCol + 1)) {
+    if (b->isCell(oldRow - 1, oldCol + 1) && b->isOccupied(oldRow - 1, oldCol + 1)) {
+      if (newRow == oldRow - 1 && newCol == oldCol + 1) {
       obstacleRow = oldRow - 1;
       obstacleCol = oldCol + 1;
+std::cout << "gay1" << std::endl;
       return true;
+      }
     }
-    if (b->isOccupied(oldRow - 1, oldCol - 1)) {
+    if (b->isCell(oldRow - 1, oldCol - 1) && b->isOccupied(oldRow - 1, oldCol - 1)) {
+      if (newRow == oldRow - 1 && newCol == oldCol - 1) {
       obstacleRow = oldRow - 1;
       obstacleCol = oldCol - 1;
+std::cout << "sped2" << std::endl;
       return true;
+      }
     }
   } else {
-    if (b->isOccupied(oldRow + 1, oldCol + 1)) {
+    if (b->isCell(oldRow + 1, oldCol + 1) && b->isOccupied(oldRow + 1, oldCol + 1)) {
+      if (newRow == oldRow + 1 && newCol == oldCol + 1) {
       obstacleRow = oldRow + 1;
       obstacleCol = oldCol + 1;
+std::cout << "prem" << std::endl;
       return true;
+      }
     }
-    if (b->isOccupied(oldRow + 1, oldCol - 1)) {
+    if (b->isCell(oldRow + 1, oldCol - 1) &&b->isOccupied(oldRow + 1, oldCol - 1)) {
+      if (newRow == oldRow + 1 && newCol == oldCol - 1) {
       obstacleRow = oldRow + 1;
       obstacleCol = oldCol - 1;
+std::cout << "avi" << std::endl;
       return true;
+    }
     }
   }
   return false;
@@ -163,6 +176,7 @@ void Pawn::move(char oldCol, int oldRow,
                 char newCol, int newRow, char newPiece) {
   char oldPiece = b->getPiece(oldRow, oldCol);
   if (isValidMove(oldPiece, oldCol, oldRow, newCol, newRow)) {
+std::cout << "gay" << std::endl;
     if (promoReady(oldPiece, newRow)) {
       promote(oldPiece, newPiece, oldRow, oldCol);
     }
@@ -170,19 +184,26 @@ void Pawn::move(char oldCol, int oldRow,
     b->removePiece(oldRow, oldCol);
     lastmovecapture = false;
   } else if (b->isOccupied(newRow, newCol)) {
+std::cout << "sped" << std::endl;
     if (promoReady(oldPiece, newRow)) {
+      std::cout << "purda" << std::endl;
       promote(oldPiece, newPiece, oldRow, oldCol);
+      return;
     }
     if (isInDiagonalPath(oldPiece, oldCol, oldRow, newCol, newRow) 
         && b->isWhitePiece(oldRow, oldCol) 
         != b->isWhitePiece(newRow, newCol)
         && b->getPiece(newRow, newCol) != 'k'
         && b->getPiece(newRow, newCol) != 'K') {
+std::cout << "prem" << std::endl;
         capture(oldRow, oldCol, obstacleRow, obstacleCol);
         lastmovecapture = true;
         clearObs();
+        return;
     }
+    throw InvalidMove{};
   } else {
+std::cout << "avi" << std::endl;
     throw InvalidMove{};
   }
 }
@@ -231,6 +252,7 @@ else{
 b->swapPiece(newRow, newCol, oldRow, oldCol);
 b->removePiece(newRow, newCol);
 }
+b->updateBoards();
 }
 
 int Pawn::getObsRow() {

@@ -113,6 +113,7 @@ else{
 b->swapPiece(newRow, newCol, oldRow, oldCol);
 b->removePiece(newRow, newCol);
 }
+b->updateBoards();
 }
 
 bool Knight::isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 

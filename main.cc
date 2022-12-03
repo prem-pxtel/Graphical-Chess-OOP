@@ -92,9 +92,13 @@ int main() {
         b->updateBoards();
         if (b->check()) {
           if(b->checkmate()){
-            cout << "winner winner chicken dinner" << endl;
+            cout << "Checkmate!" << endl;
+            break;
+          } else {
+            b->check();
           }
         } 
+
         }
         if (whiteTurn) {
           cout << "Player 2's Turn" << endl;

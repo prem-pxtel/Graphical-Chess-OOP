@@ -319,6 +319,7 @@ else{
 b->swapPiece(newRow, newCol, oldRow, oldCol);
 b->removePiece(newRow, newCol);
 }
+b->updateBoards();
 }
 
 bool King::isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 

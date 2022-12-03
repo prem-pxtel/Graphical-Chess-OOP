@@ -296,6 +296,7 @@ else if (capturedpiece == 'q'){
 b->getBoard()[oldRow - 1][oldCol - 'a'] = new Queen{'q', b};
 }
 else if (capturedpiece == 'Q'){
+  std::cout << "aiv" << std::endl;
 b->getBoard()[oldRow - 1][oldCol - 'a'] = new Queen{'Q', b};  
 }
 b->swapPiece(oldRow, oldCol, newRow, newCol);
@@ -304,6 +305,7 @@ else{
 b->swapPiece(newRow, newCol, oldRow, oldCol);
 b->removePiece(newRow, newCol);
 }
+b->updateBoards();
 }
 
 bool Queen::isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
