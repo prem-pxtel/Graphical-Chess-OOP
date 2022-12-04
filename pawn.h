@@ -14,7 +14,6 @@ class Pawn : public Piece {
   bool capturedFirst;
   bool capturedPieceColour;
  public:
-  bool enPassantReady = false;
   Pawn(char piece, Board *b);
   ~Pawn();
   void move(char colOld, int rowOld, char colNew, 

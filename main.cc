@@ -5,6 +5,7 @@
 #include "piece.h"
 #include "textob.h"
 #include "pawn.h"
+#include "graphicalob.h"
 using std::cout;
 using std::endl;
 
@@ -45,6 +46,7 @@ int main() {
         continue;
       }
       Observer *ob1 = new TextOb{b};
+      Observer *ob2 = new GraphicalOb{b};
       toDelete.push_back(ob1);
       b->updateBoards();
       cout << "Player 1's Turn" << endl;

@@ -59,12 +59,12 @@ bool Pawn::isValidMove(char oldPiece, char oldCol, int oldRow,
       if (newRow > oldRow + 1) return false;
     }
   } 
+  if (secondMove) {
+    secondMove = false;
+  }
   if (firstMove) {
     firstMove = false;
-    b->getPiecePtr(oldRow, oldCol)->secondMove = true;
-  }
-  if (secondMove) {
-    b->getPiecePtr(oldRow, oldCol)->secondMove = false;
+    secondMove = true;
   }
   return true;
 }
@@ -276,7 +276,7 @@ void Pawn::revertMove(char oldCol, int oldRow,
 }
 
 bool Pawn::isValidEnPassant(char escapingPawn, int escapeRow, char escapeCol) {
-  if (!b->getPiecePtr(escapeRow, escapeCol)->secondMove) return false;
+  if (!secondMove) return false;
   char pieceToLeft = ' ';
   if (b->isCell(escapeRow, escapeCol - 1)) {
     pieceToLeft = b->getPiece(escapeRow, escapeCol - 1);
@@ -342,7 +342,7 @@ void Pawn::move(char oldCol, int oldRow,
       }
     }
   } else if (isInDiagonalPathEnP(oldPiece, oldCol, oldRow, newCol, newRow)) {
-    if (b->getPiecePtr(oldRow, oldCol)->enPassantReady) {
+    if (enPassantReady) {
       capture(oldRow, oldCol, newRow, newCol); // capture enPassant
     } else {
       throw InvalidMove{};

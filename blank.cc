@@ -29,8 +29,8 @@ bool Blank::isValidMove(char oldPiece, char oldCol, int oldRow, char newCol, int
 
 bool Blank::isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
                         char newCol, int newRow) {
-return false;
-                        }
+  return false;
+}
 
 int Blank::getObsRow() {
   return obstacleRow;
