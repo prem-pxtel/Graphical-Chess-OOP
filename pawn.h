@@ -9,10 +9,6 @@ class Pawn : public Piece {
   Board *b;
   int obstacleRow;
   char obstacleCol;
-  bool lastMoveCapture = false;
-  char capturedPiece;
-  bool capturedFirst;
-  bool capturedPieceColour;
  public:
   Pawn(char piece, Board *b);
   ~Pawn();

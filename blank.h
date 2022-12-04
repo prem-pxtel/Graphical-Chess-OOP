@@ -9,10 +9,6 @@ class Blank : public Piece {
   Board *b;
   int obstacleRow;
   char obstacleCol;
-  bool lastMoveCapture = false;
-  char capturedPiece;
-  bool capturedFirst;
-  bool capturedPieceColour;
  public:
   Blank(char piece, Board *b);
   ~Blank();

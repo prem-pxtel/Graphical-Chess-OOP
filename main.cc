@@ -24,123 +24,113 @@ int invertRow(int oldRow) {
   }
 }
 
-bool setup(Board *b){ // handles the entire setup process
+bool setup (Board *b) { // handles the entire setup process
   std::string commands;
   bool colourTurn = true;
   b->clearBoard();
   b->updateBoards();
-  while(getline(std::cin, commands)){
+  while (getline(std::cin, commands)) {
     std::istringstream inputs{commands};
     inputs >> commands;
-    if (commands == "+"){
+    if (commands == "+") {
       char piece;
       char Col;
       int Row;
-    if (!(inputs >> piece && inputs >> Col 
-          && inputs >> Row)) {
-            cout << "Invalid setup move." << endl;
+      if (!(inputs >> piece && inputs >> Col 
+            && inputs >> Row)) {
+              cout << "Invalid setup move." << endl;
+      } else if (piece != 'p' && piece != 'P' && piece != 'r' && piece != 'R'
+      && piece != 'K' && piece != 'k' && piece != 'b' && piece != 'B'
+      && piece != 'n' && piece != 'N' && piece != 'q' && piece != 'Q') {
+        cout << "Invalid piece." << endl;
+      } else if (!(1 <= Row && Row <= 8)||!('a' <= Col && Col <= 'z')) {
+        cout << "Invalid move" << endl;
+      } else {
+        delete b->getPiecePtr(invertRow(Row), Col);
+        Row = Row - 1;
+        Col = Col - 'a';
+        if(piece == 'p' || piece == 'P') {
+          b->getBoard()[Row][Col] = new Pawn {piece, b};
+        }
+        else if (piece == 'r' || piece == 'R') {
+          b->getBoard()[Row][Col] = new Rook {piece, b};
+        }
+        else if (piece == 'K' || piece == 'k') {
+          b->getBoard()[Row][Col] = new King {piece, b};
+        }
+        else if (piece == 'b' || piece == 'B') {
+          b->getBoard()[Row][Col] = new Bishop {piece, b};
+        }
+        else if (piece == 'n' || piece == 'N') {
+          b->getBoard()[Row][Col] = new Knight {piece, b};
+        }
+        else if (piece == 'q' || piece == 'Q') {
+          b->getBoard()[Row][Col] = new Queen {piece, b};
+        }
+        b->updateBoards();
+      }
     }
-    else if(piece != 'p' && piece != 'P' && piece != 'r' && piece != 'R'
-     && piece != 'K' && piece != 'k' && piece != 'b' && piece != 'B'
-    && piece != 'n' && piece != 'N' && piece != 'q' && piece != 'Q'){
-      cout << "Invalid piece." << endl;
-     }
-    else if(!(1 <= Row && Row <= 8)||!('a' <= Col && Col <= 'z')){
-      cout << "Invalid move" << endl;
-    }
-    else{
-      delete b->getPiecePtr(invertRow(Row), Col);
-      Row = Row - 1;
-      Col = Col - 'a';
-      if(piece == 'p' || piece == 'P'){
-        b->getBoard()[(Row)][Col] = new Pawn {piece, b};
-      }
-      else if (piece == 'r' || piece == 'R'){
-        b->getBoard()[(Row)][Col] = new Rook {piece, b};
-      }
-      else if (piece == 'K' || piece == 'k'){
-        b->getBoard()[(Row)][Col] = new King {piece, b};
-      }
-      else if (piece == 'b' || piece == 'B'){
-        b->getBoard()[(Row)][Col] = new Bishop {piece, b};
-      }
-      else if (piece == 'n' || piece == 'N'){
-        b->getBoard()[(Row)][Col] = new Knight {piece, b};
-      }
-      else if (piece == 'q' || piece == 'Q'){
-        b->getBoard()[(Row)][Col] = new Queen {piece, b};
-      }
-      b->updateBoards();
-    }
-    }
-    else if (commands == "-"){
+    else if (commands == "-") {
       char Col;
       int Row;
-    if (!(inputs >> Col 
-          && inputs >> Row)) {
-            cout << "Invalid setup move." << endl;
-    }
-    else if(!(1 <= Row && Row <= 8)||!('a' <= Col && Col <= 'z')){
-      cout << "Invalid move" << endl;
-    }
-    else{
-       if(b->isOccupied(Row, Col)){
-        delete b->getPiecePtr(invertRow(Row), Col);
-        b->getBoard()[(Row - 1)][Col - 'a'] = new Blank {' ', b};
-        b->removePiece(invertRow(Row), Col); // sets to either " " or "_"
-        b->updateBoards();
-       }
-    }
-    }
-    else if (commands == "="){
-      std::string colour;
-      if(!(inputs >> colour)){
-        cout << "Invalid color." << endl;
-      }
-      else if (colour != "black" && colour != "white"){
-        cout << "Invalid color." << endl;
-      }
-      else{
-        if(colour == "black"){
-          colourTurn = false;
+      if (!(inputs >> Col 
+            && inputs >> Row)) {
+              cout << "Invalid setup move." << endl;
+      } else if(!(1 <= Row && Row <= 8)||!('a' <= Col && Col <= 'z')){
+        cout << "Invalid move" << endl;
+      } else {
+        if (b->isOccupied(Row, Col)) {
+          delete b->getPiecePtr(invertRow(Row), Col);
+          b->getBoard()[(Row - 1)][Col - 'a'] = new Blank {' ', b};
+          b->removePiece(invertRow(Row), Col); // sets to either " " or "_"
+          b->updateBoards();
         }
-        else{
+      }
+    } else if (commands == "=") {
+      std::string colour;
+      if (!(inputs >> colour)) {
+        cout << "Invalid color." << endl;
+      } else if (colour != "black" && colour != "white"){
+        cout << "Invalid color." << endl;
+      } else{
+        if (colour == "black") {
+          colourTurn = false;
+        } else {
           colourTurn = true;
         }
       }
-    }
-    else if (commands == "done"){
+    } else if (commands == "done") {
       char value = 'z';
       int blackking = 0;
       int whiteking = 0;
       int pawns = 0;
-      for(int i = 1; i <= 8; i++){
-        for(char j = 'a'; j <= 'h'; j++){
+      for (int i = 1; i <= 8; i++) {
+        for (char j = 'a'; j <= 'h'; j++) {
           value = b->getPiece(i, j);
-          if(value == 'k'){
+          if (value == 'k') {
             blackking++;
           }
-          else if (value == 'K'){
+          else if (value == 'K') {
             whiteking++;
           }
           else if (((i == 1 && value == 'p') || (i == 1 && value == 'P')) 
-                  || ((i == 8 && value == 'p') || (i == 8 && value == 'P'))){
+                  || ((i == 8 && value == 'p') || (i == 8 && value == 'P'))) {
                     pawns++;
-                  }
+          }
         }
       }
-        if(blackking == 1 && whiteking == 1 && pawns == 0){
+        if (blackking == 1 && whiteking == 1 && pawns == 0) {
           b->check();
-          if(!(b->whitecheck) && !(b->blackcheck)){
+          if(!(b->whitecheck) && !(b->blackcheck)) {
             cout << "110" << endl;
             break;
           }
         }
-        else{
+        else {
           cout << "Please recheck your king count, if there are any pawns in the first and last row, or if any King is in check" << endl;
         }
     }
-    else{
+    else {
       cout << "Invalid Command." << endl;
     }
   }
@@ -177,16 +167,15 @@ int main() {
         cout << "Invalid Player Type." << endl;
         continue;
       }
-      if(!(setupFinished)){
-      b->init();
-      Observer *ob1 = new TextOb{b};
-      Observer *ob2 = new GraphicalOb{b};
-      toDelete.push_back(ob1);
-      b->updateBoards();
-    }
-    else{
-      b->updateBoards();
-    }
+      if (!(setupFinished)) {
+        b->init();
+        Observer *ob1 = new TextOb{b};
+        Observer *ob2 = new GraphicalOb{b};
+        toDelete.push_back(ob1);
+        b->updateBoards();
+      } else {
+        b->updateBoards();
+      }
       cout << "Player 1's Turn" << endl;
     } else if (command == "move") {
       if ((whiteTurn && player1human) 
@@ -277,6 +266,9 @@ int main() {
 
 
       }
+    } else if (command == "undo") {
+      
+
     } else if (command == "resign") {
       if (whiteTurn) {
         cout << "Black Wins!" << endl;
@@ -286,14 +278,14 @@ int main() {
         ++b->whitewins;
       }
     } else if (command == "setup") { // have empty board and then call helper function
-    if(!(gameInProgress)){
+    if (!(gameInProgress)) {
       Observer *ob1 = new TextOb{b};
       Observer *ob2 = new GraphicalOb{b};
       toDelete.push_back(ob1);
       whiteTurn = setup(b);
       setupFinished = true;
     }
-    else{
+    else {
       cout << "3000" << endl;
       throw InvalidMove{};
     }

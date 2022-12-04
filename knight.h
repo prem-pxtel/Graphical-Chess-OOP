@@ -9,10 +9,6 @@ class Knight : public Piece {
   Board *b;
   int obstacleRow;
   char obstacleCol;
-  bool LastMoveCapture = false;
-  char capturedPiece;
-  bool capturedFirst;
-  bool capturedPieceColour;
  public:
   Knight(char piece, Board *b);
   ~Knight();
