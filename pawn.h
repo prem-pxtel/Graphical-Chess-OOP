@@ -7,8 +7,6 @@
 
 class Pawn : public Piece {
   Board *b;
-  bool firstMove;
-  bool secondMove;
   int obstacleRow;
   char obstacleCol;
   bool lastMoveCapture = false;

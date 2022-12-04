@@ -204,6 +204,7 @@ bool King::isValidMove(char oldPiece, char oldCol, int oldRow,
   if (!b->isOccupied(oldRow, oldCol)) return false;
   if (oldCol == newCol && oldRow == newRow) return false;
   if (!isInPath(oldPiece, oldCol, oldRow, newCol, newRow)) return false;
+  firstMove = false;
   return true;
 }
 
@@ -323,8 +324,8 @@ void King::revertMove(char oldCol, int oldRow,
 
 bool King::isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
                         char newCol, int newRow) {
-return false;
-                        }
+  return false;
+}
 
 int King::getObsRow() {
   return obstacleRow;

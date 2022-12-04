@@ -7,7 +7,6 @@ class Board;
 
 class King : public Piece {
   Board *b;
-  bool firstMove;
   int obstacleRow;
   char obstacleCol;
   bool lastMoveCapture = false;
