@@ -218,7 +218,7 @@ bool Queen::isValidMover(char oldPiece, char oldCol, int oldRow,
 
 void Queen::capture(int oldRow, char oldCol, int newRow, char newCol) {
   capturedPiece = b->getPiece(newRow, newCol);
-  capturedPieceColour = b->isWhite(newRow, newCol);
+  capturedPieceColour = b->isWhitePiece(newRow, newCol);
   if (capturedPiece == 'r' || capturedPiece == 'R'
       || capturedPiece == 'p' || capturedPiece == 'P'){
     capturedFirst = b->getPiecePtr(oldRow,oldCol)->firstMove;
@@ -229,14 +229,13 @@ void Queen::capture(int oldRow, char oldCol, int newRow, char newCol) {
   b->removePiece(oldRow, oldCol); // sets to either " " or "_"
 }
 
-bool Queen::isValidMove(char oldPiece, char oldCol, int oldRow, char newCol, int newRow){
+bool Queen::isValidMove(char oldPiece, char oldCol, int oldRow, char newCol, int newRow) {
   if (isValidMoveb(oldPiece, oldCol, oldRow, newCol, newRow) || 
      (isValidMover(oldPiece, oldCol, oldRow, newCol, newRow))) {
       return true;
-     }
-     else{
-      return false;
-     }
+  } else {
+    return false;
+  }
 }
 
 void Queen::move(char oldCol, int oldRow, 
@@ -304,7 +303,6 @@ void Queen::revertMove(char oldCol, int oldRow,
     b->swapPiece(newRow, newCol, oldRow, oldCol);
     b->removePiece(newRow, newCol);
   }
-  b->updateBoards();
 }
 
 bool Queen::isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 

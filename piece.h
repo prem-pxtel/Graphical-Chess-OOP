@@ -5,7 +5,9 @@ class Piece {
  public:
   char piece;
   bool firstMove;
+  bool secondMove;
   bool lastMoveCapture = false;
+  bool enPassantReady = false;
   char capturedPiece;
   bool capturedFirst;
   bool capturedPieceColour;
@@ -28,7 +30,7 @@ class Piece {
 class InvalidMove {
  public:
   std::string errMsg;
-  InvalidMove(std::string errMsg = "Invalid Command.") : errMsg{errMsg} {}
+  InvalidMove(std::string errMsg = "Invalid Move.") : errMsg{errMsg} {}
 };
 
 #endif

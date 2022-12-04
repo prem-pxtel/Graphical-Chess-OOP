@@ -59,7 +59,13 @@ bool Pawn::isValidMove(char oldPiece, char oldCol, int oldRow,
       if (newRow > oldRow + 1) return false;
     }
   } 
-  firstMove = false;
+  if (firstMove) {
+    firstMove = false;
+    b->getPiecePtr(oldRow, oldCol)->secondMove = true;
+  }
+  if (secondMove) {
+    b->getPiecePtr(oldRow, oldCol)->secondMove = false;
+  }
   return true;
 }
 
@@ -104,22 +110,75 @@ bool Pawn::isInDiagonalPath(char oldPiece, char oldCol, int oldRow,
   return false;
 }
 
+bool Pawn::isInDiagonalPathEnP(char oldPiece, char oldCol, int oldRow, 
+                               char newCol, int newRow) {
+  if (abs((newCol - oldCol)) != abs((newRow - oldRow))) return false;
+  if (b->isWhitePiece(oldRow, oldCol)) {
+    if (b->isCell(oldRow - 1, oldCol + 1)) {
+      if (newRow == oldRow - 1 && newCol == oldCol + 1) {
+        obstacleRow = oldRow - 1;
+        obstacleCol = oldCol + 1;
+        return true;
+      }
+    }
+    if (b->isCell(oldRow - 1, oldCol - 1)) {
+      if (newRow == oldRow - 1 && newCol == oldCol - 1) {
+        obstacleRow = oldRow - 1;
+        obstacleCol = oldCol - 1;
+        return true;
+      }
+    }
+  } else {
+    if (b->isCell(oldRow + 1, oldCol + 1)) {
+      if (newRow == oldRow + 1 && newCol == oldCol + 1) {
+        obstacleRow = oldRow + 1;
+        obstacleCol = oldCol + 1;
+        return true;
+      }
+    }
+    if (b->isCell(oldRow + 1, oldCol - 1)) {
+      if (newRow == oldRow + 1 && newCol == oldCol - 1) {
+        obstacleRow = oldRow + 1;
+        obstacleCol = oldCol - 1;
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 void Pawn::clearObs() {
   obstacleRow = 10;
   obstacleCol = 'z';
 }
 
 void Pawn::capture(int oldRow, char oldCol, int newRow, char newCol) {
-  capturedPiece = b->getPiece(newRow, newCol);
-  capturedPieceColour = b->isWhite(newRow, newCol);
-  if (capturedPiece == 'r' || capturedPiece == 'R'
-      || capturedPiece == 'p' || capturedPiece == 'P'){
-    capturedFirst = b->getPiecePtr(oldRow,oldCol)->firstMove;
+  if (b->curTurn == b->enPassantTurn + 1 &&
+      newRow == b->enPassantRow && newCol == b->enPassantCol) {
+        std::string errMsg = "acc doing en p";
+
+    b->swapPiece(oldRow, oldCol, newRow, newCol);
+    b->removePiece(oldRow, oldCol); // sets to either " " or "_"
+    if (b->isWhitePiece(newRow, newCol)) {
+      delete b->getPiecePtr(newRow + 1, newCol);
+      b->getBoard()[newRow][newCol] = new Blank{' ', b};
+    } else {
+      delete b->getPiecePtr(newRow - 1, newCol);
+      b->getBoard()[newRow - 2][newCol] = new Blank{' ', b};
+    }
+    b->getPiecePtr(oldRow, oldCol)->enPassantReady = false;
+  } else {
+    capturedPiece = b->getPiece(newRow, newCol);
+    capturedPieceColour = b->isWhitePiece(newRow, newCol);
+    if (capturedPiece == 'r' || capturedPiece == 'R'
+        || capturedPiece == 'p' || capturedPiece == 'P'){
+      capturedFirst = b->getPiecePtr(oldRow, oldCol)->firstMove;
+    }
+    b->swapPiece(oldRow, oldCol, newRow, newCol);
+    delete b->getPiecePtr(oldRow, oldCol);
+    b->getBoard()[oldRow - 1][oldCol - 'a'] = new Blank{' ', b};
+    b->removePiece(oldRow, oldCol); // sets to either " " or "_"
   }
-  b->swapPiece(oldRow, oldCol, newRow, newCol);
-  delete b->getPiecePtr(oldRow, oldCol);
-  b->getBoard()[oldRow - 1][oldCol - 'a'] = new Blank{' ', b};
-  b->removePiece(oldRow, oldCol); // sets to either " " or "_"
 }
 
 bool Pawn::promoReady(char oldPiece, int newRow) {
@@ -216,7 +275,38 @@ void Pawn::revertMove(char oldCol, int oldRow,
     b->swapPiece(newRow, newCol, oldRow, oldCol);
     b->removePiece(newRow, newCol);
   }
-  b->updateBoards();
+}
+
+bool Pawn::isValidEnPassant(char escapingPawn, int escapeRow, char escapeCol) {
+  if (!b->getPiecePtr(escapeRow, escapeCol)->secondMove) return false;
+  char pieceToLeft = ' ';
+  if (b->isCell(escapeRow, escapeCol - 1)) {
+    pieceToLeft = b->getPiece(escapeRow, escapeCol - 1);
+  }
+  char pieceToRight = ' ';
+  if (b->isCell(escapeRow, escapeCol + 1)) {
+    pieceToRight = b->getPiece(escapeRow, escapeCol + 1);
+  }
+  if (escapingPawn == 'p') {
+    if (pieceToLeft == 'P') {
+      b->getPiecePtr(escapeRow, escapeCol - 1)->enPassantReady = true;
+      return true;
+    }
+    if (pieceToRight == 'P') {
+      b->getPiecePtr(escapeRow, escapeCol + 1)->enPassantReady = true;
+      return true;
+    }
+  } else { // escaping pawn is a white pawn, 'P'
+    if (pieceToLeft == 'p') {
+      b->getPiecePtr(escapeRow, escapeCol - 1)->enPassantReady = true;
+      return true;
+    }
+    if (pieceToRight == 'p') {
+      b->getPiecePtr(escapeRow, escapeCol + 1)->enPassantReady = true;
+      return true;
+    }
+  }
+  return false;
 }
 
 void Pawn::move(char oldCol, int oldRow, 
@@ -228,6 +318,12 @@ void Pawn::move(char oldCol, int oldRow,
     }
     b->swapPiece(oldRow, oldCol, newRow, newCol);
     b->removePiece(oldRow, oldCol);
+    if (isValidEnPassant(oldPiece, newRow, newCol)) {
+      b->enPassantTurn = b->curTurn;
+      if (oldPiece == 'p') b->enPassantRow = newRow - 1; // the square skipped over
+      else b->enPassantRow = newRow + 1;
+      b->enPassantCol = newCol;
+    }
     lastMoveCapture = false;
   } else if (b->isOccupied(newRow, newCol)) {
     if (isInDiagonalPath(oldPiece, oldCol, oldRow, newCol, newRow) 
@@ -247,6 +343,13 @@ void Pawn::move(char oldCol, int oldRow,
         throw InvalidMove{errMsg};
       }
     }
+  } else if (isInDiagonalPathEnP(oldPiece, oldCol, oldRow, newCol, newRow)) {
+    if (b->getPiecePtr(oldRow, oldCol)->enPassantReady) {
+      capture(oldRow, oldCol, newRow, newCol); // capture enPassant
+    } else {
+      throw InvalidMove{};
+    }
+
   } else {
     throw InvalidMove{};
   }

@@ -90,6 +90,7 @@ int main() {
               b->getPiecePtr(invertRow(oldRow), oldCol)
                 ->move(oldCol, invertRow(oldRow), newCol, 
                        invertRow(newRow), promo);
+              ++b->curTurn;
               b->check();
               if (b->blackcheck == true) { // revert move here.
                 b->getPiecePtr(invertRow(newRow), newCol)
@@ -107,10 +108,15 @@ int main() {
             b->getPiecePtr(invertRow(oldRow), oldCol)
             ->move(oldCol, invertRow(oldRow), newCol, 
                    invertRow(newRow), promo);
+            ++b->curTurn;
             b->updateBoards();
             if (b->check()) {
-              if (b->checkmate()) break;
-            } 
+              if (b->checkmate()) {
+                break;
+              } else {
+                b->check();
+              }
+            }
           }
           if (whiteTurn) {
             cout << "Player 2's Turn" << endl;
@@ -121,6 +127,7 @@ int main() {
           }
         } catch (InvalidMove i) {
           cout << i.errMsg << endl;
+          --b->curTurn;
         }
       } else { // Computer's Turn
 
@@ -137,7 +144,7 @@ int main() {
     } else if (command == "setup") {
 
     } else {
-      cout << "Invalid command." << endl;
+      cout << "Invalid Command." << endl;
     }
   }
   cout << "Final Score:" << endl;

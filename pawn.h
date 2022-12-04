@@ -8,6 +8,7 @@
 class Pawn : public Piece {
   Board *b;
   bool firstMove;
+  bool secondMove;
   int obstacleRow;
   char obstacleCol;
   bool lastMoveCapture = false;
@@ -15,6 +16,7 @@ class Pawn : public Piece {
   bool capturedFirst;
   bool capturedPieceColour;
  public:
+  bool enPassantReady = false;
   Pawn(char piece, Board *b);
   ~Pawn();
   void move(char colOld, int rowOld, char colNew, 
@@ -29,7 +31,10 @@ class Pawn : public Piece {
                 char newCol, int newRow);
   bool isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
                         char newCol, int newRow) override;
+  bool isInDiagonalPathEnP(char oldPiece, char oldCol, int oldRow, 
+                                 char newCol, int newRow);
   bool promoReady(char oldPiece, int newRow);
+  bool isValidEnPassant(char escapingPawn, int escapeRow, char escapeCol);
   int getObsRow() override;
   char getObsCol() override;
   void clearObs() override;

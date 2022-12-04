@@ -242,7 +242,7 @@ void King::castle(int oldRow, char oldCol, int newRow, char newCol) {
 
 void King::capture(int oldRow, char oldCol, int newRow, char newCol) {
   capturedPiece = b->getPiece(newRow, newCol);
-  capturedPieceColour = b->isWhite(newRow, newCol);
+  capturedPieceColour = b->isWhitePiece(newRow, newCol);
   if (capturedPiece == 'r' || capturedPiece == 'R'
       || capturedPiece == 'p' || capturedPiece == 'P'){
     capturedFirst = b->getPiecePtr(oldRow,oldCol)->firstMove;
@@ -319,7 +319,6 @@ void King::revertMove(char oldCol, int oldRow,
     b->swapPiece(newRow, newCol, oldRow, oldCol);
     b->removePiece(newRow, newCol);
   }
-  b->updateBoards();
 }
 
 bool King::isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 

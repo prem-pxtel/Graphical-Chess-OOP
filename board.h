@@ -18,6 +18,10 @@ class Board : public Subject {
   char bkingcol;
   int whitewins = 0;
   int blackwins = 0;
+  int curTurn = 0;
+  int enPassantTurn = 0;
+  int enPassantRow = 10;
+  char enPassantCol = 'z';
   Board();
   ~Board();
   char getPiece(int row, char col) const override;
