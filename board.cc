@@ -13,6 +13,18 @@ using std::cout;
 using std::endl;
 
 Board::Board() {
+  
+}
+
+Board::~Board() {
+  for (int i = 0; i < 8; ++i) {
+    for (char j = 'a'; j < 'h'; ++j) {
+      delete board[i][j];
+    }
+  }
+}
+
+void Board::init(){
   whitecheck = false;
   blackcheck = false;
   std::vector<Piece*> row1;
@@ -62,11 +74,17 @@ Board::Board() {
   board.push_back(row8);
 }
 
-Board::~Board() {
-  for (int i = 0; i < 8; ++i) {
-    for (char j = 'a'; j < 'h'; ++j) {
-      delete board[i][j];
+void Board::clearBoard(){
+    for (int i = 1; i <= 8; i++) {
+    std::vector<Piece*> blankRow;
+    for (char j = 'a'; j <= 'h'; ++j) {
+      if (((j - 'a') + i) % 2 == 0) {
+        blankRow.push_back(new Blank{'_', this});
+      } else {
+        blankRow.push_back(new Blank{' ', this});
+      }
     }
+    board.push_back(blankRow);
   }
 }
 

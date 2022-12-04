@@ -24,6 +24,8 @@ class Board : public Subject {
   char enPassantCol = 'z';
   Board();
   ~Board();
+  void init();
+  void clearBoard();
   char getPiece(int row, char col) const override;
   void setPiece(int row, char col, char p) override;
   void removePiece(int row, char col);
