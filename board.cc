@@ -227,8 +227,8 @@ bool Board::checkmate()
         {
           if (isOccupied(i, j))
           { // check if pieces are occupied
-            if (!(isWhitePiece(i, j)))
-            { // if its a black piece
+            if (isWhitePiece(i, j))
+            { // if its a white piece
               if (getPiece(i, j) == 'p')
               {
                 if (getPiecePtr(i, j)->isInDiagonalPath('p', j, i, checkcol, checkrow))
@@ -243,7 +243,7 @@ bool Board::checkmate()
                   // revert the move
                 }
                 else
-                { // check if the 8 spots around the king can be moved to by the black pieces to prevent the check
+                { // check if the 8 spots around the king can be moved to by the white pieces to prevent the check
                   if (isCell(bkingrow, bkingcol + 1))
                   {
                     if (getPiecePtr(i, j)->isValidMove('p', j, i, bkingcol + 1, bkingrow))
@@ -364,7 +364,7 @@ bool Board::checkmate()
                   }
                 }
                 else
-                { // check if the 8 spots around the king can be moved to by the black pieces to prevent the check
+                { // check if the 8 spots around the king can be moved to by the white pieces to prevent the check
                   if (isCell(bkingrow, bkingcol + 1))
                   {
                     if (getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, bkingcol + 1, bkingrow))

@@ -243,12 +243,11 @@ int main() {
             ++b->curTurn;
             b->updateBoards();
             if (b->check()) {
-            /* if (b->checkmate()) {
+             if (b->checkmate()) {
                 break;
               } else {
                 b->check();
               }
-              */
             }
           }
           if (whiteTurn) {
