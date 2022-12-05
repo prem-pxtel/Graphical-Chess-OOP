@@ -170,7 +170,7 @@ int main() {
       if (!(setupFinished)) {
         b->init();
         Observer *ob1 = new TextOb{b};
-        Observer *ob2 = new GraphicalOb{b};
+       // Observer *ob2 = new GraphicalOb{b};
         toDelete.push_back(ob1);
         b->updateBoards();
       } else {
