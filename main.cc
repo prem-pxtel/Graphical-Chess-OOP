@@ -243,7 +243,6 @@ int main() {
             ++b->curTurn;
             b->updateBoards();
             if (b->check()) {
-              cout << b->colourInCheck << " is in check." << endl;
               if (b->checkmate()) {
                 break;
               } else {
@@ -252,9 +251,15 @@ int main() {
             }
           }
           if (whiteTurn) {
+            if (b->whitecheck || b->blackcheck) {
+              cout << b->colourInCheck << " is in check." << endl;
+            }
             cout << "Player 2's Turn" << endl;
             whiteTurn = false;
           } else {
+            if (b->whitecheck || b->blackcheck) {
+              cout << b->colourInCheck << " is in check." << endl;
+            }
             cout << "Player 1's Turn" << endl;
             whiteTurn = true;
           }

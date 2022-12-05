@@ -183,7 +183,7 @@ bool Board::check() {
         if ('a' <= pic && pic <= 'z') { // checks if it can check the white king
         if(pic == 'p'){
           if(getPiecePtr(i, j)->isInDiagonalPath(pic, j, i, wkingcol, wkingrow)){
-              cout << "White is in check." << endl; 
+              colourInCheck = "White";
               checkrow = i;
               checkcol = j;
               whitecheck = true;
@@ -194,7 +194,7 @@ bool Board::check() {
           else if ((pic != 'p') && !(getPiecePtr(i, j)->isValidMove(pic, j, i, wkingcol, wkingrow))) {
             if (getPiecePtr(i, j)->getObsRow() == wkingrow 
               && getPiecePtr(i, j)->getObsCol() == wkingcol) {
-              cout << "White is in check." << endl; 
+              colourInCheck = "White";
               checkrow = i;
               checkcol = j;
               whitecheck = true;
@@ -205,10 +205,10 @@ bool Board::check() {
         } else { // checks if it can check the black king
         if(pic == 'P'){
           if(getPiecePtr(i, j)->isInDiagonalPath(pic, j, i, bkingcol, bkingrow)){
-              colourInCheck = "White";
+              colourInCheck = "Black";
               checkrow = i;
               checkcol = j;
-              whitecheck = true;
+              blackcheck = true;
               retval = true;
               getPiecePtr(i, j)->clearObs();  
           }
