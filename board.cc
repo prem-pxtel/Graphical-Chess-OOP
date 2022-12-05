@@ -258,7 +258,7 @@ bool Board::checkmate()
                   getPiecePtr(i, j)->move(j, i, checkcol, checkrow, ' ');
                   if (!(check()))
                   { // if it solves the check then there is a move available
-                    wmoves++;
+                    bmoves++;
                   }
                   getPiecePtr(checkrow, checkcol)->revertMove(j, i, checkcol, checkrow, ' '); // revert the move
                 }
@@ -274,7 +274,7 @@ bool Board::checkmate()
                       getPiecePtr(i, j)->move(j, i, bkingcoloriginal + 1, bkingroworiginal, ' ');
                       if (!(check()))
                       {
-                        wmoves++;
+                        bmoves++;
                       }
                       getPiecePtr(bkingroworiginal, bkingcoloriginal + 1)->revertMove(j, i, bkingcoloriginal + 1, bkingroworiginal, ' ');
                       getPiecePtr(i, j)->firstMove = firstm;
@@ -291,7 +291,7 @@ bool Board::checkmate()
                       getPiecePtr(i, j)->move(j, i, bkingcoloriginal - 1, bkingroworiginal, ' ');
                       if (!(check()))
                       {
-                        wmoves++;
+                        bmoves++;
                       }
                       getPiecePtr(bkingroworiginal, bkingcoloriginal - 1)->revertMove(j, i, bkingcoloriginal - 1, bkingroworiginal, ' ');
                       getPiecePtr(i, j)->firstMove = firstm;
@@ -308,7 +308,7 @@ bool Board::checkmate()
                       getPiecePtr(i, j)->move(j, i, bkingcoloriginal, bkingroworiginal + 1, ' ');
                       if (!(check()))
                       {
-                        wmoves++;
+                        bmoves++;
                       }
                       getPiecePtr(bkingroworiginal + 1, bkingcoloriginal)->revertMove(j, i, bkingcoloriginal, bkingroworiginal + 1, ' ');
                       getPiecePtr(i, j)->firstMove = firstm;
@@ -325,7 +325,7 @@ bool Board::checkmate()
                       getPiecePtr(i, j)->move(j, i, bkingcoloriginal, bkingroworiginal - 1, ' ');
                       if (!(check()))
                       {
-                        wmoves++;
+                        bmoves++;
                       }
                       getPiecePtr(bkingroworiginal - 1, bkingcoloriginal)->revertMove(j, i, bkingcoloriginal, bkingroworiginal - 1, ' ');
                       getPiecePtr(i, j)->firstMove = firstm;
@@ -342,7 +342,7 @@ bool Board::checkmate()
                       getPiecePtr(i, j)->move(j, i, bkingcoloriginal + 1, bkingroworiginal + 1, ' ');
                       if (!(check()))
                       {
-                        wmoves++;
+                        bmoves++;
                       }
                       getPiecePtr(bkingroworiginal + 1, bkingcoloriginal + 1)->revertMove(j, i, bkingcoloriginal + 1, bkingroworiginal + 1, ' ');
                       getPiecePtr(i, j)->firstMove = firstm;
@@ -359,7 +359,7 @@ bool Board::checkmate()
                       getPiecePtr(i, j)->move(j, i, bkingcoloriginal - 1, bkingroworiginal - 1, ' ');
                       if (!(check()))
                       {
-                        wmoves++;
+                        bmoves++;
                       }
                       getPiecePtr(bkingroworiginal - 1, bkingcoloriginal - 1)->revertMove(j, i, bkingcoloriginal - 1, bkingroworiginal - 1, ' ');
                       getPiecePtr(i, j)->firstMove = firstm;
@@ -376,7 +376,7 @@ bool Board::checkmate()
                       getPiecePtr(i, j)->move(j, i, bkingcoloriginal - 1, bkingroworiginal + 1, ' ');
                       if (!(check()))
                       {
-                        wmoves++;
+                        bmoves++;
                       }
                       getPiecePtr(bkingroworiginal + 1, bkingcoloriginal - 1)->revertMove(j, i, bkingcoloriginal - 1, bkingroworiginal + 1, ' ');
                       getPiecePtr(i, j)->firstMove = firstm;
@@ -393,7 +393,7 @@ bool Board::checkmate()
                       getPiecePtr(i, j)->move(j, i, bkingcoloriginal + 1, bkingroworiginal - 1, ' ');
                       if (!(check()))
                       {
-                        wmoves++;
+                        bmoves++;
                       }
                       getPiecePtr(bkingroworiginal - 1, bkingcoloriginal + 1)->revertMove(j, i, bkingcoloriginal + 1, bkingroworiginal - 1, ' ');
                       getPiecePtr(i, j)->firstMove = firstm;
@@ -402,8 +402,8 @@ bool Board::checkmate()
                   }
                 }
               }
-              else if (getPiece(i, j) == 'R' || getPiece(i, j) == 'Q' || getPiece(i, j) == 'K'
-                     || getPiece(i, j) == 'B' || getPiece(i, j) == 'N') 
+              else if (getPiece(i, j) == 'r' || getPiece(i, j) == 'q' || getPiece(i, j) == 'k'
+                     || getPiece(i, j) == 'b' || getPiece(i, j) == 'n') 
               { // all the other pieces
               // include wkingoriginal col and row and should fix everything related to king issues.
                 if (!(getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, checkcol, checkrow)))
@@ -418,7 +418,7 @@ bool Board::checkmate()
                       getPiecePtr(i, j)->move(j, i, checkcol, checkrow, ' ');
                       if (!(check()))
                       { // if it solves the check then there are moves available
-                        wmoves++;
+                        bmoves++;
                       }
                       getPiecePtr(checkrow, checkcol)->revertMove(j, i, checkcol, checkrow, ' ');
                       firstm = getPiecePtr(i, j)->firstMove;
@@ -436,7 +436,7 @@ bool Board::checkmate()
                       getPiecePtr(i, j)->move(j, i, bkingcoloriginal + 1, bkingroworiginal, ' ');
                       if (!(check()))
                       {
-                        wmoves++;
+                        bmoves++;
                       }
                       getPiecePtr(bkingroworiginal, bkingcoloriginal + 1)->revertMove(j, i, bkingcoloriginal + 1, bkingroworiginal, ' ');
                       firstm = getPiecePtr(i, j)->firstMove;
@@ -451,7 +451,7 @@ bool Board::checkmate()
                       getPiecePtr(i, j)->move(j, i, bkingcoloriginal - 1, bkingroworiginal, ' ');
                       if (!(check()))
                       {
-                        wmoves++;
+                        bmoves++;
                       }
                       getPiecePtr(bkingroworiginal, bkingcoloriginal - 1)->revertMove(j, i, bkingcoloriginal - 1, bkingroworiginal, ' ');
                       firstm = getPiecePtr(i, j)->firstMove;
@@ -466,7 +466,7 @@ bool Board::checkmate()
                       getPiecePtr(i, j)->move(j, i, bkingcoloriginal, bkingroworiginal + 1, ' ');
                       if (!(check()))
                       {
-                        wmoves++;
+                        bmoves++;
                       }
                       getPiecePtr(bkingroworiginal + 1, bkingcoloriginal)->revertMove(j, i, bkingcoloriginal, bkingroworiginal + 1, ' ');
                       firstm = getPiecePtr(i, j)->firstMove;
@@ -481,7 +481,7 @@ bool Board::checkmate()
                       getPiecePtr(i, j)->move(j, i, bkingcoloriginal, bkingroworiginal - 1, ' ');
                       if (!(check()))
                       {
-                        wmoves++;
+                        bmoves++;
                       }
                       getPiecePtr(bkingroworiginal - 1, bkingcoloriginal)->revertMove(j, i, bkingcoloriginal, bkingroworiginal - 1, ' ');
                       firstm = getPiecePtr(i, j)->firstMove;
@@ -496,7 +496,7 @@ bool Board::checkmate()
                       getPiecePtr(i, j)->move(j, i, bkingcoloriginal + 1, bkingroworiginal + 1, ' ');
                       if (!(check()))
                       {
-                        wmoves++;
+                        bmoves++;
                       }
                       getPiecePtr(bkingroworiginal + 1, bkingcoloriginal + 1)->revertMove(j, i, bkingcoloriginal + 1, bkingroworiginal + 1, ' ');
                       firstm = getPiecePtr(i, j)->firstMove;
@@ -511,7 +511,7 @@ bool Board::checkmate()
                       getPiecePtr(i, j)->move(j, i, bkingcoloriginal - 1, bkingroworiginal - 1, ' ');
                       if (!(check()))
                       {
-                        wmoves++;
+                        bmoves++;
                       }
                       getPiecePtr(bkingroworiginal - 1, bkingcoloriginal - 1)->revertMove(j, i, bkingcoloriginal - 1, bkingroworiginal - 1, ' ');
                       firstm = getPiecePtr(i, j)->firstMove;
@@ -526,7 +526,7 @@ bool Board::checkmate()
                       getPiecePtr(i, j)->move(j, i, bkingcoloriginal - 1, bkingroworiginal + 1, ' ');
                       if (!(check()))
                       {
-                        wmoves++;
+                        bmoves++;
                       }
                       getPiecePtr(bkingroworiginal + 1, bkingcoloriginal - 1)->revertMove(j, i, bkingcoloriginal - 1, bkingroworiginal + 1, ' ');
                       firstm = getPiecePtr(i, j)->firstMove;
@@ -541,7 +541,7 @@ bool Board::checkmate()
                       getPiecePtr(i, j)->move(j, i, bkingcoloriginal + 1, bkingroworiginal - 1, ' ');
                       if (!(check()))
                       {
-                        wmoves++;
+                        bmoves++;
                       }
                       getPiecePtr(bkingroworiginal - 1, bkingcoloriginal + 1)->revertMove(j, i, bkingcoloriginal + 1, bkingroworiginal - 1, ' ');
                       firstm = getPiecePtr(i, j)->firstMove;
