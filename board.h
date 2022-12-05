@@ -22,6 +22,7 @@ class Board : public Subject {
   int enPassantTurn = 0;
   int enPassantRow = 10;
   char enPassantCol = 'z';
+  std::string colourInCheck;
   Board();
   ~Board();
   void init();

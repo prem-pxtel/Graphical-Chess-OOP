@@ -243,7 +243,8 @@ int main() {
             ++b->curTurn;
             b->updateBoards();
             if (b->check()) {
-             if (b->checkmate()) {
+              cout << b->colourInCheck << " is in check." << endl;
+              if (b->checkmate()) {
                 break;
               } else {
                 b->check();
@@ -298,5 +299,4 @@ int main() {
   cout << "Black: " << b->blackwins << endl;
 
   for (auto &ob : toDelete) delete ob;
-//  delete b; (causes Segmentation Fault at end of program)
 }
