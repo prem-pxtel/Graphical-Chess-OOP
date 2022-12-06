@@ -141,7 +141,7 @@ int main() {
   Board *b = new Board;
   std::vector<Observer*> toDelete;
   bool gameInProgress = false;
-  bool whiteTurn = true;
+  b->turn = true;
   bool setupFinished = false;
   bool player1human;
   bool player2human;
@@ -178,8 +178,8 @@ int main() {
       }
       cout << "Player 1's Turn" << endl;
     } else if (command == "move") {
-      if ((whiteTurn && player1human) 
-          || (!whiteTurn && player2human)) {
+      if ((b->turn && player1human) 
+          || (!b->turn && player2human)) {
         char oldCol, newCol;
         int oldRow, newRow;
         char promo = ' ';
@@ -193,7 +193,7 @@ int main() {
               || promo == 'q' || promo == 'Q' || promo == ' ')) {
             throw InvalidMove{};
           }
-          if (whiteTurn) {
+          if (b->turn) {
             if (!b->isWhitePiece(invertRow(oldRow), oldCol)){
             throw InvalidMove{};
             }
@@ -242,26 +242,44 @@ int main() {
                    invertRow(newRow), promo);
             ++b->curTurn;
             b->updateBoards();
+           if(b->moves()){
+              cout << "there are moves available." << endl;
+            } 
             if (b->check()) {
-              if (b->checkmate()) {
+              if (!(b->moves())) {
+                cout << "Checkmate!" << endl;
+                if(b->turn){
+                  cout << "Black Wins!" << endl;
+                  ++b->blackwins;
+                }
+                else{
+                  cout << "White Wins!" << endl;
+                  ++b->whitewins;
+                }
                 break;
               } else {
                 b->check();
               }
             }
+            else{
+              if(!(b->moves())){
+                cout << "Stalemate." << endl;
+                break;
+              }
+            }
           }
-          if (whiteTurn) {
+          if (b->turn) {
             if (b->whitecheck || b->blackcheck) {
               cout << b->colourInCheck << " is in check." << endl;
             }
             cout << "Player 2's Turn" << endl;
-            whiteTurn = false;
+            b->turn = false;
           } else {
             if (b->whitecheck || b->blackcheck) {
               cout << b->colourInCheck << " is in check." << endl;
             }
             cout << "Player 1's Turn" << endl;
-            whiteTurn = true;
+            b->turn = true;
           }
         } catch (InvalidMove i) {
           cout << i.errMsg << endl;
@@ -275,7 +293,7 @@ int main() {
       
 
     } else if (command == "resign") {
-      if (whiteTurn) {
+      if (b->turn) {
         cout << "Black Wins!" << endl;
         ++b->blackwins;
       } else {
@@ -287,11 +305,10 @@ int main() {
       Observer *ob1 = new TextOb{b};
       Observer *ob2 = new GraphicalOb{b};
       toDelete.push_back(ob1);
-      whiteTurn = setup(b);
+      b->turn = setup(b);
       setupFinished = true;
     }
     else {
-      cout << "3000" << endl;
       throw InvalidMove{};
     }
     } else {

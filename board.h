@@ -8,6 +8,7 @@ class Piece;
 class Board : public Subject {
   std::vector<std::vector<Piece*>> board;
  public:
+  bool turn = true;
   bool whitecheck = false;
   bool blackcheck = false;
   int checkrow;
@@ -40,7 +41,7 @@ class Board : public Subject {
   bool isWhite(int row, int col);
   bool isWhitePiece(int row, char col);
   bool check();
-  bool checkmate();
+  bool moves();
 };
 
 std::ostream & operator<<(std::ostream &out, const Board *b);

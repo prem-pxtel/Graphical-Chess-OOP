@@ -231,663 +231,144 @@ bool Board::check() {
   return retval;
 }
 
-bool Board::checkmate()
-{
-  int bmoves = 0;
-  int wmoves = 0;
-  if (whitecheck || blackcheck)
-  {
-    bool firstm = false;
-    if (blackcheck)
-    { // only check if black pieces can defend its king
-    int bkingroworiginal = bkingrow;
-    char bkingcoloriginal = bkingcol;
-    for (int i = 1; i <= 8; ++i)
-      {
-        for (char j = 'a'; j <= 'h'; ++j)
-        {
-          if (isOccupied(i, j))
-          { // check if pieces are occupied
-            if (!(isWhitePiece(i, j)))
-            { // if its a white piece
-              if (getPiece(i, j) == 'p')
-              {
-                if (getPiecePtr(i, j)->isInDiagonalPath('p', j, i, checkcol, checkrow))
-                { // if capturable via pawn
-
-                  getPiecePtr(i, j)->move(j, i, checkcol, checkrow, ' ');
-                  if (!(check()))
-                  { // if it solves the check then there is a move available
-                    bmoves++;
-                  }
-                  getPiecePtr(checkrow, checkcol)->revertMove(j, i, checkcol, checkrow, ' '); // revert the move
-                }
-                else
-                { // check if the 8 spots around the king can be moved to by the black pieces to prevent the check
-                  if (isCell(bkingroworiginal, bkingcoloriginal + 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if(!(bkingroworiginal == i && bkingcoloriginal + 1 == j)){
-                    if (getPiecePtr(i, j)->isValidMove('p', j, i, bkingcoloriginal + 1, bkingroworiginal))
-                    { // first spot
-                      getPiecePtr(i, j)->firstMove = firstm;
-                      getPiecePtr(i, j)->move(j, i, bkingcoloriginal + 1, bkingroworiginal, ' ');
-                      if (!(check()))
-                      {
-                        bmoves++;
-                      }
-                      getPiecePtr(bkingroworiginal, bkingcoloriginal + 1)->revertMove(j, i, bkingcoloriginal + 1, bkingroworiginal, ' ');
-                      getPiecePtr(i, j)->firstMove = firstm;
-                    }
-                  }
-                }
-                  if (isCell(bkingroworiginal, bkingcoloriginal - 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if(!(bkingroworiginal == i && bkingcoloriginal - 1 == j)){
-                    if (getPiecePtr(i, j)->isValidMove('p', j, i, bkingcoloriginal - 1, bkingroworiginal))
-                    { // second spot
-                      getPiecePtr(i, j)->firstMove = firstm;
-                      getPiecePtr(i, j)->move(j, i, bkingcoloriginal - 1, bkingroworiginal, ' ');
-                      if (!(check()))
-                      {
-                        bmoves++;
-                      }
-                      getPiecePtr(bkingroworiginal, bkingcoloriginal - 1)->revertMove(j, i, bkingcoloriginal - 1, bkingroworiginal, ' ');
-                      getPiecePtr(i, j)->firstMove = firstm;
-                    }
-                   }
-                  }
-                  if (isCell(bkingroworiginal + 1, bkingcoloriginal))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if(!(bkingroworiginal + 1 == i && bkingcoloriginal == j)){
-                    if (getPiecePtr(i, j)->isValidMove('p', j, i, bkingcoloriginal, bkingroworiginal + 1))
-                    { // third spot
-                      getPiecePtr(i, j)->firstMove = firstm;
-                      getPiecePtr(i, j)->move(j, i, bkingcoloriginal, bkingroworiginal + 1, ' ');
-                      if (!(check()))
-                      {
-                        bmoves++;
-                      }
-                      getPiecePtr(bkingroworiginal + 1, bkingcoloriginal)->revertMove(j, i, bkingcoloriginal, bkingroworiginal + 1, ' ');
-                      getPiecePtr(i, j)->firstMove = firstm;
-                    }
-                  }
-                  }
-                  if (isCell(bkingroworiginal - 1, bkingcoloriginal))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if(!(bkingroworiginal - 1 == i && bkingcoloriginal == j)){
-                    if (getPiecePtr(i, j)->isValidMove('p', j, i, bkingcoloriginal, bkingroworiginal - 1))
-                    { // fourth spot
-                      getPiecePtr(i, j)->firstMove = firstm;
-                      getPiecePtr(i, j)->move(j, i, bkingcoloriginal, bkingroworiginal - 1, ' ');
-                      if (!(check()))
-                      {
-                        bmoves++;
-                      }
-                      getPiecePtr(bkingroworiginal - 1, bkingcoloriginal)->revertMove(j, i, bkingcoloriginal, bkingroworiginal - 1, ' ');
-                      getPiecePtr(i, j)->firstMove = firstm;
-                    }
-                  }
-                  }
-                  if (isCell(bkingroworiginal + 1, bkingcoloriginal + 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if(!(bkingroworiginal + 1 == i && bkingcoloriginal + 1 == j)){
-                    if (getPiecePtr(i, j)->isValidMove('p', j, i, bkingcoloriginal + 1, bkingroworiginal + 1))
-                    { // fifth spot
-                      getPiecePtr(i, j)->firstMove = firstm;
-                      getPiecePtr(i, j)->move(j, i, bkingcoloriginal + 1, bkingroworiginal + 1, ' ');
-                      if (!(check()))
-                      {
-                        bmoves++;
-                      }
-                      getPiecePtr(bkingroworiginal + 1, bkingcoloriginal + 1)->revertMove(j, i, bkingcoloriginal + 1, bkingroworiginal + 1, ' ');
-                      getPiecePtr(i, j)->firstMove = firstm;
-                    }
-                  }
-                  }
-                  if (isCell(bkingroworiginal - 1, bkingcoloriginal - 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if(!(bkingroworiginal - 1 == i && bkingcoloriginal - 1 == j)){
-                    if (getPiecePtr(i, j)->isValidMove('p', j, i, bkingcoloriginal - 1, bkingroworiginal - 1))
-                    { // sixth spot
-                      getPiecePtr(i, j)->firstMove = firstm;
-                      getPiecePtr(i, j)->move(j, i, bkingcoloriginal - 1, bkingroworiginal - 1, ' ');
-                      if (!(check()))
-                      {
-                        bmoves++;
-                      }
-                      getPiecePtr(bkingroworiginal - 1, bkingcoloriginal - 1)->revertMove(j, i, bkingcoloriginal - 1, bkingroworiginal - 1, ' ');
-                      getPiecePtr(i, j)->firstMove = firstm;
-                    }
-                  }
-                  }
-                  if (isCell(bkingroworiginal + 1, bkingcoloriginal - 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if(!(bkingroworiginal + 1 == i && bkingcoloriginal - 1 == j)){
-                    if (getPiecePtr(i, j)->isValidMove('p', j, i, bkingcoloriginal - 1, bkingroworiginal + 1))
-                    { // seventh spot
-                      getPiecePtr(i, j)->firstMove = firstm;
-                      getPiecePtr(i, j)->move(j, i, bkingcoloriginal - 1, bkingroworiginal + 1, ' ');
-                      if (!(check()))
-                      {
-                        bmoves++;
-                      }
-                      getPiecePtr(bkingroworiginal + 1, bkingcoloriginal - 1)->revertMove(j, i, bkingcoloriginal - 1, bkingroworiginal + 1, ' ');
-                      getPiecePtr(i, j)->firstMove = firstm;
-                    }
-                    }
-                  }
-                  if (isCell(bkingroworiginal - 1, bkingcoloriginal + 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if(!(bkingroworiginal - 1 == i && bkingcoloriginal + 1 == j)){
-                    if (getPiecePtr(i, j)->isValidMove('p', j, i, bkingcoloriginal + 1, bkingroworiginal - 1))
-                    { // eigth spot
-                      getPiecePtr(i, j)->firstMove = firstm;
-                      getPiecePtr(i, j)->move(j, i, bkingcoloriginal + 1, bkingroworiginal - 1, ' ');
-                      if (!(check()))
-                      {
-                        bmoves++;
-                      }
-                      getPiecePtr(bkingroworiginal - 1, bkingcoloriginal + 1)->revertMove(j, i, bkingcoloriginal + 1, bkingroworiginal - 1, ' ');
-                      getPiecePtr(i, j)->firstMove = firstm;
-                    }
-                    }
-                  }
-                }
+bool Board::moves(){
+  int moves = 0;
+  bool firstm = false;
+  if(!turn){ // white's turn to move.
+  for(int i = 1; i <= 8; i++){
+    for(char j = 'a'; j <= 'h'; j++){ // getting the piece that is actually doing the movement.
+    if(isOccupied(i,j)){
+      if(isWhitePiece(i,j)){ // checking if the spot on the grid is occupied and if it is , if its a white piece
+        if(getPiece(i,j) == 'P'){ // checking if its a pawn
+          firstm = getPiecePtr(i,j)->firstMove;
+          for(int k = 1; k <= 8; k++){
+            for(char l = 'a'; l <= 'h'; l++){
+              if (!(j == l && i == k)){
+              if(getPiecePtr(i,j)->isValidMove('P', j, i, l, k)){ // move it , then revert it, make sure to give it its firstmove property back
+              getPiecePtr(i,j)->firstMove = firstm;
+              getPiecePtr(i,j)->move(j, i, l, k,' ');
+              if(!(check())){
+                moves++;
               }
-              else if (getPiece(i, j) == 'r' || getPiece(i, j) == 'q' || getPiece(i, j) == 'k'
-                     || getPiece(i, j) == 'b' || getPiece(i, j) == 'n') 
-              { // all the other pieces
-              // include wkingoriginal col and row and should fix everything related to king issues.
-                if (!(getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, checkcol, checkrow)))
-                {
-                  firstm = getPiecePtr(i, j)->firstMove;
-                  int obstacleRow = getPiecePtr(i, j)->getObsRow();
-                  char obstacleCol = getPiecePtr(i, j)->getObsCol();
-                  if (isCell(obstacleRow, obstacleCol))
-                  {
-                    if (checkrow == obstacleRow && checkcol == obstacleCol && isWhitePiece(i, j) != isWhitePiece(obstacleRow, obstacleCol))
-                    { // if capturable via other pieces
-                      getPiecePtr(i, j)->move(j, i, checkcol, checkrow, ' ');
-                      if (!(check()))
-                      { // if it solves the check then there are moves available
-                        bmoves++;
-                      }
-                      getPiecePtr(checkrow, checkcol)->revertMove(j, i, checkcol, checkrow, ' ');
-                      firstm = getPiecePtr(i, j)->firstMove;
-                    }
-                  }
-                }
-                if (!(getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, checkcol, checkrow)))
-                { // check if the 8 spots around the king can be moved to by the white pieces to prevent the check
-                  if (isCell(bkingroworiginal, bkingcoloriginal + 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if (getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, bkingcoloriginal + 1, bkingroworiginal))
-                    { // first spot
-                    firstm = getPiecePtr(i, j)->firstMove;
-                      getPiecePtr(i, j)->move(j, i, bkingcoloriginal + 1, bkingroworiginal, ' ');
-                      if (!(check()))
-                      {
-                        bmoves++;
-                      }
-                      getPiecePtr(bkingroworiginal, bkingcoloriginal + 1)->revertMove(j, i, bkingcoloriginal + 1, bkingroworiginal, ' ');
-                      firstm = getPiecePtr(i, j)->firstMove;
-                    }
-                  }
-                  if (isCell(bkingroworiginal, bkingcoloriginal - 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if (getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, bkingcoloriginal - 1, bkingroworiginal))
-                    { // second spot
-                    firstm = getPiecePtr(i, j)->firstMove;
-                      getPiecePtr(i, j)->move(j, i, bkingcoloriginal - 1, bkingroworiginal, ' ');
-                      if (!(check()))
-                      {
-                        bmoves++;
-                      }
-                      getPiecePtr(bkingroworiginal, bkingcoloriginal - 1)->revertMove(j, i, bkingcoloriginal - 1, bkingroworiginal, ' ');
-                      firstm = getPiecePtr(i, j)->firstMove;
-                    }
-                  }
-                  if (isCell(bkingroworiginal + 1, bkingcoloriginal))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if (getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, bkingcoloriginal, bkingroworiginal + 1))
-                    { // third spot
-                    firstm = getPiecePtr(i, j)->firstMove;
-                      getPiecePtr(i, j)->move(j, i, bkingcoloriginal, bkingroworiginal + 1, ' ');
-                      if (!(check()))
-                      {
-                        bmoves++;
-                      }
-                      getPiecePtr(bkingroworiginal + 1, bkingcoloriginal)->revertMove(j, i, bkingcoloriginal, bkingroworiginal + 1, ' ');
-                      firstm = getPiecePtr(i, j)->firstMove;
-                    }
-                  }
-                  if (isCell(bkingroworiginal - 1, bkingcoloriginal))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if (getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, bkingcoloriginal, bkingroworiginal - 1))
-                    { // fourth spot
-                    firstm = getPiecePtr(i, j)->firstMove;
-                      getPiecePtr(i, j)->move(j, i, bkingcoloriginal, bkingroworiginal - 1, ' ');
-                      if (!(check()))
-                      {
-                        bmoves++;
-                      }
-                      getPiecePtr(bkingroworiginal - 1, bkingcoloriginal)->revertMove(j, i, bkingcoloriginal, bkingroworiginal - 1, ' ');
-                      firstm = getPiecePtr(i, j)->firstMove;
-                    }
-                  }
-                  if (isCell(bkingroworiginal + 1, bkingcoloriginal + 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if (getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, bkingcoloriginal + 1, bkingroworiginal + 1))
-                    { // fifth spot
-                    firstm = getPiecePtr(i, j)->firstMove;
-                      getPiecePtr(i, j)->move(j, i, bkingcoloriginal + 1, bkingroworiginal + 1, ' ');
-                      if (!(check()))
-                      {
-                        bmoves++;
-                      }
-                      getPiecePtr(bkingroworiginal + 1, bkingcoloriginal + 1)->revertMove(j, i, bkingcoloriginal + 1, bkingroworiginal + 1, ' ');
-                      firstm = getPiecePtr(i, j)->firstMove;
-                    }
-                  }
-                  if (isCell(bkingroworiginal - 1, bkingcoloriginal - 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if (getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, bkingcoloriginal - 1, bkingroworiginal - 1))
-                    { // sixth spot
-                    firstm = getPiecePtr(i, j)->firstMove;
-                      getPiecePtr(i, j)->move(j, i, bkingcoloriginal - 1, bkingroworiginal - 1, ' ');
-                      if (!(check()))
-                      {
-                        bmoves++;
-                      }
-                      getPiecePtr(bkingroworiginal - 1, bkingcoloriginal - 1)->revertMove(j, i, bkingcoloriginal - 1, bkingroworiginal - 1, ' ');
-                      firstm = getPiecePtr(i, j)->firstMove;
-                    }
-                  }
-                  if (isCell(bkingroworiginal + 1, bkingcoloriginal - 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if (getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, bkingcoloriginal - 1, bkingroworiginal + 1))
-                    { // seventh spot
-                    firstm = getPiecePtr(i, j)->firstMove;
-                      getPiecePtr(i, j)->move(j, i, bkingcoloriginal - 1, bkingroworiginal + 1, ' ');
-                      if (!(check()))
-                      {
-                        bmoves++;
-                      }
-                      getPiecePtr(bkingroworiginal + 1, bkingcoloriginal - 1)->revertMove(j, i, bkingcoloriginal - 1, bkingroworiginal + 1, ' ');
-                      firstm = getPiecePtr(i, j)->firstMove;
-                    }
-                  }
-                   if (isCell(bkingroworiginal - 1, bkingcoloriginal + 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if (getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, bkingcoloriginal + 1, bkingroworiginal - 1))
-                    { // eigth spot
-                    firstm = getPiecePtr(i, j)->firstMove;
-                      getPiecePtr(i, j)->move(j, i, bkingcoloriginal + 1, bkingroworiginal - 1, ' ');
-                      if (!(check()))
-                      {
-                        bmoves++;
-                      }
-                      getPiecePtr(bkingroworiginal - 1, bkingcoloriginal + 1)->revertMove(j, i, bkingcoloriginal + 1, bkingroworiginal - 1, ' ');
-                      firstm = getPiecePtr(i, j)->firstMove;
-                    }
-                  }
-                } // where it ends
+              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
+              getPiecePtr(i,j)->firstMove = firstm;
               }
+              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k)){ // capture, then revert, make sure to give first move properties back
+              getPiecePtr(i,j)->firstMove = firstm;
+              getPiecePtr(i,j)->move(j, i, l, k,' ');
+              if(!(check())){
+                moves++;
+              }              
+              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
+              getPiecePtr(i,j)->firstMove = firstm;
+              }
+            }
             }
           }
         }
-      }
-    }
-    else
-    { // only check if white pieces can defend its king
-int wkingroworiginal = wkingrow;
-char wkingcoloriginal = wkingcol;
-      for (int i = 1; i <= 8; ++i)
-      {
-        for (char j = 'a'; j <= 'h'; ++j)
-        {
-          if (isOccupied(i, j))
-          { // check if pieces are occupied
-            if ((isWhitePiece(i, j)))
-            { // if its a white piece
-              if (getPiece(i, j) == 'P')
-              {
-                if (getPiecePtr(i, j)->isInDiagonalPath('P', j, i, checkcol, checkrow))
-                { // if capturable via pawn
-
-                  getPiecePtr(i, j)->move(j, i, checkcol, checkrow, ' ');
-                  if (!(check()))
-                  { // if it solves the check then there is a move available
-                    wmoves++;
-                  }
-                  getPiecePtr(checkrow, checkcol)->revertMove(j, i, checkcol, checkrow, ' '); // revert the move
-                }
-                else
-                { // check if the 8 spots around the king can be moved to by the black pieces to prevent the check
-                  if (isCell(wkingroworiginal, wkingcoloriginal + 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if(!(wkingroworiginal == i && wkingcoloriginal + 1 == j)){
-                    if (getPiecePtr(i, j)->isValidMove('P', j, i, wkingcoloriginal + 1, wkingroworiginal))
-                    { // first spot
-                      getPiecePtr(i, j)->firstMove = firstm;
-                      getPiecePtr(i, j)->move(j, i, wkingcoloriginal + 1, wkingroworiginal, ' ');
-                      if (!(check()))
-                      {
-                        wmoves++;
-                      }
-                      getPiecePtr(wkingroworiginal, wkingcoloriginal + 1)->revertMove(j, i, wkingcoloriginal + 1, wkingroworiginal, ' ');
-                      getPiecePtr(i, j)->firstMove = firstm;
-                    }
-                  }
-                }
-                  if (isCell(wkingroworiginal, wkingcoloriginal - 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if(!(wkingroworiginal == i && wkingcoloriginal - 1 == j)){
-                    if (getPiecePtr(i, j)->isValidMove('P', j, i, wkingcoloriginal - 1, wkingroworiginal))
-                    { // second spot
-                      getPiecePtr(i, j)->firstMove = firstm;
-                      getPiecePtr(i, j)->move(j, i, wkingcoloriginal - 1, wkingroworiginal, ' ');
-                      if (!(check()))
-                      {
-                        wmoves++;
-                      }
-                      getPiecePtr(wkingroworiginal, wkingcoloriginal - 1)->revertMove(j, i, wkingcoloriginal - 1, wkingroworiginal, ' ');
-                      getPiecePtr(i, j)->firstMove = firstm;
-                    }
-                   }
-                  }
-                  if (isCell(wkingroworiginal + 1, wkingcoloriginal))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if(!(wkingroworiginal + 1 == i && wkingcoloriginal == j)){
-                    if (getPiecePtr(i, j)->isValidMove('P', j, i, wkingcoloriginal, wkingroworiginal + 1))
-                    { // third spot
-                      getPiecePtr(i, j)->firstMove = firstm;
-                      getPiecePtr(i, j)->move(j, i, wkingcoloriginal, wkingroworiginal + 1, ' ');
-                      if (!(check()))
-                      {
-                        wmoves++;
-                      }
-                      getPiecePtr(wkingroworiginal + 1, wkingcoloriginal)->revertMove(j, i, wkingcoloriginal, wkingroworiginal + 1, ' ');
-                      getPiecePtr(i, j)->firstMove = firstm;
-                    }
-                  }
-                  }
-                  if (isCell(wkingroworiginal - 1, wkingcoloriginal))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if(!(wkingroworiginal - 1 == i && wkingcoloriginal == j)){
-                    if (getPiecePtr(i, j)->isValidMove('P', j, i, wkingcoloriginal, wkingroworiginal - 1))
-                    { // fourth spot
-                      getPiecePtr(i, j)->firstMove = firstm;
-                      getPiecePtr(i, j)->move(j, i, wkingcoloriginal, wkingroworiginal - 1, ' ');
-                      if (!(check()))
-                      {
-                        wmoves++;
-                      }
-                      getPiecePtr(wkingroworiginal - 1, wkingcoloriginal)->revertMove(j, i, wkingcoloriginal, wkingroworiginal - 1, ' ');
-                      getPiecePtr(i, j)->firstMove = firstm;
-                    }
-                  }
-                  }
-                  if (isCell(wkingroworiginal + 1, wkingcoloriginal + 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if(!(wkingroworiginal + 1 == i && wkingcoloriginal + 1 == j)){
-                    if (getPiecePtr(i, j)->isValidMove('P', j, i, wkingcoloriginal + 1, wkingroworiginal + 1))
-                    { // fifth spot
-                      getPiecePtr(i, j)->firstMove = firstm;
-                      getPiecePtr(i, j)->move(j, i, wkingcoloriginal + 1, wkingroworiginal + 1, ' ');
-                      if (!(check()))
-                      {
-                        wmoves++;
-                      }
-                      getPiecePtr(wkingroworiginal + 1, wkingcoloriginal + 1)->revertMove(j, i, wkingcoloriginal + 1, wkingroworiginal + 1, ' ');
-                      getPiecePtr(i, j)->firstMove = firstm;
-                    }
-                  }
-                  }
-                  if (isCell(wkingroworiginal - 1, wkingcoloriginal - 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if(!(wkingroworiginal - 1 == i && wkingcoloriginal - 1 == j)){
-                    if (getPiecePtr(i, j)->isValidMove('P', j, i, wkingcoloriginal - 1, wkingroworiginal - 1))
-                    { // sixth spot
-                      getPiecePtr(i, j)->firstMove = firstm;
-                      getPiecePtr(i, j)->move(j, i, wkingcoloriginal - 1, wkingroworiginal - 1, ' ');
-                      if (!(check()))
-                      {
-                        wmoves++;
-                      }
-                      getPiecePtr(wkingroworiginal - 1, wkingcoloriginal - 1)->revertMove(j, i, wkingcoloriginal - 1, wkingroworiginal - 1, ' ');
-                      getPiecePtr(i, j)->firstMove = firstm;
-                    }
-                  }
-                  }
-                  if (isCell(wkingroworiginal + 1, wkingcoloriginal - 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if(!(wkingroworiginal + 1 == i && wkingcoloriginal - 1 == j)){
-                    if (getPiecePtr(i, j)->isValidMove('P', j, i, wkingcoloriginal - 1, wkingroworiginal + 1))
-                    { // seventh spot
-                      getPiecePtr(i, j)->firstMove = firstm;
-                      getPiecePtr(i, j)->move(j, i, wkingcoloriginal - 1, wkingroworiginal + 1, ' ');
-                      if (!(check()))
-                      {
-                        wmoves++;
-                      }
-                      getPiecePtr(wkingroworiginal + 1, wkingcoloriginal - 1)->revertMove(j, i, wkingcoloriginal - 1, wkingroworiginal + 1, ' ');
-                      getPiecePtr(i, j)->firstMove = firstm;
-                    }
-                    }
-                  }
-                  if (isCell(wkingroworiginal - 1, wkingcoloriginal + 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if(!(wkingroworiginal - 1 == i && wkingcoloriginal + 1 == j)){
-                    if (getPiecePtr(i, j)->isValidMove('P', j, i, wkingcoloriginal + 1, wkingroworiginal - 1))
-                    { // eigth spot
-                      getPiecePtr(i, j)->firstMove = firstm;
-                      getPiecePtr(i, j)->move(j, i, wkingcoloriginal + 1, wkingroworiginal - 1, ' ');
-                      if (!(check()))
-                      {
-                        wmoves++;
-                      }
-                      getPiecePtr(wkingroworiginal - 1, wkingcoloriginal + 1)->revertMove(j, i, wkingcoloriginal + 1, wkingroworiginal - 1, ' ');
-                      getPiecePtr(i, j)->firstMove = firstm;
-                    }
-                    }
-                  }
-                }
+        else{ // not a pawn
+        char pic = getPiece(i,j);
+        if(pic == 'Q' || pic == 'K' || pic == 'N' || pic == 'B' || pic == 'R'){
+          firstm = getPiecePtr(i,j)->firstMove;
+          for(int k = 1; k <= 8; k++){
+            for(char l = 'a'; l <= 'h'; l++){
+             if(getPiecePtr(i,j)->isValidMove(pic, j, i, l, k)){ // move it , then revert it, make sure to give it its firstmove property back
+              getPiecePtr(i,j)->firstMove = firstm;
+              getPiecePtr(i,j)->move(j, i, l, k,' ');
+              if(!(check())){
+                moves++;
               }
-              else if (getPiece(i, j) == 'R' || getPiece(i, j) == 'Q' || getPiece(i, j) == 'K'
-                     || getPiece(i, j) == 'B' || getPiece(i, j) == 'N') 
-              { // all the other pieces
-              // include wkingoriginal col and row and should fix everything related to king issues.
-                if (!(getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, checkcol, checkrow)))
-                {
-                  firstm = getPiecePtr(i, j)->firstMove;
-                  int obstacleRow = getPiecePtr(i, j)->getObsRow();
-                  char obstacleCol = getPiecePtr(i, j)->getObsCol();
-                  if (isCell(obstacleRow, obstacleCol))
-                  {
-                    if (checkrow == obstacleRow && checkcol == obstacleCol && isWhitePiece(i, j) != isWhitePiece(obstacleRow, obstacleCol))
-                    { // if capturable via other pieces
-                      getPiecePtr(i, j)->move(j, i, checkcol, checkrow, ' ');
-                      if (!(check()))
-                      { // if it solves the check then there are moves available
-                        wmoves++;
-                      }
-                      getPiecePtr(checkrow, checkcol)->revertMove(j, i, checkcol, checkrow, ' ');
-                      firstm = getPiecePtr(i, j)->firstMove;
-                    }
-                  }
-                }
-                if (!(getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, checkcol, checkrow)))
-                { // check if the 8 spots around the king can be moved to by the white pieces to prevent the check
-                  if (isCell(wkingroworiginal, wkingcoloriginal + 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if (getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, wkingcoloriginal + 1, wkingroworiginal))
-                    { // first spot
-                    firstm = getPiecePtr(i, j)->firstMove;
-                      getPiecePtr(i, j)->move(j, i, wkingcoloriginal + 1, wkingroworiginal, ' ');
-                      if (!(check()))
-                      {
-                        wmoves++;
-                      }
-                      getPiecePtr(wkingroworiginal, wkingcoloriginal + 1)->revertMove(j, i, wkingcoloriginal + 1, wkingroworiginal, ' ');
-                      firstm = getPiecePtr(i, j)->firstMove;
-                    }
-                  }
-                  if (isCell(wkingroworiginal, wkingcoloriginal - 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if (getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, wkingcoloriginal - 1, wkingroworiginal))
-                    { // second spot
-                    firstm = getPiecePtr(i, j)->firstMove;
-                      getPiecePtr(i, j)->move(j, i, wkingcoloriginal - 1, wkingroworiginal, ' ');
-                      if (!(check()))
-                      {
-                        wmoves++;
-                      }
-                      getPiecePtr(wkingroworiginal, wkingcoloriginal - 1)->revertMove(j, i, wkingcoloriginal - 1, wkingroworiginal, ' ');
-                      firstm = getPiecePtr(i, j)->firstMove;
-                    }
-                  }
-                  if (isCell(wkingroworiginal + 1, wkingcoloriginal))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if (getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, wkingcoloriginal, wkingroworiginal + 1))
-                    { // third spot
-                    firstm = getPiecePtr(i, j)->firstMove;
-                      getPiecePtr(i, j)->move(j, i, wkingcoloriginal, wkingroworiginal + 1, ' ');
-                      if (!(check()))
-                      {
-                        wmoves++;
-                      }
-                      getPiecePtr(wkingroworiginal + 1, wkingcoloriginal)->revertMove(j, i, wkingcoloriginal, wkingroworiginal + 1, ' ');
-                      firstm = getPiecePtr(i, j)->firstMove;
-                    }
-                  }
-                  if (isCell(wkingroworiginal - 1, wkingcoloriginal))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if (getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, wkingcoloriginal, wkingroworiginal - 1))
-                    { // fourth spot
-                    firstm = getPiecePtr(i, j)->firstMove;
-                      getPiecePtr(i, j)->move(j, i, wkingcoloriginal, wkingroworiginal - 1, ' ');
-                      if (!(check()))
-                      {
-                        wmoves++;
-                      }
-                      getPiecePtr(wkingroworiginal - 1, wkingcoloriginal)->revertMove(j, i, wkingcoloriginal, wkingroworiginal - 1, ' ');
-                      firstm = getPiecePtr(i, j)->firstMove;
-                    }
-                  }
-                  if (isCell(wkingroworiginal + 1, wkingcoloriginal + 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if (getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, wkingcoloriginal + 1, wkingroworiginal + 1))
-                    { // fifth spot
-                    firstm = getPiecePtr(i, j)->firstMove;
-                      getPiecePtr(i, j)->move(j, i, wkingcoloriginal + 1, wkingroworiginal + 1, ' ');
-                      if (!(check()))
-                      {
-                        wmoves++;
-                      }
-                      getPiecePtr(wkingroworiginal + 1, wkingcoloriginal + 1)->revertMove(j, i, wkingcoloriginal + 1, wkingroworiginal + 1, ' ');
-                      firstm = getPiecePtr(i, j)->firstMove;
-                    }
-                  }
-                  if (isCell(wkingroworiginal - 1, wkingcoloriginal - 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if (getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, wkingcoloriginal - 1, wkingroworiginal - 1))
-                    { // sixth spot
-                    firstm = getPiecePtr(i, j)->firstMove;
-                      getPiecePtr(i, j)->move(j, i, wkingcoloriginal - 1, wkingroworiginal - 1, ' ');
-                      if (!(check()))
-                      {
-                        wmoves++;
-                      }
-                      getPiecePtr(wkingroworiginal - 1, wkingcoloriginal - 1)->revertMove(j, i, wkingcoloriginal - 1, wkingroworiginal - 1, ' ');
-                      firstm = getPiecePtr(i, j)->firstMove;
-                    }
-                  }
-                  if (isCell(wkingroworiginal + 1, wkingcoloriginal - 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if (getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, wkingcoloriginal - 1, wkingroworiginal + 1))
-                    { // seventh spot
-                    firstm = getPiecePtr(i, j)->firstMove;
-                      getPiecePtr(i, j)->move(j, i, wkingcoloriginal - 1, wkingroworiginal + 1, ' ');
-                      if (!(check()))
-                      {
-                        wmoves++;
-                      }
-                      getPiecePtr(wkingroworiginal + 1, wkingcoloriginal - 1)->revertMove(j, i, wkingcoloriginal - 1, wkingroworiginal + 1, ' ');
-                      firstm = getPiecePtr(i, j)->firstMove;
-                    }
-                  }
-                   if (isCell(wkingroworiginal - 1, wkingcoloriginal + 1))
-                  {
-                    firstm = getPiecePtr(i, j)->firstMove;
-                    if (getPiecePtr(i, j)->isValidMove(getPiece(i, j), j, i, wkingcoloriginal + 1, wkingroworiginal - 1))
-                    { // eigth spot
-                    firstm = getPiecePtr(i, j)->firstMove;
-                      getPiecePtr(i, j)->move(j, i, wkingcoloriginal + 1, wkingroworiginal - 1, ' ');
-                      if (!(check()))
-                      {
-                        wmoves++;
-                      }
-                      getPiecePtr(wkingroworiginal - 1, wkingcoloriginal + 1)->revertMove(j, i, wkingcoloriginal + 1, wkingroworiginal - 1, ' ');
-                      firstm = getPiecePtr(i, j)->firstMove;
-                    }
-                  }
-                } // where it ends
+              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
+              getPiecePtr(i,j)->firstMove = firstm;
+              }
+              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k)){ // capture, then revert, make sure to give first move properties back
+              getPiecePtr(i,j)->firstMove = firstm;
+              getPiecePtr(i,j)->move(j, i, l, k,' ');
+              if(!(check())){
+                moves++;
+              }
+              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
+              getPiecePtr(i,j)->firstMove = firstm;
               }
             }
-          }
+            }
+        }
         }
       }
     }
-    if (whitecheck)
-    {
-      if (wmoves == 0)
-      {
-        cout << "Checkmate! Black wins!" << endl;
-        ++blackwins;
-        return true;
-      }
-    }
-    else
-    {
-      if (bmoves == 0)
-      {
-        cout << "Checkmate! White wins!" << endl;
-        ++whitewins;
-        return true;
-      }
     }
   }
-  return false;
+  }
+  else{ // blacks turn to move
+  for(int i = 1; i <= 8; i++){
+    for(char j = 'a'; j <= 'h'; j++){ // getting the piece that is actually doing the movement.
+    if(isOccupied(i,j)){
+      if(!(isWhitePiece(i,j))){ // checking if the spot on the grid is occupied and if it is , if its a white piece
+        if(getPiece(i,j) == 'p'){ // checking if its a pawn
+          firstm = getPiecePtr(i,j)->firstMove;
+          for(int k = 1; k <= 8; k++){
+            for(char l = 'a'; l <= 'h'; l++){
+              if (!(j == l && i == k)){
+              if(getPiecePtr(i,j)->isValidMove('p', j, i, l, k)){ // move it , then revert it, make sure to give it its firstmove property back
+              getPiecePtr(i,j)->firstMove = firstm;
+              getPiecePtr(i,j)->move(j, i, l, k,' ');
+              if(!(check())){
+                moves++;
+              }
+              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
+              getPiecePtr(i,j)->firstMove = firstm;
+              }
+              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k)){ // capture, then revert, make sure to give first move properties back
+              getPiecePtr(i,j)->firstMove = firstm;
+              getPiecePtr(i,j)->move(j, i, l, k,' ');
+              if(!(check())){
+                moves++;
+              }
+              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
+              getPiecePtr(i,j)->firstMove = firstm;
+              }
+            }
+            }
+          }
+        }
+        else{ // not a pawn
+        char pic = getPiece(i,j);
+        if(pic == 'q' || pic == 'k' || pic == 'n' || pic == 'b' || pic == 'r'){
+          firstm = getPiecePtr(i,j)->firstMove;
+          for(int k = 1; k <= 8; k++){
+            for(char l = 'a'; l <= 'h'; l++){
+             if(getPiecePtr(i,j)->isValidMove(pic, j, i, l, k)){ // move it , then revert it, make sure to give it its firstmove property back
+              getPiecePtr(i,j)->firstMove = firstm;
+              getPiecePtr(i,j)->move(j, i, l, k,' ');
+              if(!(check())){
+                moves++;
+              }
+              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
+              getPiecePtr(i,j)->firstMove = firstm;
+              }
+              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k)){ // capture, then revert, make sure to give first move properties back
+              getPiecePtr(i,j)->firstMove = firstm;
+              getPiecePtr(i,j)->move(j, i, l, k,' ');
+              if(!(check())){
+                moves++;
+              }
+              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
+              getPiecePtr(i,j)->firstMove = firstm;
+              }
+            }
+            }
+        }
+        }
+      }
+    }
+    }
+  }
+  }
+  if(moves > 0){
+    return true;
+  }
+  else{
+    return false;
+  }
 }
+
