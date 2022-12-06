@@ -146,14 +146,16 @@ bool Board::isOccupied(int row, char col) {
 }
 
 std::ostream & operator<<(std::ostream &out, const Board *b) {
+  cout << "   a b c d e f g h" << endl << endl;
   for (int i = 1; i <= 8; i++) {
     cout << 8 - i + 1 << " ";
     for (int j = 'a'; j <= 'h'; ++j) {
-        cout << b->getPiece(i, j);
+        cout << " " << b->getPiece(i, j);
     }
+    cout << "  " << 8 - i + 1;
     cout << endl;
   }
-  cout << endl << "  abcdefgh" << endl;
+  cout << endl << "   a b c d e f g h" << endl;
   return out;
 }
 

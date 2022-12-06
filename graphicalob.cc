@@ -45,7 +45,7 @@ void GraphicalOb::notify() {
       pieceChar += cur;
       int colour;
       if ((row + col) % 2 == 0) colour = Xwindow::White;
-      else colour = Xwindow::Magenta;
+      else colour = Xwindow::Orange;
       window->fillRectangle(cellWidth * col + winOffset, 
                             cellWidth * row + winOffset, 
                             cellWidth, cellWidth, colour);
