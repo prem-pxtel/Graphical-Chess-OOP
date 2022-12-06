@@ -353,7 +353,7 @@ int main() {
     } else if (command == "setup") { // have empty board and then call helper function
       if (!(gameInProgress)) {
         Observer *ob1 = new TextOb{b};
-        //Observer *ob2 = new GraphicalOb{b};
+        Observer *ob2 = new GraphicalOb{b};
         toDelete.push_back(ob1);
         b->turn = setup(b);
         setupFinished = true;
