@@ -374,6 +374,7 @@ bool Board::moves(){
 
 void Board::levelone(){
   bool firstm = false;
+  bool alreadymoved = false;
   if(turn){ // white's turn to move.
   for(int i = 1; i <= 8; i++){
     for(char j = 'a'; j <= 'h'; j++){ // getting the piece that is actually doing the movement.
@@ -384,20 +385,24 @@ void Board::levelone(){
           for(int k = 1; k <= 8; k++){
             for(char l = 'a'; l <= 'h'; l++){
               if (!(j == l && i == k)){
-              if(getPiecePtr(i,j)->isValidMove('P', j, i, l, k)){ // move it , then revert it, make sure to give it its firstmove property back
+              if(getPiecePtr(i,j)->isValidMove('P', j, i, l, k) && alreadymoved == false){ // move it , then revert it, make sure to give it its firstmove property back
               getPiecePtr(i,j)->firstMove = firstm;
               getPiecePtr(i,j)->move(j, i, l, k,' ');
+              alreadymoved = true;
               if((check())){
               getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
               getPiecePtr(i,j)->firstMove = firstm;
+              alreadymoved = false;
               }
               }
-              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k)){ // capture, then revert, make sure to give first move properties back
+              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k) && alreadymoved == false){ // capture, then revert, make sure to give first move properties back
               getPiecePtr(i,j)->firstMove = firstm;
               getPiecePtr(i,j)->move(j, i, l, k,' ');
+              alreadymoved = true;
               if((check())){
               getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
               getPiecePtr(i,j)->firstMove = firstm;
+              alreadymoved = false;
               }              
               }
             }
@@ -410,20 +415,24 @@ void Board::levelone(){
           firstm = getPiecePtr(i,j)->firstMove;
           for(int k = 1; k <= 8; k++){
             for(char l = 'a'; l <= 'h'; l++){
-             if(getPiecePtr(i,j)->isValidMove(pic, j, i, l, k)){ // move it , then revert it, make sure to give it its firstmove property back
+             if(getPiecePtr(i,j)->isValidMove(pic, j, i, l, k) && alreadymoved == false){ // move it , then revert it, make sure to give it its firstmove property back
               getPiecePtr(i,j)->firstMove = firstm;
               getPiecePtr(i,j)->move(j, i, l, k,' ');
+              alreadymoved = true;
               if((check())){
               getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
               getPiecePtr(i,j)->firstMove = firstm;
+              alreadymoved = false;
               }
               }
-              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k)){ // capture, then revert, make sure to give first move properties back
+              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k) && alreadymoved == false){ // capture, then revert, make sure to give first move properties back
               getPiecePtr(i,j)->firstMove = firstm;
               getPiecePtr(i,j)->move(j, i, l, k,' ');
+              alreadymoved = true;
               if((check())){
               getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
               getPiecePtr(i,j)->firstMove = firstm;
+              alreadymoved = false;
               }
               }
             }
@@ -445,20 +454,24 @@ void Board::levelone(){
           for(int k = 1; k <= 8; k++){
             for(char l = 'a'; l <= 'h'; l++){
               if (!(j == l && i == k)){
-              if(getPiecePtr(i,j)->isValidMove('p', j, i, l, k)){ // move it , then revert it, make sure to give it its firstmove property back
+              if(getPiecePtr(i,j)->isValidMove('p', j, i, l, k) && alreadymoved == false){ // move it , then revert it, make sure to give it its firstmove property back
               getPiecePtr(i,j)->firstMove = firstm;
               getPiecePtr(i,j)->move(j, i, l, k,' ');
+              alreadymoved = true;
               if((check())){
               getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
               getPiecePtr(i,j)->firstMove = firstm;
+              alreadymoved = false;
               }
               }
-              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k)){ // capture, then revert, make sure to give first move properties back
+              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k) && alreadymoved == false){ // capture, then revert, make sure to give first move properties back
               getPiecePtr(i,j)->firstMove = firstm;
               getPiecePtr(i,j)->move(j, i, l, k,' ');
+              alreadymoved = true;
               if((check())){
               getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
               getPiecePtr(i,j)->firstMove = firstm;
+              alreadymoved = false;
               }
               }
             }
@@ -471,20 +484,24 @@ void Board::levelone(){
           firstm = getPiecePtr(i,j)->firstMove;
           for(int k = 1; k <= 8; k++){
             for(char l = 'a'; l <= 'h'; l++){
-             if(getPiecePtr(i,j)->isValidMove(pic, j, i, l, k)){ // move it , then revert it, make sure to give it its firstmove property back
+             if(getPiecePtr(i,j)->isValidMove(pic, j, i, l, k) && alreadymoved == false){ // move it , then revert it, make sure to give it its firstmove property back
               getPiecePtr(i,j)->firstMove = firstm;
               getPiecePtr(i,j)->move(j, i, l, k,' ');
+              alreadymoved = true;
               if((check())){
               getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
               getPiecePtr(i,j)->firstMove = firstm;
+              alreadymoved = false;
               }
               }
-              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k)){ // capture, then revert, make sure to give first move properties back
+              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k) && alreadymoved == false){ // capture, then revert, make sure to give first move properties back
               getPiecePtr(i,j)->firstMove = firstm;
               getPiecePtr(i,j)->move(j, i, l, k,' ');
+              alreadymoved = true;
               if((check())){
               getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
               getPiecePtr(i,j)->firstMove = firstm;
+              alreadymoved = false;
               }
               }
             }
