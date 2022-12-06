@@ -286,8 +286,10 @@ int main() {
           --b->curTurn;
         }
       } else { // Computer's Turn
-
-
+        b->levelone();
+        b->updateBoards();
+        if (b->turn) b->turn = false;
+        else b->turn = true;
       }
     } else if (command == "undo") {
       
