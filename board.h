@@ -28,6 +28,7 @@ class Board : public Subject {
   char lastMoveOldCol;
   int lastMoveNewRow;
   char lastMoveNewCol;
+  bool undidLast = false;
   Board();
   ~Board();
   void init();

@@ -157,13 +157,21 @@ int main() {
       input >> player2;
       if (player1 == "human") player1human = true;
       else if (player1 == "computer[1]") player1human = false;
-      else {
+      else if (player1 == "computer[2]" || player1 == "computer[3]" ||
+               player1 == "computer[4]") {
+        cout << "This AI level not currently supported. Please use level 1 for now." << endl;
+        continue;     
+      } else {
         cout << "Invalid Player Type." << endl;
         continue;
       }
       if (player2 == "human") player2human = true;
       else if (player2 == "computer[1]") player2human = false;
-      else {
+      else if (player2 == "computer[2]" || player2 == "computer[3]" ||
+               player2 == "computer[4]") {
+        cout << "This AI level not currently supported. Please use level 1 for now." << endl;
+        continue;     
+      } else {
         cout << "Invalid Player Type." << endl;
         continue;
       }
@@ -202,11 +210,14 @@ int main() {
                 ->move(oldCol, invertRow(oldRow), newCol, 
                        invertRow(newRow), promo);
               ++b->curTurn;
+              bool undidLastVal = b->undidLast;
               b->check();
               if (b->whitecheck == true) { // revert move here.
               b->getPiecePtr(invertRow(newRow), newCol)
                 ->revertMove(oldCol, invertRow(oldRow), newCol, 
                              invertRow(newRow), promo);
+                --b->curTurn;
+                b->undidLast = undidLastVal;
                 b->updateBoards();
                 throw InvalidMove{};
               } else {
@@ -223,11 +234,14 @@ int main() {
                 ->move(oldCol, invertRow(oldRow), newCol, 
                        invertRow(newRow), promo);
               ++b->curTurn;
+              bool undidLastVal = b->undidLast;
               b->check();
               if (b->blackcheck == true) { // revert move here.
                 b->getPiecePtr(invertRow(newRow), newCol)
                 ->revertMove(oldCol, invertRow(oldRow), newCol, 
                              invertRow(newRow), promo);
+                --b->curTurn;
+                b->undidLast = undidLastVal;
                 b->updateBoards();
                 throw InvalidMove{};
               } else {
@@ -245,6 +259,7 @@ int main() {
                 b->lastMoveNewRow = invertRow(newRow);
                 b->lastMoveNewCol = newCol;
             ++b->curTurn;
+            b->undidLast = false;
             b->updateBoards();
            if(b->moves()){
               cout << "Note: There are moves available." << endl;
@@ -297,24 +312,36 @@ int main() {
           b->updateBoards();
           if (b->turn) b->turn = false;
           else b->turn = true;
+          if (b->turn) cout << "Player 2's Turn" << endl;
+          else cout << "Player 2's Turn" << endl;
+          b->undidLast = false;
         } catch (InvalidMove i) {
-         b->levelone();
+          b->levelone();
           b->updateBoards();
           if (b->turn) b->turn = false;
           else b->turn = true;
+          if (b->turn) cout << "Player 2's Turn" << endl;
+          else cout << "Player 2's Turn" << endl;
+          b->undidLast = false;
         }
       }
     } else if (command == "undo") {
-      b->getPiecePtr(b->lastMoveNewRow, b->lastMoveNewCol)->revertMove(b->lastMoveOldCol, b->lastMoveOldRow, b->lastMoveNewCol, b->lastMoveNewRow, ' ');
-      b->updateBoards();
-      if (b->turn) {
-        b->turn = false;
-        cout << "Last move undone. Player 2's turn again." << endl;
-      }
-      else {
-        b->turn = true;
-        cout << "Last move undone. Player 1's turn again." << endl;
-      }
+      if (b->undidLast == false) {
+        b->getPiecePtr(b->lastMoveNewRow, b->lastMoveNewCol)->revertMove(b->lastMoveOldCol, b->lastMoveOldRow, b->lastMoveNewCol, b->lastMoveNewRow, ' ');
+        b->updateBoards();
+        if (b->turn) {
+          b->turn = false;
+          cout << "Last move undone. Player 2's turn again." << endl;
+          b->undidLast = true;
+        } else {
+          b->turn = true;
+          cout << "Last move undone. Player 1's turn again." << endl;
+          b->undidLast = true;
+        }
+      } else {
+        cout << "Last move already undone. You can only do this once!" << endl;
+        continue;
+      } 
     } else if (command == "resign") {
       if (b->turn) {
         cout << "Black Wins!" << endl;
@@ -324,16 +351,16 @@ int main() {
         ++b->whitewins;
       }
     } else if (command == "setup") { // have empty board and then call helper function
-    if (!(gameInProgress)) {
-      Observer *ob1 = new TextOb{b};
-      Observer *ob2 = new GraphicalOb{b};
-      toDelete.push_back(ob1);
-      b->turn = setup(b);
-      setupFinished = true;
-    }
-    else {
-      throw InvalidMove{};
-    }
+      if (!(gameInProgress)) {
+        Observer *ob1 = new TextOb{b};
+        Observer *ob2 = new GraphicalOb{b};
+        toDelete.push_back(ob1);
+        b->turn = setup(b);
+        setupFinished = true;
+      }
+      else {
+        throw InvalidMove{};
+      }
     } else {
       cout << "Invalid Command." << endl;
     }

@@ -24,19 +24,20 @@ void GraphicalOb::notify() {
   int xOffset = 22;
   int yOffset = 29;
   int winOffset = 30;
+  int borderWidth = 5;
 
   for (char col = 0; col < 8; ++col) {
     std::string colNum;
     colNum += col + 'A';
     window->drawString(cellWidth * col + xOffset + winOffset, 
-                       winOffset / 2 + 5, colNum);
+                       winOffset / 2 + 3, colNum);
   }
 
   for (int row = 0; row < 8; ++row) {
     for (int col = 0; col < 8; ++col) {
       std::string rowNum;
       rowNum += std::to_string(invert(row + 1));
-      window->drawString(winOffset / 2 - 3, 
+      window->drawString(winOffset / 2 - 5, 
                          cellWidth * row + yOffset + winOffset, rowNum);
       window->drawString(winOffset +  12 + (cellWidth * 8), 
                          cellWidth * row + yOffset + winOffset, rowNum);
@@ -45,7 +46,7 @@ void GraphicalOb::notify() {
       pieceChar += cur;
       int colour;
       if ((row + col) % 2 == 0) colour = Xwindow::White;
-      else colour = Xwindow::Orange;
+      else colour = Xwindow::Brown;
       window->fillRectangle(cellWidth * col + winOffset, 
                             cellWidth * row + winOffset, 
                             cellWidth, cellWidth, colour);
@@ -63,6 +64,17 @@ void GraphicalOb::notify() {
                        cellWidth * 8 + winOffset + 19, colNum);
   }
 
+  int borderColour = Xwindow::Brown;
+  window->fillRectangle(winOffset - borderWidth, winOffset - borderWidth,
+                        borderWidth, cellWidth * 8, borderColour);
+  window->fillRectangle(winOffset + cellWidth * 8 - borderWidth, 
+                        winOffset - borderWidth,
+                        borderWidth, cellWidth * 8, borderColour);
+  window->fillRectangle(winOffset - borderWidth, winOffset - borderWidth,
+                        cellWidth * 8, borderWidth, borderColour);
+  window->fillRectangle(winOffset - borderWidth, 
+                        winOffset + cellWidth * 8 - borderWidth,
+                        cellWidth * 8 + borderWidth, borderWidth, borderColour);
 }
 
 GraphicalOb::~GraphicalOb() {
