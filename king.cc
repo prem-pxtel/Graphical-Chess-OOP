@@ -208,6 +208,18 @@ bool King::isValidMove(char oldPiece, char oldCol, int oldRow,
   return true;
 }
 
+bool King::isValidCapture(char oldCol, int oldRow, 
+                          char newCol, int newRow) {
+  if (newRow == obstacleRow && newCol == obstacleCol 
+      && b->isWhitePiece(oldRow, oldCol) 
+      != b->isWhitePiece(newRow, newCol)
+      && b->getPiece(newRow, newCol) != 'k'
+      && b->getPiece(newRow, newCol) != 'K') {
+    return true;
+  }
+  return false;
+}
+
 bool King::isValidCastle(char oldCol, int oldRow, char newCol, int newRow) {
   if (oldRow != newRow) return false;
   if (newCol == oldCol - 2) {
@@ -263,11 +275,7 @@ void King::move(char oldCol, int oldRow,
     b->swapPiece(oldRow, oldCol, newRow, newCol);
     b->removePiece(oldRow, oldCol);
     lastMoveCapture = false;
-  } else if (newRow == obstacleRow && newCol == obstacleCol 
-             && b->isWhitePiece(oldRow, oldCol) 
-             != b->isWhitePiece(newRow, newCol)
-             && b->getPiece(newRow, newCol) != 'k'
-             && b->getPiece(newRow, newCol) != 'K') {
+  } else if (isValidCapture(oldCol, oldRow, newCol, newRow)) {
     capture(oldRow, oldCol, newRow, newCol);
     lastMoveCapture = true;
     clearObs();

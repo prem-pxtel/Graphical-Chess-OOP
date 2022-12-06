@@ -19,6 +19,8 @@ class Blank : public Piece {
   void capture(int oldRow, char oldCol, int newRow, char newCol) override;
   bool isValidMove(char oldPiece, char oldCol, int oldRow, 
                    char newCol, int newRow) override;
+  bool isValidCapture(char oldCol, int oldRow, 
+                      char newCol, int newRow) override;
   bool isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
                         char newCol, int newRow) override;
   int getObsRow() override;

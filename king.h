@@ -20,6 +20,8 @@ class King : public Piece {
   void castle(int oldRow, char oldCol, int newRow, char newCol);
   bool isValidMove(char oldPiece, char oldCol, int oldRow, 
                    char newCol, int newRow) override;
+  bool isValidCapture(char oldCol, int oldRow, 
+                      char newCol, int newRow) override;
   bool isValidCastle(char oldCol, int oldRow, char newCol, int newRow);
   bool isInPath(char oldPiece, char oldCol, int oldRow, 
                 char newCol, int newRow);

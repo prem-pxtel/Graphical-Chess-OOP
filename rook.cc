@@ -123,6 +123,18 @@ bool Rook::isValidMove(char oldPiece, char oldCol, int oldRow,
   return true;
 }
 
+bool Rook::isValidCapture(char oldCol, int oldRow, 
+                          char newCol, int newRow) {
+  if (newRow == obstacleRow && newCol == obstacleCol 
+      && b->isWhitePiece(oldRow, oldCol) 
+      != b->isWhitePiece(newRow, newCol)
+      && b->getPiece(newRow, newCol) != 'k'
+      && b->getPiece(newRow, newCol) != 'K') {
+    return true;
+  }
+  return false;
+}
+
 void Rook::capture(int oldRow, char oldCol, int newRow, char newCol) {
   capturedPiece = b->getPiece(newRow, newCol);
   capturedPieceColour = b->isWhitePiece(newRow, newCol);
@@ -143,11 +155,7 @@ void Rook::move(char oldCol, int oldRow,
     b->swapPiece(oldRow, oldCol, newRow, newCol);
     b->removePiece(oldRow, oldCol);
     lastMoveCapture = false;
-  } else if (newRow == obstacleRow && newCol == obstacleCol 
-             && b->isWhitePiece(oldRow, oldCol) 
-             != b->isWhitePiece(newRow, newCol)
-             && b->getPiece(newRow, newCol) != 'k'
-             && b->getPiece(newRow, newCol) != 'K') {
+  } else if (isValidCapture(oldCol, oldRow, newCol, newRow)) {
     capture(oldRow, oldCol, newRow, newCol);
     lastMoveCapture = true;
     clearObs();

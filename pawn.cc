@@ -69,6 +69,18 @@ bool Pawn::isValidMove(char oldPiece, char oldCol, int oldRow,
   return true;
 }
 
+bool Pawn::isValidCapture(char oldCol, int oldRow, 
+                          char newCol, int newRow) {
+  if (isInDiagonalPath(' ', oldCol, oldRow, newCol, newRow) 
+      && b->isWhitePiece(oldRow, oldCol) 
+      != b->isWhitePiece(newRow, newCol)
+      && b->getPiece(newRow, newCol) != 'k'
+      && b->getPiece(newRow, newCol) != 'K') {
+    return true;
+  }
+  return false;
+}
+
 bool Pawn::isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
                             char newCol, int newRow) {
   if (abs((newCol - oldCol)) != abs((newRow - oldRow))) return false;
@@ -324,11 +336,7 @@ void Pawn::move(char oldCol, int oldRow,
     }
     lastMoveCapture = false;
   } else if (b->isOccupied(newRow, newCol)) {
-    if (isInDiagonalPath(oldPiece, oldCol, oldRow, newCol, newRow) 
-        && b->isWhitePiece(oldRow, oldCol) 
-        != b->isWhitePiece(newRow, newCol)
-        && b->getPiece(newRow, newCol) != 'k'
-        && b->getPiece(newRow, newCol) != 'K') {
+    if (isValidCapture(oldCol, oldRow, newCol, newRow)) {
         capture(oldRow, oldCol, obstacleRow, obstacleCol);
         lastMoveCapture = true;
         clearObs();

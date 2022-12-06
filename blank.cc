@@ -27,6 +27,11 @@ bool Blank::isValidMove(char oldPiece, char oldCol, int oldRow, char newCol, int
   return false;
 }
 
+bool Blank::isValidCapture(char oldCol, int oldRow, 
+                           char newCol, int newRow) {
+  return false;
+}
+
 bool Blank::isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
                         char newCol, int newRow) {
   return false;

@@ -19,7 +19,7 @@ void Knight::clearObs() {
 }
 
 bool Knight::isValidMove(char oldPiece, char oldCol, int oldRow, 
-                        char newCol, int newRow) {
+                         char newCol, int newRow) {
   if(!(((newRow == oldRow + 2) && (newCol == oldCol + 1)) 
       || ((newRow == oldRow + 2) && (newCol == oldCol - 1))
       || ((newRow == oldRow - 2) && (newCol == oldCol + 1)) 
@@ -34,6 +34,18 @@ bool Knight::isValidMove(char oldPiece, char oldCol, int oldRow,
   if (b->isOccupied(newRow, newCol)) return false;
   if (oldCol == newCol && oldRow == newRow) return false;
   return true;
+}
+
+bool Knight::isValidCapture(char oldCol, int oldRow, 
+                            char newCol, int newRow) {
+  if (newRow == obstacleRow && newCol == obstacleCol 
+      && b->isWhitePiece(oldRow, oldCol) 
+      != b->isWhitePiece(newRow, newCol)
+      && b->getPiece(newRow, newCol) != 'k'
+      && b->getPiece(newRow, newCol) != 'K') {
+    return true;
+  }
+  return false;
 }
 
 void Knight::capture(int oldRow, char oldCol, int newRow, char newCol) {
@@ -56,11 +68,7 @@ void Knight::move(char oldCol, int oldRow,
     b->swapPiece(oldRow, oldCol, newRow, newCol);
     b->removePiece(oldRow, oldCol);
     lastMoveCapture = false;
-  } else if (b->isOccupied(newRow, newCol) 
-             && b->isWhitePiece(oldRow, oldCol) 
-             != b->isWhitePiece(newRow, newCol)
-             && b->getPiece(newRow, newCol) != 'k'
-             && b->getPiece(newRow, newCol) != 'K') {
+  } else if (isValidCapture(oldCol, oldRow, newCol, newRow)) {
     capture(oldRow, oldCol, newRow, newCol);
     lastMoveCapture = true;
     clearObs();
