@@ -156,7 +156,7 @@ int main() {
       input >> player1;
       input >> player2;
       if (player1 == "human") player1human = true;
-      else if (player1 == "computer") player1human = false;
+      else if (player1 == "computer[1]") player1human = false;
       else {
         cout << "Invalid Player Type." << endl;
         continue;
@@ -286,10 +286,17 @@ int main() {
           --b->curTurn;
         }
       } else { // Computer's Turn
-        b->levelone();
-        b->updateBoards();
-        if (b->turn) b->turn = false;
-        else b->turn = true;
+        try {
+          b->levelone();
+          b->updateBoards();
+          if (b->turn) b->turn = false;
+          else b->turn = true;
+        } catch (InvalidMove i) {
+         b->levelone();
+          b->updateBoards();
+          if (b->turn) b->turn = false;
+          else b->turn = true;
+        }
       }
     } else if (command == "undo") {
       
