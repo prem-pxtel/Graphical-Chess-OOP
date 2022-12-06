@@ -358,6 +358,7 @@ int main() {
         ++b->whitewins;
         b->clear();
         b->init();
+        b->turn = true;
       }
     } else if (command == "setup") { // have empty board and then call helper function
       if (!(gameInProgress)) {
