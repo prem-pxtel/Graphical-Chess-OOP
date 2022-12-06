@@ -42,6 +42,7 @@ class Board : public Subject {
   bool isWhitePiece(int row, char col);
   bool check();
   bool moves();
+  void levelone();
 };
 
 std::ostream & operator<<(std::ostream &out, const Board *b);
