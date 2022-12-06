@@ -247,6 +247,7 @@ void King::castle(int oldRow, char oldCol, int newRow, char newCol) {
   if (newCol == oldCol - 2) {
       b->swapPiece(oldRow, 'e', newRow, 'c');
       b->swapPiece(oldRow, 'a', newRow, 'd');
+      b->removePiece(newRow, 'a');
   } else {
     b->swapPiece(oldRow, 'e', newRow, 'g');
     b->swapPiece(oldRow,  'h', newRow, 'f');

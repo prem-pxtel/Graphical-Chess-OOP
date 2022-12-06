@@ -178,7 +178,7 @@ int main() {
       if (!(setupFinished)) {
         b->init();
         Observer *ob1 = new TextOb{b};
-        Observer *ob2 = new GraphicalOb{b};
+        //Observer *ob2 = new GraphicalOb{b};
         toDelete.push_back(ob1);
         b->updateBoards();
       } else {
@@ -266,7 +266,7 @@ int main() {
             } 
             if (b->check()) {
               if (!(b->moves())) {
-                cout << "Checkmate!" << endl;
+                cout << "Checkmate! ";
                 if(b->turn){
                   cout << "White Wins!" << endl;
                   ++b->whitewins;
@@ -275,7 +275,7 @@ int main() {
                   cout << "Black Wins!" << endl;
                   ++b->blackwins;
                 }
-                break;
+                continue;
               } else {
                 b->check();
               }
@@ -285,7 +285,7 @@ int main() {
                 cout << "Stalemate." << endl;
                 b->whitewins += 0.5;
                 b->blackwins += 0.5;
-                break;
+                continue;
               }
             }
           }
