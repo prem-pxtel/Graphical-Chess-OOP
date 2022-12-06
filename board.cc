@@ -9,6 +9,7 @@
 #include "queen.h"
 #include "king.h"
 #include "knight.h"
+#include <cstdlib>
 using std::cout;
 using std::endl;
 
@@ -231,287 +232,396 @@ bool Board::check() {
   return retval;
 }
 
-bool Board::moves(){
+bool Board::moves()
+{
   int moves = 0;
   bool firstm = false;
-  if(!turn){ // white's turn to move.
-  for(int i = 1; i <= 8; i++){
-    for(char j = 'a'; j <= 'h'; j++){ // getting the piece that is actually doing the movement.
-    if(isOccupied(i,j)){
-      if(isWhitePiece(i,j)){ // checking if the spot on the grid is occupied and if it is , if its a white piece
-        if(getPiece(i,j) == 'P'){ // checking if its a pawn
-          firstm = getPiecePtr(i,j)->firstMove;
-          for(int k = 1; k <= 8; k++){
-            for(char l = 'a'; l <= 'h'; l++){
-              if (!(j == l && i == k)){
-              if(getPiecePtr(i,j)->isValidMove('P', j, i, l, k)){ // move it , then revert it, make sure to give it its firstmove property back
-              getPiecePtr(i,j)->firstMove = firstm;
-              getPiecePtr(i,j)->move(j, i, l, k,' ');
-              if(!(check())){
-                moves++;
-              }
-              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
-              getPiecePtr(i,j)->firstMove = firstm;
-              }
-              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k)){ // capture, then revert, make sure to give first move properties back
-              getPiecePtr(i,j)->firstMove = firstm;
-              getPiecePtr(i,j)->move(j, i, l, k,' ');
-              if(!(check())){
-                moves++;
-              }              
-              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
-              getPiecePtr(i,j)->firstMove = firstm;
-              }
-            }
-            }
-          }
-        }
-        else{ // not a pawn
-        char pic = getPiece(i,j);
-        if(pic == 'Q' || pic == 'K' || pic == 'N' || pic == 'B' || pic == 'R'){
-          firstm = getPiecePtr(i,j)->firstMove;
-          for(int k = 1; k <= 8; k++){
-            for(char l = 'a'; l <= 'h'; l++){
-             if(getPiecePtr(i,j)->isValidMove(pic, j, i, l, k)){ // move it , then revert it, make sure to give it its firstmove property back
-              getPiecePtr(i,j)->firstMove = firstm;
-              getPiecePtr(i,j)->move(j, i, l, k,' ');
-              if(!(check())){
-                moves++;
-              }
-              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
-              getPiecePtr(i,j)->firstMove = firstm;
-              }
-              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k)){ // capture, then revert, make sure to give first move properties back
-              getPiecePtr(i,j)->firstMove = firstm;
-              getPiecePtr(i,j)->move(j, i, l, k,' ');
-              if(!(check())){
-                moves++;
-              }
-              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
-              getPiecePtr(i,j)->firstMove = firstm;
+  if (!turn)
+  { // white's turn to move.
+    for (int i = 1; i <= 8; i++)
+    {
+      for (char j = 'a'; j <= 'h'; j++)
+      { // getting the piece that is actually doing the movement.
+        if (isOccupied(i, j))
+        {
+          if (isWhitePiece(i, j))
+          { // checking if the spot on the grid is occupied and if it is , if its a white piece
+            if (getPiece(i, j) == 'P')
+            { // checking if its a pawn
+              firstm = getPiecePtr(i, j)->firstMove;
+              for (int k = 1; k <= 8; k++)
+              {
+                for (char l = 'a'; l <= 'h'; l++)
+                {
+                  if (!(j == l && i == k))
+                  {
+                    if (getPiecePtr(i, j)->isValidMove('P', j, i, l, k))
+                    { // move it , then revert it, make sure to give it its firstmove property back
+                      getPiecePtr(i, j)->firstMove = firstm;
+                      getPiecePtr(i, j)->move(j, i, l, k, ' ');
+                      if (!(check()))
+                      {
+                        moves++;
+                      }
+                      getPiecePtr(k, l)->revertMove(j, i, l, k, ' ');
+                      getPiecePtr(i, j)->firstMove = firstm;
+                    }
+                    else if (getPiecePtr(i, j)->isValidCapture(j, i, l, k))
+                    { // capture, then revert, make sure to give first move properties back
+                      getPiecePtr(i, j)->firstMove = firstm;
+                      getPiecePtr(i, j)->move(j, i, l, k, ' ');
+                      if (!(check()))
+                      {
+                        moves++;
+                      }
+                      getPiecePtr(k, l)->revertMove(j, i, l, k, ' ');
+                      getPiecePtr(i, j)->firstMove = firstm;
+                    }
+                  }
+                }
               }
             }
-            }
-        }
-        }
-      }
-    }
-    }
-  }
-  }
-  else{ // blacks turn to move
-  for(int i = 1; i <= 8; i++){
-    for(char j = 'a'; j <= 'h'; j++){ // getting the piece that is actually doing the movement.
-    if(isOccupied(i,j)){
-      if(!(isWhitePiece(i,j))){ // checking if the spot on the grid is occupied and if it is , if its a white piece
-        if(getPiece(i,j) == 'p'){ // checking if its a pawn
-          firstm = getPiecePtr(i,j)->firstMove;
-          for(int k = 1; k <= 8; k++){
-            for(char l = 'a'; l <= 'h'; l++){
-              if (!(j == l && i == k)){
-              if(getPiecePtr(i,j)->isValidMove('p', j, i, l, k)){ // move it , then revert it, make sure to give it its firstmove property back
-              getPiecePtr(i,j)->firstMove = firstm;
-              getPiecePtr(i,j)->move(j, i, l, k,' ');
-              if(!(check())){
-                moves++;
+            else
+            { // not a pawn
+              char pic = getPiece(i, j);
+              if (pic == 'Q' || pic == 'K' || pic == 'N' || pic == 'B' || pic == 'R')
+              {
+                firstm = getPiecePtr(i, j)->firstMove;
+                for (int k = 1; k <= 8; k++)
+                {
+                  for (char l = 'a'; l <= 'h'; l++)
+                  {
+                    if (getPiecePtr(i, j)->isValidMove(pic, j, i, l, k))
+                    { // move it , then revert it, make sure to give it its firstmove property back
+                      getPiecePtr(i, j)->firstMove = firstm;
+                      getPiecePtr(i, j)->move(j, i, l, k, ' ');
+                      if (!(check()))
+                      {
+                        moves++;
+                      }
+                      getPiecePtr(k, l)->revertMove(j, i, l, k, ' ');
+                      getPiecePtr(i, j)->firstMove = firstm;
+                    }
+                    else if (getPiecePtr(i, j)->isValidCapture(j, i, l, k))
+                    { // capture, then revert, make sure to give first move properties back
+                      getPiecePtr(i, j)->firstMove = firstm;
+                      getPiecePtr(i, j)->move(j, i, l, k, ' ');
+                      if (!(check()))
+                      {
+                        moves++;
+                      }
+                      getPiecePtr(k, l)->revertMove(j, i, l, k, ' ');
+                      getPiecePtr(i, j)->firstMove = firstm;
+                    }
+                  }
+                }
               }
-              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
-              getPiecePtr(i,j)->firstMove = firstm;
-              }
-              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k)){ // capture, then revert, make sure to give first move properties back
-              getPiecePtr(i,j)->firstMove = firstm;
-              getPiecePtr(i,j)->move(j, i, l, k,' ');
-              if(!(check())){
-                moves++;
-              }
-              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
-              getPiecePtr(i,j)->firstMove = firstm;
-              }
-            }
             }
           }
         }
-        else{ // not a pawn
-        char pic = getPiece(i,j);
-        if(pic == 'q' || pic == 'k' || pic == 'n' || pic == 'b' || pic == 'r'){
-          firstm = getPiecePtr(i,j)->firstMove;
-          for(int k = 1; k <= 8; k++){
-            for(char l = 'a'; l <= 'h'; l++){
-             if(getPiecePtr(i,j)->isValidMove(pic, j, i, l, k)){ // move it , then revert it, make sure to give it its firstmove property back
-              getPiecePtr(i,j)->firstMove = firstm;
-              getPiecePtr(i,j)->move(j, i, l, k,' ');
-              if(!(check())){
-                moves++;
-              }
-              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
-              getPiecePtr(i,j)->firstMove = firstm;
-              }
-              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k)){ // capture, then revert, make sure to give first move properties back
-              getPiecePtr(i,j)->firstMove = firstm;
-              getPiecePtr(i,j)->move(j, i, l, k,' ');
-              if(!(check())){
-                moves++;
-              }
-              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
-              getPiecePtr(i,j)->firstMove = firstm;
+      }
+    }
+  }
+  else
+  { // blacks turn to move
+    for (int i = 1; i <= 8; i++)
+    {
+      for (char j = 'a'; j <= 'h'; j++)
+      { // getting the piece that is actually doing the movement.
+        if (isOccupied(i, j))
+        {
+          if (!(isWhitePiece(i, j)))
+          { // checking if the spot on the grid is occupied and if it is , if its a white piece
+            if (getPiece(i, j) == 'p')
+            { // checking if its a pawn
+              firstm = getPiecePtr(i, j)->firstMove;
+              for (int k = 1; k <= 8; k++)
+              {
+                for (char l = 'a'; l <= 'h'; l++)
+                {
+                  if (!(j == l && i == k))
+                  {
+                    if (getPiecePtr(i, j)->isValidMove('p', j, i, l, k))
+                    { // move it , then revert it, make sure to give it its firstmove property back
+                      getPiecePtr(i, j)->firstMove = firstm;
+                      getPiecePtr(i, j)->move(j, i, l, k, ' ');
+                      if (!(check()))
+                      {
+                        moves++;
+                      }
+                      getPiecePtr(k, l)->revertMove(j, i, l, k, ' ');
+                      getPiecePtr(i, j)->firstMove = firstm;
+                    }
+                    else if (getPiecePtr(i, j)->isValidCapture(j, i, l, k))
+                    { // capture, then revert, make sure to give first move properties back
+                      getPiecePtr(i, j)->firstMove = firstm;
+                      getPiecePtr(i, j)->move(j, i, l, k, ' ');
+                      if (!(check()))
+                      {
+                        moves++;
+                      }
+                      getPiecePtr(k, l)->revertMove(j, i, l, k, ' ');
+                      getPiecePtr(i, j)->firstMove = firstm;
+                    }
+                  }
+                }
               }
             }
+            else
+            { // not a pawn
+              char pic = getPiece(i, j);
+              if (pic == 'q' || pic == 'k' || pic == 'n' || pic == 'b' || pic == 'r')
+              {
+                firstm = getPiecePtr(i, j)->firstMove;
+                for (int k = 1; k <= 8; k++)
+                {
+                  for (char l = 'a'; l <= 'h'; l++)
+                  {
+                    if (getPiecePtr(i, j)->isValidMove(pic, j, i, l, k))
+                    { // move it , then revert it, make sure to give it its firstmove property back
+                      getPiecePtr(i, j)->firstMove = firstm;
+                      getPiecePtr(i, j)->move(j, i, l, k, ' ');
+                      if (!(check()))
+                      {
+                        moves++;
+                      }
+                      getPiecePtr(k, l)->revertMove(j, i, l, k, ' ');
+                      getPiecePtr(i, j)->firstMove = firstm;
+                    }
+                    else if (getPiecePtr(i, j)->isValidCapture(j, i, l, k))
+                    { // capture, then revert, make sure to give first move properties back
+                      getPiecePtr(i, j)->firstMove = firstm;
+                      getPiecePtr(i, j)->move(j, i, l, k, ' ');
+                      if (!(check()))
+                      {
+                        moves++;
+                      }
+                      getPiecePtr(k, l)->revertMove(j, i, l, k, ' ');
+                      getPiecePtr(i, j)->firstMove = firstm;
+                    }
+                  }
+                }
+              }
             }
-        }
+          }
         }
       }
     }
-    }
   }
-  }
-  if(moves > 0){
+  if (moves > 0)
+  {
     return true;
   }
-  else{
+  else
+  {
     return false;
   }
 }
 
-void Board::levelone(){
+void Board::levelone()
+{
   bool firstm = false;
   bool alreadymoved = false;
-  if(turn){ // white's turn to move.
-  for(int i = 1; i <= 8; i++){
-    for(char j = 'a'; j <= 'h'; j++){ // getting the piece that is actually doing the movement.
-    if(isOccupied(i,j)){
-      if(isWhitePiece(i,j)){ // checking if the spot on the grid is occupied and if it is , if its a white piece
-        if(getPiece(i,j) == 'P'){ // checking if its a pawn
-          firstm = getPiecePtr(i,j)->firstMove;
-          for(int k = 1; k <= 8; k++){
-            for(char l = 'a'; l <= 'h'; l++){
-              if (!(j == l && i == k)){
-              if(getPiecePtr(i,j)->isValidMove('P', j, i, l, k) && alreadymoved == false){ // move it , then revert it, make sure to give it its firstmove property back
-              getPiecePtr(i,j)->firstMove = firstm;
-              getPiecePtr(i,j)->move(j, i, l, k,' ');
-              alreadymoved = true;
-              if((check())){
-              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
-              getPiecePtr(i,j)->firstMove = firstm;
-              alreadymoved = false;
+  int i;
+  char j;
+  while (alreadymoved == false)
+  {
+    if (turn)
+    { // white's turn to move.
+      while (true)
+      {
+        i = (rand() % 8) + 1;
+        j = (rand() % 8) + 'a';
+        lastMoveOldRow = i;
+        lastMoveOldCol = j;
+        if (isOccupied(i, j))
+          break;
+      }
+      // getting the piece that is actually doing the movement.
+      if (isWhitePiece(i, j))
+      { // checking if the spot on the grid is occupied and if it is , if its a white piece
+        if (getPiece(i, j) == 'P')
+        { // checking if its a pawn
+          firstm = getPiecePtr(i, j)->firstMove;
+          for (int k = 1; k <= 8; k++)
+          {
+            for (char l = 'a'; l <= 'h'; l++)
+            {
+              if (!(j == l && i == k))
+              {
+                if (getPiecePtr(i, j)->isValidMove('P', j, i, l, k) && alreadymoved == false)
+                { // move it , then revert it, make sure to give it its firstmove property back
+                  getPiecePtr(i, j)->firstMove = firstm;
+                  getPiecePtr(i, j)->move(j, i, l, k, ' ');
+                  lastMoveNewRow = k;
+                  lastMoveNewCol = l;
+                  alreadymoved = true;
+                  if ((check()))
+                  {
+                    getPiecePtr(k, l)->revertMove(j, i, l, k, ' ');
+                    getPiecePtr(i, j)->firstMove = firstm;
+                    alreadymoved = false;
+                  }
+                }
+                else if (getPiecePtr(i, j)->isValidCapture(j, i, l, k) && alreadymoved == false)
+                { // capture, then revert, make sure to give first move properties back
+                  getPiecePtr(i, j)->firstMove = firstm;
+                  getPiecePtr(i, j)->move(j, i, l, k, ' ');
+                  lastMoveNewRow = k;
+                  lastMoveNewCol = l;
+                  alreadymoved = true;
+                  if ((check()))
+                  {
+                    getPiecePtr(k, l)->revertMove(j, i, l, k, ' ');
+                    getPiecePtr(i, j)->firstMove = firstm;
+                    alreadymoved = false;
+                  }
+                }
               }
-              }
-              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k) && alreadymoved == false){ // capture, then revert, make sure to give first move properties back
-              getPiecePtr(i,j)->firstMove = firstm;
-              getPiecePtr(i,j)->move(j, i, l, k,' ');
-              alreadymoved = true;
-              if((check())){
-              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
-              getPiecePtr(i,j)->firstMove = firstm;
-              alreadymoved = false;
-              }              
-              }
-            }
             }
           }
         }
-        else{ // not a pawn
-        char pic = getPiece(i,j);
-        if(pic == 'Q' || pic == 'K' || pic == 'N' || pic == 'B' || pic == 'R'){
-          firstm = getPiecePtr(i,j)->firstMove;
-          for(int k = 1; k <= 8; k++){
-            for(char l = 'a'; l <= 'h'; l++){
-             if(getPiecePtr(i,j)->isValidMove(pic, j, i, l, k) && alreadymoved == false){ // move it , then revert it, make sure to give it its firstmove property back
-              getPiecePtr(i,j)->firstMove = firstm;
-              getPiecePtr(i,j)->move(j, i, l, k,' ');
-              alreadymoved = true;
-              if((check())){
-              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
-              getPiecePtr(i,j)->firstMove = firstm;
-              alreadymoved = false;
+        else
+        { // not a pawn
+          char pic = getPiece(i, j);
+          if (pic == 'Q' || pic == 'K' || pic == 'N' || pic == 'B' || pic == 'R')
+          {
+            firstm = getPiecePtr(i, j)->firstMove;
+            for (int k = 1; k <= 8; k++)
+            {
+              for (char l = 'a'; l <= 'h'; l++)
+              {
+                if (getPiecePtr(i, j)->isValidMove(pic, j, i, l, k) && alreadymoved == false)
+                { // move it , then revert it, make sure to give it its firstmove property back
+                  getPiecePtr(i, j)->firstMove = firstm;
+                  getPiecePtr(i, j)->move(j, i, l, k, ' ');
+                  lastMoveNewRow = k;
+                  lastMoveNewCol = l;
+                  alreadymoved = true;
+                  if ((check()))
+                  {
+                    getPiecePtr(k, l)->revertMove(j, i, l, k, ' ');
+                    getPiecePtr(i, j)->firstMove = firstm;
+                    alreadymoved = false;
+                  }
+                }
+                else if (getPiecePtr(i, j)->isValidCapture(j, i, l, k) && alreadymoved == false)
+                { // capture, then revert, make sure to give first move properties back
+                  getPiecePtr(i, j)->firstMove = firstm;
+                  getPiecePtr(i, j)->move(j, i, l, k, ' ');
+                  lastMoveNewRow = k;
+                  lastMoveNewCol = l;
+                  alreadymoved = true;
+                  if ((check()))
+                  {
+                    getPiecePtr(k, l)->revertMove(j, i, l, k, ' ');
+                    getPiecePtr(i, j)->firstMove = firstm;
+                    alreadymoved = false;
+                  }
+                }
               }
-              }
-              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k) && alreadymoved == false){ // capture, then revert, make sure to give first move properties back
-              getPiecePtr(i,j)->firstMove = firstm;
-              getPiecePtr(i,j)->move(j, i, l, k,' ');
-              alreadymoved = true;
-              if((check())){
-              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
-              getPiecePtr(i,j)->firstMove = firstm;
-              alreadymoved = false;
-              }
-              }
-            }
-            }
-        }
-        }
-      }
-    }
-    }
-  }
-  }
-  else{ // blacks turn to move
-  for(int i = 1; i <= 8; i++){
-    for(char j = 'a'; j <= 'h'; j++){ // getting the piece that is actually doing the movement.
-    if(isOccupied(i,j)){
-      if(!(isWhitePiece(i,j))){ // checking if the spot on the grid is occupied and if it is , if its a white piece
-        if(getPiece(i,j) == 'p'){ // checking if its a pawn
-          firstm = getPiecePtr(i,j)->firstMove;
-          for(int k = 1; k <= 8; k++){
-            for(char l = 'a'; l <= 'h'; l++){
-              if (!(j == l && i == k)){
-              if(getPiecePtr(i,j)->isValidMove('p', j, i, l, k) && alreadymoved == false){ // move it , then revert it, make sure to give it its firstmove property back
-              getPiecePtr(i,j)->firstMove = firstm;
-              getPiecePtr(i,j)->move(j, i, l, k,' ');
-              alreadymoved = true;
-              if((check())){
-              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
-              getPiecePtr(i,j)->firstMove = firstm;
-              alreadymoved = false;
-              }
-              }
-              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k) && alreadymoved == false){ // capture, then revert, make sure to give first move properties back
-              getPiecePtr(i,j)->firstMove = firstm;
-              getPiecePtr(i,j)->move(j, i, l, k,' ');
-              alreadymoved = true;
-              if((check())){
-              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
-              getPiecePtr(i,j)->firstMove = firstm;
-              alreadymoved = false;
-              }
-              }
-            }
             }
           }
         }
-        else{ // not a pawn
-        char pic = getPiece(i,j);
-        if(pic == 'q' || pic == 'k' || pic == 'n' || pic == 'b' || pic == 'r'){
-          firstm = getPiecePtr(i,j)->firstMove;
-          for(int k = 1; k <= 8; k++){
-            for(char l = 'a'; l <= 'h'; l++){
-             if(getPiecePtr(i,j)->isValidMove(pic, j, i, l, k) && alreadymoved == false){ // move it , then revert it, make sure to give it its firstmove property back
-              getPiecePtr(i,j)->firstMove = firstm;
-              getPiecePtr(i,j)->move(j, i, l, k,' ');
-              alreadymoved = true;
-              if((check())){
-              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
-              getPiecePtr(i,j)->firstMove = firstm;
-              alreadymoved = false;
-              }
-              }
-              else if (getPiecePtr(i,j)->isValidCapture(j, i, l, k) && alreadymoved == false){ // capture, then revert, make sure to give first move properties back
-              getPiecePtr(i,j)->firstMove = firstm;
-              getPiecePtr(i,j)->move(j, i, l, k,' ');
-              alreadymoved = true;
-              if((check())){
-              getPiecePtr(k,l)->revertMove(j, i, l, k,' ');
-              getPiecePtr(i,j)->firstMove = firstm;
-              alreadymoved = false;
-              }
+      }
+    }
+    else
+    { // blacks turn to move
+      while (true)
+      {
+        i = (rand() % 8) + 1;
+        j = (rand() % 8) + 'a';
+        lastMoveOldRow = i;
+        lastMoveOldCol = j;
+        if (isOccupied(i, j))
+          break;
+      } // getting the piece that is actually doing the movement.
+      if (!(isWhitePiece(i, j)))
+      { // checking if the spot on the grid is occupied and if it is , if its a white piece
+        if (getPiece(i, j) == 'p')
+        { // checking if its a pawn
+          firstm = getPiecePtr(i, j)->firstMove;
+          for (int k = 1; k <= 8; k++)
+          {
+            for (char l = 'a'; l <= 'h'; l++)
+            {
+              if (!(j == l && i == k))
+              {
+                if (getPiecePtr(i, j)->isValidMove('p', j, i, l, k) && alreadymoved == false)
+                { // move it , then revert it, make sure to give it its firstmove property back
+                  getPiecePtr(i, j)->firstMove = firstm;
+                  getPiecePtr(i, j)->move(j, i, l, k, ' ');
+                  lastMoveNewRow = k;
+                  lastMoveNewCol = l;
+                  alreadymoved = true;
+                  if ((check()))
+                  {
+                    getPiecePtr(k, l)->revertMove(j, i, l, k, ' ');
+                    getPiecePtr(i, j)->firstMove = firstm;
+                    alreadymoved = false;
+                  }
+                }
+                else if (getPiecePtr(i, j)->isValidCapture(j, i, l, k) && alreadymoved == false)
+                { // capture, then revert, make sure to give first move properties back
+                  getPiecePtr(i, j)->firstMove = firstm;
+                  getPiecePtr(i, j)->move(j, i, l, k, ' ');
+                  lastMoveNewRow = k;
+                  lastMoveNewCol = l;
+                  alreadymoved = true;
+                  if ((check()))
+                  {
+                    getPiecePtr(k, l)->revertMove(j, i, l, k, ' ');
+                    getPiecePtr(i, j)->firstMove = firstm;
+                    alreadymoved = false;
+                  }
+                }
               }
             }
-            }
+          }
         }
+        else
+        { // not a pawn
+          char pic = getPiece(i, j);
+          if (pic == 'q' || pic == 'k' || pic == 'n' || pic == 'b' || pic == 'r')
+          {
+            firstm = getPiecePtr(i, j)->firstMove;
+            for (int k = 1; k <= 8; k++)
+            {
+              for (char l = 'a'; l <= 'h'; l++)
+              {
+                if (getPiecePtr(i, j)->isValidMove(pic, j, i, l, k) && alreadymoved == false)
+                { // move it , then revert it, make sure to give it its firstmove property back
+                  getPiecePtr(i, j)->firstMove = firstm;
+                  getPiecePtr(i, j)->move(j, i, l, k, ' ');
+                  lastMoveNewRow = k;
+                  lastMoveNewCol = l;
+                  alreadymoved = true;
+                  if ((check()))
+                  {
+                    getPiecePtr(k, l)->revertMove(j, i, l, k, ' ');
+                    getPiecePtr(i, j)->firstMove = firstm;
+                    alreadymoved = false;
+                  }
+                }
+                else if (getPiecePtr(i, j)->isValidCapture(j, i, l, k) && alreadymoved == false)
+                { // capture, then revert, make sure to give first move properties back
+                  getPiecePtr(i, j)->firstMove = firstm;
+                  getPiecePtr(i, j)->move(j, i, l, k, ' ');
+                  lastMoveNewRow = k;
+                  lastMoveNewCol = l;
+                  alreadymoved = true;
+                  if ((check()))
+                  {
+                    getPiecePtr(k, l)->revertMove(j, i, l, k, ' ');
+                    getPiecePtr(i, j)->firstMove = firstm;
+                    alreadymoved = false;
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
-    }
-  }
   }
 }
-

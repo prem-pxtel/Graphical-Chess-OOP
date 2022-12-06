@@ -162,7 +162,7 @@ int main() {
         continue;
       }
       if (player2 == "human") player2human = true;
-      else if (player2 == "computer") player2human = false;
+      else if (player2 == "computer[1]") player2human = false;
       else {
         cout << "Invalid Player Type." << endl;
         continue;
@@ -170,7 +170,7 @@ int main() {
       if (!(setupFinished)) {
         b->init();
         Observer *ob1 = new TextOb{b};
-       // Observer *ob2 = new GraphicalOb{b};
+        Observer *ob2 = new GraphicalOb{b};
         toDelete.push_back(ob1);
         b->updateBoards();
       } else {
@@ -240,10 +240,14 @@ int main() {
             b->getPiecePtr(invertRow(oldRow), oldCol)
             ->move(oldCol, invertRow(oldRow), newCol, 
                    invertRow(newRow), promo);
+                b->lastMoveOldRow = invertRow(oldRow);
+                b->lastMoveOldCol = oldCol;
+                b->lastMoveNewRow = invertRow(newRow);
+                b->lastMoveNewCol = newCol;
             ++b->curTurn;
             b->updateBoards();
            if(b->moves()){
-              cout << "there are moves available." << endl;
+              cout << "Note: There are moves available." << endl;
             } 
             if (b->check()) {
               if (!(b->moves())) {
@@ -264,6 +268,8 @@ int main() {
             else{
               if(!(b->moves())){
                 cout << "Stalemate." << endl;
+                b->whitewins += 0.5;
+                b->blackwins += 0.5;
                 break;
               }
             }
@@ -299,8 +305,16 @@ int main() {
         }
       }
     } else if (command == "undo") {
-      
-
+      b->getPiecePtr(b->lastMoveNewRow, b->lastMoveNewCol)->revertMove(b->lastMoveOldCol, b->lastMoveOldRow, b->lastMoveNewCol, b->lastMoveNewRow, ' ');
+      b->updateBoards();
+      if (b->turn) {
+        b->turn = false;
+        cout << "Last move undone. Player 2's turn again." << endl;
+      }
+      else {
+        b->turn = true;
+        cout << "Last move undone. Player 1's turn again." << endl;
+      }
     } else if (command == "resign") {
       if (b->turn) {
         cout << "Black Wins!" << endl;
