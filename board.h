@@ -32,6 +32,7 @@ class Board : public Subject {
   Board();
   ~Board();
   void init();
+  void clear();
   void clearBoard();
   char getPiece(int row, char col) const override;
   void setPiece(int row, char col, char p) override;

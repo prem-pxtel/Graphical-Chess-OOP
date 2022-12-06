@@ -17,7 +17,7 @@ Board::Board() {}
 
 Board::~Board() {
   for (int i = 0; i < 8; ++i) {
-    for (char j = 'a'; j < 'h'; ++j) {
+    for (int j = 0; j < 8; ++j) {
       delete board[i][j];
     }
   }
@@ -71,6 +71,15 @@ void Board::init(){
   row8.push_back(new Knight{'N', this});
   row8.push_back(new Rook{'R', this});
   board.push_back(row8);
+}
+
+void Board::clear(){
+  for (int i = 0; i < 8; ++i) {
+//    for (char j = 'a'; j <= 'h'; ++j) {
+//      delete board[i][j - 'a'];
+ //   }
+    board.pop_back();
+  }
 }
 
 void Board::clearBoard(){

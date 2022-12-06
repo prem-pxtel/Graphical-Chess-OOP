@@ -178,8 +178,9 @@ int main() {
       if (!(setupFinished)) {
         b->init();
         Observer *ob1 = new TextOb{b};
-        //Observer *ob2 = new GraphicalOb{b};
+    //    Observer *ob2 = new GraphicalOb{b};
         toDelete.push_back(ob1);
+    //    toDelete.push_back(ob2);
         b->updateBoards();
       } else {
         b->updateBoards();
@@ -275,6 +276,8 @@ int main() {
                   cout << "Black Wins!" << endl;
                   ++b->blackwins;
                 }
+                b->clear();
+                b->init();
                 continue;
               } else {
                 b->check();
@@ -285,6 +288,8 @@ int main() {
                 cout << "Stalemate." << endl;
                 b->whitewins += 0.5;
                 b->blackwins += 0.5;
+                b->clear();
+                b->init();
                 continue;
               }
             }
@@ -346,15 +351,20 @@ int main() {
       if (b->turn) {
         cout << "Black Wins!" << endl;
         ++b->blackwins;
+        b->clear();
+        b->init();
       } else {
         cout << "White Wins!" << endl;
         ++b->whitewins;
+        b->clear();
+        b->init();
       }
     } else if (command == "setup") { // have empty board and then call helper function
       if (!(gameInProgress)) {
         Observer *ob1 = new TextOb{b};
-        Observer *ob2 = new GraphicalOb{b};
+   //     Observer *ob2 = new GraphicalOb{b};
         toDelete.push_back(ob1);
+   //     toDelete.push_back(ob2);
         b->turn = setup(b);
         setupFinished = true;
       }
@@ -371,4 +381,5 @@ int main() {
   cout << "Black: " << b->blackwins << endl;
 
   for (auto &ob : toDelete) delete ob;
+  delete b;
 }
