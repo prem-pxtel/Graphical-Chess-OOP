@@ -49,7 +49,7 @@ bool setup (Board *b) { // handles the entire setup process
         delete b->getPiecePtr(invertRow(Row), Col);
         Row = Row - 1;
         Col = Col - 'a';
-        if(piece == 'p' || piece == 'P') {
+        if (piece == 'p' || piece == 'P') {
           b->getBoard()[Row][Col] = new Pawn {piece, b};
         }
         else if (piece == 'r' || piece == 'R') {
@@ -76,7 +76,7 @@ bool setup (Board *b) { // handles the entire setup process
       if (!(inputs >> Col 
             && inputs >> Row)) {
               cout << "Invalid setup move." << endl;
-      } else if(!(1 <= Row && Row <= 8)||!('a' <= Col && Col <= 'z')){
+      } else if (!(1 <= Row && Row <= 8)||!('a' <= Col && Col <= 'z')) {
         cout << "Invalid move" << endl;
       } else {
         if (b->isOccupied(Row, Col)) {
@@ -90,9 +90,9 @@ bool setup (Board *b) { // handles the entire setup process
       std::string colour;
       if (!(inputs >> colour)) {
         cout << "Invalid color." << endl;
-      } else if (colour != "black" && colour != "white"){
+      } else if (colour != "black" && colour != "white") {
         cout << "Invalid color." << endl;
-      } else{
+      } else {
         if (colour == "black") {
           colourTurn = false;
         } else {
@@ -121,7 +121,7 @@ bool setup (Board *b) { // handles the entire setup process
       }
         if (blackking == 1 && whiteking == 1 && pawns == 0) {
           b->check();
-          if(!(b->whitecheck) && !(b->blackcheck)) {
+          if (!(b->whitecheck) && !(b->blackcheck)) {
             cout << "110" << endl;
             break;
           }
@@ -177,10 +177,11 @@ int main() {
       }
       if (!(setupFinished)) {
         b->init();
+        for (auto &ob : toDelete) delete ob;
         Observer *ob1 = new TextOb{b};
-    //    Observer *ob2 = new GraphicalOb{b};
+        Observer *ob2 = new GraphicalOb{b};
         toDelete.push_back(ob1);
-    //    toDelete.push_back(ob2);
+        toDelete.push_back(ob2);
         b->updateBoards();
       } else {
         b->updateBoards();
@@ -203,10 +204,10 @@ int main() {
             throw InvalidMove{};
           }
           if (b->turn) {
-            if (!b->isWhitePiece(invertRow(oldRow), oldCol)){
+            if (!b->isWhitePiece(invertRow(oldRow), oldCol)) {
             throw InvalidMove{};
             }
-            if(b->whitecheck == true) {
+            if (b->whitecheck == true) {
               b->getPiecePtr(invertRow(oldRow), oldCol)
                 ->move(oldCol, invertRow(oldRow), newCol, 
                        invertRow(newRow), promo);
@@ -227,7 +228,7 @@ int main() {
               }           
             }
           } else {
-            if (b->isWhitePiece(invertRow(oldRow), oldCol)){
+            if (b->isWhitePiece(invertRow(oldRow), oldCol)) {
               throw InvalidMove{};
             } 
             if (b->blackcheck == true) {
@@ -262,17 +263,17 @@ int main() {
             ++b->curTurn;
             b->undidLast = false;
             b->updateBoards();
-           if(b->moves()){
+           if (b->moves()) {
               cout << "Note: There are moves available." << endl;
             } 
             if (b->check()) {
               if (!(b->moves())) {
                 cout << "Checkmate! ";
-                if(b->turn){
+                if (b->turn) {
                   cout << "White Wins!" << endl;
                   ++b->whitewins;
                 }
-                else{
+                else {
                   cout << "Black Wins!" << endl;
                   ++b->blackwins;
                 }
@@ -283,8 +284,8 @@ int main() {
                 b->check();
               }
             }
-            else{
-              if(!(b->moves())){
+            else {
+              if (!(b->moves())) {
                 cout << "Stalemate." << endl;
                 b->whitewins += 0.5;
                 b->blackwins += 0.5;

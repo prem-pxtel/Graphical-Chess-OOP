@@ -23,7 +23,7 @@ Board::~Board() {
   }
 }
 
-void Board::init(){
+void Board::init() {
   whitecheck = false;
   blackcheck = false;
   std::vector<Piece*> row1;
@@ -73,16 +73,13 @@ void Board::init(){
   board.push_back(row8);
 }
 
-void Board::clear(){
+void Board::clear() {
   for (int i = 0; i < 8; ++i) {
-//    for (char j = 'a'; j <= 'h'; ++j) {
-//      delete board[i][j - 'a'];
- //   }
     board.pop_back();
   }
 }
 
-void Board::clearBoard(){
+void Board::clearBoard() {
     for (int i = 1; i <= 8; i++) {
     std::vector<Piece*> blankRow;
     for (char j = 'a'; j <= 'h'; ++j) {
@@ -193,8 +190,8 @@ bool Board::check() {
       if (isOccupied(i, j)) { // if occupied check if its checking the king
         char pic = getPiece(i, j);
         if ('a' <= pic && pic <= 'z') { // checks if it can check the white king
-        if(pic == 'p'){
-          if(getPiecePtr(i, j)->isInDiagonalPath(pic, j, i, wkingcol, wkingrow)){
+        if (pic == 'p') {
+          if (getPiecePtr(i, j)->isInDiagonalPath(pic, j, i, wkingcol, wkingrow)) {
               colourInCheck = "White";
               checkrow = i;
               checkcol = j;
@@ -215,8 +212,8 @@ bool Board::check() {
             }
           }
         } else { // checks if it can check the black king
-        if(pic == 'P'){
-          if(getPiecePtr(i, j)->isInDiagonalPath(pic, j, i, bkingcol, bkingrow)){
+        if (pic == 'P') {
+          if (getPiecePtr(i, j)->isInDiagonalPath(pic, j, i, bkingcol, bkingrow)) {
               colourInCheck = "Black";
               checkrow = i;
               checkcol = j;
