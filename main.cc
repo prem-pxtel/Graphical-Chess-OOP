@@ -208,6 +208,12 @@ int main() {
             throw InvalidMove{};
             }
             if (b->whitecheck == true) {
+              b->lastMoveOldRow = invertRow(oldRow);
+              b->lastMoveOldCol = oldCol;
+              b->lastMoveNewRow = invertRow(newRow);
+              b->lastMoveNewCol = newCol;
+              b->firstMoveOld = b->getPiecePtr(invertRow(oldRow), oldCol)
+                                 ->firstMove;
               b->getPiecePtr(invertRow(oldRow), oldCol)
                 ->move(oldCol, invertRow(oldRow), newCol, 
                        invertRow(newRow), promo);
@@ -232,6 +238,12 @@ int main() {
               throw InvalidMove{};
             } 
             if (b->blackcheck == true) {
+              b->lastMoveOldRow = invertRow(oldRow);
+              b->lastMoveOldCol = oldCol;
+              b->lastMoveNewRow = invertRow(newRow);
+              b->lastMoveNewCol = newCol;
+              b->firstMoveOld = b->getPiecePtr(invertRow(oldRow), oldCol)
+                                 ->firstMove;
               b->getPiecePtr(invertRow(oldRow), oldCol)
                 ->move(oldCol, invertRow(oldRow), newCol, 
                        invertRow(newRow), promo);
@@ -253,13 +265,15 @@ int main() {
             }
           }
           if (!alreadymoved) {
+            b->lastMoveOldRow = invertRow(oldRow);
+            b->lastMoveOldCol = oldCol;
+            b->lastMoveNewRow = invertRow(newRow);
+            b->lastMoveNewCol = newCol;
+            b->firstMoveOld = b->getPiecePtr(invertRow(oldRow), oldCol)
+                               ->firstMove;
             b->getPiecePtr(invertRow(oldRow), oldCol)
             ->move(oldCol, invertRow(oldRow), newCol, 
                    invertRow(newRow), promo);
-                b->lastMoveOldRow = invertRow(oldRow);
-                b->lastMoveOldCol = oldCol;
-                b->lastMoveNewRow = invertRow(newRow);
-                b->lastMoveNewCol = newCol;
             ++b->curTurn;
             b->undidLast = false;
             b->updateBoards();
@@ -334,6 +348,8 @@ int main() {
     } else if (command == "undo") {
       if (b->undidLast == false) {
         b->getPiecePtr(b->lastMoveNewRow, b->lastMoveNewCol)->revertMove(b->lastMoveOldCol, b->lastMoveOldRow, b->lastMoveNewCol, b->lastMoveNewRow, ' ');
+        b->getPiecePtr(b->lastMoveOldRow, b->lastMoveOldCol)->firstMove = b->firstMoveOld;
+        alreadymoved = false;
         b->updateBoards();
         if (b->turn) {
           b->turn = false;
@@ -364,9 +380,9 @@ int main() {
     } else if (command == "setup") { // have empty board and then call helper function
       if (!(gameInProgress)) {
         Observer *ob1 = new TextOb{b};
-   //     Observer *ob2 = new GraphicalOb{b};
+        Observer *ob2 = new GraphicalOb{b};
         toDelete.push_back(ob1);
-   //     toDelete.push_back(ob2);
+        toDelete.push_back(ob2);
         b->turn = setup(b);
         setupFinished = true;
       }

@@ -21,7 +21,7 @@ class Piece {
   virtual bool isValidMove(char oldPiece, char oldCol, 
                            int oldRow, char newCol, int newRow) = 0;
   virtual bool isValidCapture(char oldCol, int oldRow, 
-                      char newCol, int newRow) = 0;
+                              char newCol, int newRow) = 0;
   virtual bool isInDiagonalPath(char oldPiece, char oldCol, int oldRow, 
                                 char newCol, int newRow) = 0;
   virtual int getObsRow() = 0;
